@@ -60,4 +60,26 @@ public class Utility{
             clip(arrays.get(i), min, max);
         }
     }
+
+    public static void clearArray(float[] a){
+        for(int i = 0; i < a.length; i++){
+            a[i] = 0;
+        }
+    }
+
+    public static void clearArray(float[][] a){
+        for(int i = 0; i < a.length; i++){
+            clearArray(a[i]);
+        }
+    }
+
+    public static ArrayList<float[][]> cloneArrays(ArrayList<float[][]> arrays){
+        ArrayList<float[][]> r = new ArrayList<float[][]>(arrays);
+
+        for(int i = 0; i < r.size(); i++){
+            clearArray(r.get(i));
+        }
+
+        return r;
+    }
 }

@@ -131,6 +131,8 @@ public class LinearModel extends Model{
             //for each minibatch...
             for(int mb = 0; mb < indicies.size(); mb++){
 
+                
+
                 //for each data point in the minibatch:
                 for(int i = 0; i < indicies.get(mb).size(); i++){
                     int index = indicies.get(mb).get(i);
@@ -143,6 +145,8 @@ public class LinearModel extends Model{
 
                     //get the new gradient from the optimizer
                     ArrayList<float[][]> gradient = opt.processGradient(rawGradient);
+
+                    //add it to the minbatch pool
                 }
             }
 
