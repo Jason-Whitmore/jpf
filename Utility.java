@@ -73,6 +73,18 @@ public class Utility{
         }
     }
 
+    public static void scaleArray(float[] a, float scalar){
+        for(int i = 0; i < a.length; i++){
+            a[i] *= scalar;
+        }
+    }
+
+    public static void scaleArray(float[][] a, float scalar){
+        for(int i = 0; i < a.length; i++){
+            scaleArray(a[i], scalar);
+        }
+    }
+
     public static ArrayList<float[][]> cloneArrays(ArrayList<float[][]> arrays){
         ArrayList<float[][]> r = new ArrayList<float[][]>(arrays);
 
@@ -83,7 +95,25 @@ public class Utility{
         return r;
     }
 
+    public static void addArray(float[][] dest, float[][] b, float scalar){
+        for(int r = 0; r < dest.length; r++){
+            for(int c = 0; c < dest[r].length; c++){
+                dest[r][c] = b[r][c] * scalar;
+            }
+        }
+    }
+
     public static void addGradient(ArrayList<float[][]> gradient, ArrayList<float[][]> newGradient, float scalar){
-        
+        for(int i = 0; i < gradient.size(); i++){
+            addArray(gradient.get(i), newGradient.get(i), scalar);
+        }
+    }
+
+
+
+    public static void scaleGradient(ArrayList<float[][]> gradient, float scalar){
+        for(int i = 0; i < gradient.size(); i++){
+            scaleArray(gradient.get(i), scalar);
+        }
     }
 }

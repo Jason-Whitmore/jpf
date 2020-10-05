@@ -125,8 +125,6 @@ public class LinearModel extends Model{
             //calculate minibatch indicies
             ArrayList<ArrayList<Integer>> indicies = Utility.getMinibatchIndicies(x.length, minibatchSize);
 
-
-
             //for each minibatch...
             for(int mb = 0; mb < indicies.size(); mb++){
 
@@ -142,13 +140,12 @@ public class LinearModel extends Model{
                     //clip the gradient
                     Utility.clip(rawGradient, -valueClip, valueClip);
 
-                    //get the new gradient from the optimizer
-                    ArrayList<float[][]> gradient = opt.processGradient(rawGradient);
-
                     //add it to the minibatch pool
 
-                    Utility.addGradient(minibatchGradient, gradient, 1.0f / indicies.get(mb).size());
+                    Utility.addGradient(minibatchGradient, rawGradient, 1.0f / indicies.get(mb).size());
                 }
+
+                minibatchGradient = opt.processGradient(minibatchGradient);
 
                 //minibatch gradient is calculated. Add to the model's parameters
                 Utility.addGradient(getParameters(), minibatchGradient, -1);
