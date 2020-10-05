@@ -82,4 +82,8 @@ public class Utility{
 
         return r;
     }
+
+    public static void addGradient(ArrayList<float[][]> gradient, ArrayList<float[][]> newGradient, float scalar){
+        
+    }
 }

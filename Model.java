@@ -24,7 +24,7 @@ public abstract class Model{
 
     public abstract ArrayList<float[]> predict(ArrayList<float[]> inputVectors);
 
-    public abstract void fit(ArrayList<float[][]> x, ArrayList<float[][]> y, int epochs, int minibatchSize, float valueClip, Optimizer opt);
+    public abstract void fit(ArrayList<float[][]> x, ArrayList<float[][]> y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss);
 
     
 }
