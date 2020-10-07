@@ -12,9 +12,36 @@ class LinearAlgebra{
         return matrix.length;
     }
 
+    public static void transpose(float[][] a, float[][] t){
+        for(int r = 0; r < getNumRows(a); r++){
+            for(int c = 0; c < getNumColumns(a); c++){
+                t[c][r] = a[r][c];
+            }
+        }
+    }
+
+    public static float[][] transpose(float[][] a){
+        float[][] t = new float[getNumColumns(a)][getNumRows(a)];
+
+        transpose(a, t);
+        return t;
+    }
+
     public static void matrixMultiply(float[][] a, float[][] b, float[][] result){
         //TODO: First, check the parameters for dimension issues
 
+
+        for(int r = 0; r < getNumRows(result); r++){
+            for(int c = 0; c < getNumColumns(result); c++){
+                float sum = 0;
+
+                for(int i = 0; i < getNumColumns(a); i++){
+                    sum += a[r][i] * b[i][c];
+                }
+
+                result[r][c] = sum;
+            }
+        }
     }
 
     public static float[][] matrixMultiply(float[][] a, float[][] b){
