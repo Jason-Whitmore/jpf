@@ -1,8 +1,38 @@
 
 
 
-
 class LinearAlgebra{
+
+    //Matrix initialization methods
+
+    public static float[][] initializeRandomUniformMatrix(int numRows, int numColumns, float lowerBound, float upperBound){
+        float[][] ret = new float[numRows][numColumns];
+
+        for(int r = 0; r < numRows; r++){
+            for(int c = 0; c < numColumns; c++){
+                ret[r][c] = getRandomUniform(lowerBound, upperBound);
+            }
+        }
+
+        return ret;
+    }
+
+    public static float getRandomUniform(float lowerBound, float upperBound){
+        float upper;
+        float lower;
+
+        if(upperBound > lowerBound){
+            upper = upperBound;
+            lower = lowerBound;
+        } else {
+            upper = lowerBound;
+            lower = upperBound;
+        }
+
+        float delta = upper - lower;
+
+        return lower + delta * ((float)Math.random());
+    }
 
     public static int getNumColumns(float[][] matrix){
         return matrix[0].length;

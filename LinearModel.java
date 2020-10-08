@@ -14,7 +14,7 @@ public class LinearModel extends Model{
     
 
     public LinearModel(int numInputs, int numOutputs){
-        transformationMatrix = new float[numOutputs][numInputs];
+        transformationMatrix = LinearAlgebra.initializeRandomUniformMatrix(numOutputs, numInputs, -1f, 1f);
 
         biasVector = new float[numOutputs][1];
 
