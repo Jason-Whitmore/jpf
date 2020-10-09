@@ -116,4 +116,40 @@ public class Utility{
             scaleArray(gradient.get(i), scalar);
         }
     }
+
+    public static String arrayToString(float[] array){
+        if(array.length == 0){
+            return "[]";
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("[");
+
+        for(int i = 0; i < array.length - 1; i++){
+            sb.append(array[i]);
+            sb.append(", ");
+        }
+
+        sb.append(array[array.length - 1]);
+        sb.append("]");
+
+        return new String(sb);
+    }
+
+    public static String arrayToString(float[][] array){
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("[");
+        sb.append(arrayToString(array[0]));
+
+        for(int i = 1; i < array.length; i++){
+            sb.append(arrayToString(array[i]));
+            sb.append("\n");
+        }
+
+        sb.append("]");
+
+        return new String(sb);
+    }
 }
