@@ -152,4 +152,25 @@ public class Utility{
 
         return new String(sb);
     }
+
+    public static String arraysToString(ArrayList<float[][]> arrays){
+
+        if(arrays.size() == 0){
+            return "[]";
+        }
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("[");
+        sb.append(arrayToString(arrays.get(0)));
+
+        for(int i = 1; i < arrays.size() - 1; i++){
+            sb.append(arrayToString(arrays.get(i)));
+            sb.append(",\n");
+        }
+
+        sb.append(arrayToString(arrays.get(arrays.size() - 1)));
+        sb.append("]");
+
+        return new String(sb);
+    }
 }
