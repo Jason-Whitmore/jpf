@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class LinearModel extends Model{
@@ -26,6 +27,8 @@ public class LinearModel extends Model{
         this.numInputs = numInputs;
 
         this.numOutputs = numOutputs;
+
+        setParameters(params);
     }
 
     public void setParameters(ArrayList<float[][]> newParams){
@@ -52,6 +55,7 @@ public class LinearModel extends Model{
 
     private ArrayList<float[][]> calculateGradient(float[] inputVector, float[] outputVector, Loss loss){
         ArrayList<float[][]> gradient = new ArrayList<float[][]>(2);
+        //Collections.fill(gradient, null);
 
         float[] yPredicted = this.predict(inputVector);
 
@@ -59,8 +63,6 @@ public class LinearModel extends Model{
 
         //Calculate the error for the final step (adding the bias)
         float[][] biasGradient = LinearAlgebra.arrayToMatrix(errorArray);
-        gradient.set(1, biasGradient);
-
         
         //Calculate error for the transformation matrix
         float[][] transformationGradient = new float[LinearAlgebra.getNumRows(transformationMatrix)][LinearAlgebra.getNumColumns(transformationMatrix)];
@@ -71,7 +73,8 @@ public class LinearModel extends Model{
             }
         }
 
-        gradient.set(0, transformationGradient);
+        gradient.add(0, transformationGradient);
+        gradient.add(1, biasGradient);
 
         return gradient;
     }
@@ -124,7 +127,6 @@ public class LinearModel extends Model{
         for(int e = 0; e < epochs; e++){
             //calculate minibatch indicies
             ArrayList<ArrayList<Integer>> indicies = Utility.getMinibatchIndicies(x.length, minibatchSize);
-
             //for each minibatch...
             for(int mb = 0; mb < indicies.size(); mb++){
 

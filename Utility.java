@@ -8,8 +8,8 @@ public class Utility{
         //get the indicies
         ArrayList<Integer> indicies = new ArrayList<Integer>(n);
 
-        for(int i = 0; i < indicies.size(); i++){
-            indicies.set(i, i);
+        for(int i = 0; i < n; i++){
+            indicies.add(i);
         }
 
         //randomly shuffle the indicies
@@ -20,7 +20,6 @@ public class Utility{
         ArrayList<ArrayList<Integer>> r = new ArrayList<ArrayList<Integer>>();
 
         ArrayList<Integer> minibatchIndicies = new ArrayList<Integer>();
-
         for(int i = 0; i < indicies.size(); i++){
 
             if(minibatchIndicies.size() >= minibatchSize){
@@ -86,6 +85,10 @@ public class Utility{
     }
 
     public static ArrayList<float[][]> cloneArrays(ArrayList<float[][]> arrays){
+        if(arrays == null){
+            return null;
+        }
+
         ArrayList<float[][]> r = new ArrayList<float[][]>(arrays);
 
         for(int i = 0; i < r.size(); i++){
