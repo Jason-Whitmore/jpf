@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
 
 
 public class LinearModel extends Model{
@@ -55,7 +54,6 @@ public class LinearModel extends Model{
 
     private ArrayList<float[][]> calculateGradient(float[] inputVector, float[] outputVector, Loss loss){
         ArrayList<float[][]> gradient = new ArrayList<float[][]>(2);
-        //Collections.fill(gradient, null);
 
         float[] yPredicted = this.predict(inputVector);
 
@@ -72,6 +70,8 @@ public class LinearModel extends Model{
                 transformationGradient[r][c] = inputVector[c] * biasGradient[r][0];
             }
         }
+
+        
 
         gradient.add(0, transformationGradient);
         gradient.add(1, biasGradient);
@@ -132,7 +132,7 @@ public class LinearModel extends Model{
 
                 ArrayList<float[][]> minibatchGradient = Utility.cloneArrays(getParameters());
 
-                //for each data point in the minibatch:
+                //for each data point in the minibatch
                 for(int i = 0; i < indicies.get(mb).size(); i++){
                     int index = indicies.get(mb).get(i);
 
@@ -143,7 +143,6 @@ public class LinearModel extends Model{
                     Utility.clip(rawGradient, -valueClip, valueClip);
 
                     //add it to the minibatch pool
-
                     Utility.addGradient(minibatchGradient, rawGradient, 1.0f / indicies.get(mb).size());
                 }
 

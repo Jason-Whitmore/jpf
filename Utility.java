@@ -89,11 +89,15 @@ public class Utility{
             return null;
         }
 
-        ArrayList<float[][]> r = new ArrayList<float[][]>(arrays);
+        ArrayList<float[][]> r = new ArrayList<float[][]>(arrays.size());
 
-        for(int i = 0; i < r.size(); i++){
-            clearArray(r.get(i));
+        for(int i = 0; i < arrays.size(); i++){
+            int numRows = arrays.get(i).length;
+            int numCols = arrays.get(i)[0].length;
+
+            r.add(new float[numRows][numCols]);
         }
+
 
         return r;
     }
