@@ -16,7 +16,7 @@ public class MSE implements Loss{
         float[] r = new float[yTrue.length];
 
         for(int i = 0; i < r.length; i++){
-            float difference = yTrue[i] - yPredicted[i];
+            float difference = yPredicted[i] - yTrue[i];
 
             r[i] = 2 * difference;
         }

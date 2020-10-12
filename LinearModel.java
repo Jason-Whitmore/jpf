@@ -71,8 +71,6 @@ public class LinearModel extends Model{
             }
         }
 
-        
-
         gradient.add(0, transformationGradient);
         gradient.add(1, biasGradient);
 
@@ -149,7 +147,7 @@ public class LinearModel extends Model{
                 minibatchGradient = opt.processGradient(minibatchGradient);
 
                 //minibatch gradient is calculated. Add to the model's parameters
-                Utility.addGradient(getParameters(), minibatchGradient, -1);
+                Utility.addGradient(getParameters(), minibatchGradient, -1f);
             }
 
         }

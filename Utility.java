@@ -105,7 +105,7 @@ public class Utility{
     public static void addArray(float[][] dest, float[][] b, float scalar){
         for(int r = 0; r < dest.length; r++){
             for(int c = 0; c < dest[r].length; c++){
-                dest[r][c] = b[r][c] * scalar;
+                dest[r][c] = dest[r][c] + (b[r][c] * scalar);
             }
         }
     }
