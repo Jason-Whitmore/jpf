@@ -24,4 +24,18 @@ public class MSE implements Loss{
         return r;
     }
 
+    public float calculateLossScalar(float[] yTrue, float[] yPredicted){
+        //TODO: Enforce array sizes
+
+        float[] lossVector = lossVector(yTrue, yPredicted);
+
+        float sum = 0;
+
+        for(int i = 0; i < yTrue.length; i++){
+            sum += lossVector[i];
+        }
+
+        return sum / yTrue.length;
+    }
+
 }

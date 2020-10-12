@@ -152,4 +152,27 @@ public class LinearModel extends Model{
 
         }
     }
+
+    public float calculateLoss(ArrayList<float[][]> x, ArrayList<float[][]> y, Loss loss){
+        //TODO: Enforce arraylist sizes
+
+        return calculateLoss(x.get(0), y.get(0), loss);
+    }
+
+    public float calculateLoss(float[][] x, float[][] y, Loss loss){
+        //TODO: Enforce x, y shapes
+
+        float sum = 0;
+        for(int i = 0; i < x.length; i++){
+            sum += calculateLoss(x[i], y[i], loss);
+        }
+
+        return sum / x.length;
+    }
+
+    public float calculateLoss(float[] x, float[] y, Loss loss){
+        float[] yPred = predict(x);
+
+        return loss.calculateLossScalar(y, yPred);
+    }
 }

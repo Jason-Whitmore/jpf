@@ -26,5 +26,4 @@ public abstract class Model{
 
     public abstract void fit(ArrayList<float[][]> x, ArrayList<float[][]> y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss);
 
-    
-}
+    public abstract float calculateLoss(ArrayList<float[][]> x, ArrayList<float[][]> y, Loss loss);
