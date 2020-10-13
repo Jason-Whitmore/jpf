@@ -1,17 +1,40 @@
 import java.util.ArrayList;
 
 
+/**
+ * Abstract class that defines parametric predictive models and their behaviors.
+ */
 public abstract class Model{
+
+    /**
+     * The collection of parameters used by the model for prediction.
+     */
     private ArrayList<float[][]> parameters;
 
+    /**
+     * Sets the model parameters to a new collection of parameters.
+     * Time complexity: O(1)
+     * @param newParameters The new collection of parameters. To avoid issues, it's recommended that
+     * The arraylist size, in addition to the dimensions of each 2d array, match the original parameter set.
+     */
     public void setParameters(ArrayList<float[][]> newParameters){
         parameters = newParameters;
     }
 
+    /**
+     * Retrieves the model's current collection of parameters.
+     * Time complexity: O(1)
+     * @return The model's current collection of parameters
+     */
     public ArrayList<float[][]> getParameters(){
         return parameters;
     }
 
+    /**
+     * Returns the number of parameters in the model.
+     * Time complexity: O(n) where n is the size of the parameter arraylist
+     * @return The number of parameters in the model.
+     */
     public int getParameterCount(){
         int count = 0;
         
@@ -27,3 +50,5 @@ public abstract class Model{
     public abstract void fit(ArrayList<float[][]> x, ArrayList<float[][]> y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss);
 
     public abstract float calculateLoss(ArrayList<float[][]> x, ArrayList<float[][]> y, Loss loss);
+
+}
