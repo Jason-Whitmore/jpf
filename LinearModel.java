@@ -49,6 +49,11 @@ public class LinearModel extends Model{
         setParameters(params);
     }
 
+    /**
+     * Changes the parameters of the LinearModel
+     * @param newParams The new parameters to apply to this model. Must be of size 2 and each matrix must be
+     * compatible with model's input and output counts.
+     */
     public void setParameters(ArrayList<float[][]> newParams){
         if(newParams.size() != 2){
             //TODO: Not correct number of parameter matricies
@@ -71,6 +76,13 @@ public class LinearModel extends Model{
         biasVector = newParams.get(1);
     }
 
+    /**
+     * Calculates gradient of Loss function with respect to the model parameters
+     * @param inputVector The data sample's input used to calculate the gradient
+     * @param outputVector The data sample's associated output used to calculate the gradient
+     * @param loss The loss function used to calculate the gradient
+     * @return The gradient as an ArrayList of matricies. These are in the same order as getParameters (transformation, bias)
+     */
     private ArrayList<float[][]> calculateGradient(float[] inputVector, float[] outputVector, Loss loss){
         ArrayList<float[][]> gradient = new ArrayList<float[][]>(2);
 
