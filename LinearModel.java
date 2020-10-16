@@ -1,18 +1,37 @@
 import java.util.ArrayList;
 
-
+/**
+ * Class for the structure and behavior of Linear Models, which inherit from the abstract Model class.
+ * This type of model is good for modeling data relationships that fit into the form y = Ax + b
+ */
 public class LinearModel extends Model{
 
+    /**
+     * The transformation, or weight matrix of the model. This is the matrix A in y = Ax + b
+     */
     private float[][] transformationMatrix;
 
+    /**
+     * The bias vector of the model. This is the vector b in y = Ax + b
+     */
     private float[][] biasVector;
 
+    /**
+     * The number of components in the input vector
+     */
     private int numInputs;
 
+    /**
+     * The number of components in the output vector
+     */
     private int numOutputs;
 
     
-
+    /**
+     * Constructor for a linear model of the form y = Ax + b
+     * @param numInputs The number of components in the input vector
+     * @param numOutputs The number of components in the output vector
+     */
     public LinearModel(int numInputs, int numOutputs){
         transformationMatrix = LinearAlgebra.initializeRandomUniformMatrix(numOutputs, numInputs, -1f, 1f);
 
