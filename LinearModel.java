@@ -153,14 +153,15 @@ public class LinearModel extends Model{
     }
 
     /**
-     * 
-     * @param x
-     * @param y
-     * @param epochs
-     * @param minibatchSize
-     * @param valueClip
-     * @param opt
-     * @param Loss
+     * Fits the model's parameters to minimize the loss on the training dataset
+     * @param x The training inputs. Should be of size 1 since there is only 1 input vector to this model.
+     * @param y The training outputs. Should be of size 1 since there is only 1 output vector to this model.
+     * @param epochs The number of epochs (or complete training passes over the training dataset). Should be greater than 0.
+     * @param minibatchSize The number of training data examples used when making a single update to the model's parameters.
+     * A higher number will take longer to compute, but the updates will be less noisy. Should be greater than 0.
+     * @param valueClip Clips the gradient's components to be in the range [-valueClip, valueClip]. Helps to stop exploding gradients.
+     * @param opt The optimizer to use during fitting.
+     * @param Loss The loss function used to make the model more accurate to the training dataset.
      */
     public void fit(ArrayList<float[][]> x, ArrayList<float[][]> y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss){
         if(x.size() != 1 || y.size() != 1){
@@ -170,6 +171,18 @@ public class LinearModel extends Model{
         fit(x.get(0), y.get(0), epochs, minibatchSize, valueClip, opt, loss);
     }
 
+
+    /**
+     * Fits the model's parameters to minimize the loss on the training dataset.
+     * @param x The training inputs. Number of columns should match the model's input size, and rows should be the number of data points.
+     * @param y The training outputs. Number of columns should match the model's output size, and rows should be the number of data points.
+     * @param epochs The number of epochs (or complete training passes over the training dataset). Should be greater than 0.
+     * @param minibatchSize The number of training data examples used when making a single update to the model's parameters.
+     * A higher number will take longer to compute, but the updates will be less noisy. Should be greater than 0.
+     * @param valueClip Clips the gradient's components to be in the range [-valueClip, valueClip]. Helps to stop exploding gradients.
+     * @param opt The optimizer to use during fitting.
+     * @param Loss The loss function used to make the model more accurate to the training dataset.
+     */
     public void fit(float[][] x, float[][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss){
 
 
