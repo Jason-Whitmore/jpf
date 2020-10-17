@@ -217,12 +217,27 @@ public class LinearModel extends Model{
         }
     }
 
+    /**
+     * Calculates average scalar loss over multiple data points.
+     * This overloaded function is not recommended to use with LinearModel.
+     * @param x The inputs. ArrayList should be of size 1 since the model only has 1 input vector.
+     * @param y The outputs. ArrayList should be of size 1 since the model only has 1 output vector.
+     * @param loss The loss function to use when calculating loss on the datapoints.
+     * @return The scalar loss
+     */
     public float calculateLoss(ArrayList<float[][]> x, ArrayList<float[][]> y, Loss loss){
         //TODO: Enforce arraylist sizes
 
         return calculateLoss(x.get(0), y.get(0), loss);
     }
 
+    /**
+     * Calculates average scalar loss over multiple data points.
+     * @param x The inputs. Number of columns should match the input vector size, number of rows is the number of data points to use.
+     * @param y The outputs. Number of columns should match the output vector size, number of rows is the number of data points to use.
+     * @param loss The loss function to use when calculating loss on the datapoints.
+     * @return The scalar loss.
+     */
     public float calculateLoss(float[][] x, float[][] y, Loss loss){
         //TODO: Enforce x, y shapes
 
@@ -234,6 +249,13 @@ public class LinearModel extends Model{
         return sum / x.length;
     }
 
+    /**
+     * Calculates the loss on a single data point.
+     * @param x The input vector.
+     * @param y The output vector.
+     * @param loss The loss function to use when calculating the data point.
+     * @return The scalar loss.
+     */
     public float calculateLoss(float[] x, float[] y, Loss loss){
         float[] yPred = predict(x);
 
