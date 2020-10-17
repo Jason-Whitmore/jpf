@@ -109,6 +109,11 @@ public class LinearModel extends Model{
     }
 
 
+    /**
+     * Makes predictions on multiple input vectors
+     * @param inputVectors The set of input vectors to make predictions on
+     * @return An ArrayList of prediction/output vectors associated with the ArrayList of input vectors
+     */
     public ArrayList<float[]> predict(ArrayList<float[]> inputVectors){
         ArrayList<float[]> r = new ArrayList<float[]>();
 
@@ -119,6 +124,11 @@ public class LinearModel extends Model{
         return r;
     }
 
+    /**
+     * Makes a prediction from an input vector
+     * @param inputVector The vector used to make predictions
+     * @return The output or prediction vector
+     */
     public float[] predict(float[] inputVector){
         float[] result = new float[numOutputs];
         float[][] resultMatrix = new float[numOutputs][1];
@@ -142,6 +152,16 @@ public class LinearModel extends Model{
         return result;
     }
 
+    /**
+     * 
+     * @param x
+     * @param y
+     * @param epochs
+     * @param minibatchSize
+     * @param valueClip
+     * @param opt
+     * @param Loss
+     */
     public void fit(ArrayList<float[][]> x, ArrayList<float[][]> y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss){
         if(x.size() != 1 || y.size() != 1){
             //TODO: Throw exception here
