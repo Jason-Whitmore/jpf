@@ -88,7 +88,7 @@ public class LinearModel extends Model{
 
         float[] yPredicted = this.predict(inputVector);
 
-        float[] errorArray = loss.lossVectorGradient(outputVector, yPredicted);
+        float[] errorArray = loss.calculateLossVectorGradient(outputVector, yPredicted);
 
         //Calculate the error for the final step (adding the bias)
         float[][] biasGradient = LinearAlgebra.arrayToMatrix(errorArray);

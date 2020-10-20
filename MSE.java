@@ -1,6 +1,16 @@
+
+/**
+ * Definition for the Mean Squared Error loss function which is commonly used on regression tasks.
+ */
 public class MSE implements Loss{
 
-    public float[] lossVector(float[] yTrue, float[] yPredicted){
+    /**
+     * Calculates the loss for each component in the output vector
+     * @param yTrue The ground truth, or training output vector
+     * @param yPredicted The predicted output vector from a model.
+     * @return The loss calculation for each component in the output vector
+     */
+    public float[] calculateLossVector(float[] yTrue, float[] yPredicted){
         float[] r = new float[yTrue.length];
 
         for(int i = 0; i < r.length; i++){
@@ -12,7 +22,13 @@ public class MSE implements Loss{
         return r;
     }
 
-    public float[] lossVectorGradient(float[] yTrue, float[] yPredicted){
+    /**
+     * Calculates the gradient (direction of steepest ascent) of the loss function
+     * @param yTrue The ground truth, or training output vector
+     * @param yPredicted The predicted output vector from a model.
+     * @return The gradient vector for each component in the output vector.
+     */
+    public float[] calculateLossVectorGradient(float[] yTrue, float[] yPredicted){
         float[] r = new float[yTrue.length];
 
         for(int i = 0; i < r.length; i++){
@@ -24,10 +40,16 @@ public class MSE implements Loss{
         return r;
     }
 
+    /**
+     * Calculates the scalar loss.
+     * @param yTrue The ground truth, or training output vector.
+     * @param yPredicted The predicted output vector from a model.
+     * @return The scalar loss.
+     */
     public float calculateLossScalar(float[] yTrue, float[] yPredicted){
         //TODO: Enforce array sizes
 
-        float[] lossVector = lossVector(yTrue, yPredicted);
+        float[] lossVector = calculateLossVector(yTrue, yPredicted);
 
         float sum = 0;
 
