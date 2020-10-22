@@ -129,6 +129,11 @@ public class Utility{
         }
     }
 
+    /**
+     * Clones the input collection of arrays
+     * @param arrays The collection of arrays to clone
+     * @return A new ArrayList of 2d arrays identical in contents to the input.
+     */
     public static ArrayList<float[][]> cloneArrays(ArrayList<float[][]> arrays){
         if(arrays == null){
             return null;
@@ -141,12 +146,20 @@ public class Utility{
             int numCols = arrays.get(i)[0].length;
 
             r.add(new float[numRows][numCols]);
+
+            //TODO: Clone the elements in the arrays?
         }
 
 
         return r;
     }
 
+    /**
+     * Adds one scaled 2d array to another. Used to apply a gradient to a model's parameters
+     * @param dest The first 2d array, which is also where the result is stored.
+     * @param b The second 2d array, which is scaled.
+     * @param scalar The scalar to multiply the b array by.
+     */
     public static void addArray(float[][] dest, float[][] b, float scalar){
         for(int r = 0; r < dest.length; r++){
             for(int c = 0; c < dest[r].length; c++){
@@ -155,14 +168,23 @@ public class Utility{
         }
     }
 
+    /**
+     * Adds the one scaled gradient to another gradient.
+     * @param gradient The gradient to add to. This is the destination gradient.
+     * @param newGradient The scaled gradient to add to the first parameter.
+     * @param scalar The scalar to multiply newGradient by.
+     */
     public static void addGradient(ArrayList<float[][]> gradient, ArrayList<float[][]> newGradient, float scalar){
         for(int i = 0; i < gradient.size(); i++){
             addArray(gradient.get(i), newGradient.get(i), scalar);
         }
     }
 
-
-
+    /**
+     * Scales the gradient by a given factor.
+     * @param gradient The gradient to scale.
+     * @param scalar The factor to scale the gradient by.
+     */
     public static void scaleGradient(ArrayList<float[][]> gradient, float scalar){
         for(int i = 0; i < gradient.size(); i++){
             scaleArray(gradient.get(i), scalar);
