@@ -1,8 +1,17 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Class for assorted static functions that may be useful elsewhere in the project or for the user.
+ */
 public class Utility{
 
+    /**
+     * Calculates randomized indicies and groups them into minibatches
+     * @param n The total number of indicies forming the set {0,1,2, ..., n - 1}
+     * @param minibatchSize The maximum size of minibatches, or groups, that these indicies are formed into
+     * @return The randomized indicies grouped into minibatches
+     */
     public static ArrayList<ArrayList<Integer>> getMinibatchIndicies(int n, int minibatchSize){
 
         //get the indicies
@@ -38,6 +47,12 @@ public class Utility{
         return r;
     }
 
+    /**
+     * Clips the values in the array to be in range (min, max)
+     * @param array The array to modify.
+     * @param min The minimum value an element can be.
+     * @param max The maximum value an element can be.
+     */
     public static void clip(float[] array, float min, float max){
         for(int i = 0; i < array.length; i++){
             if(array[i] < min){
@@ -48,36 +63,66 @@ public class Utility{
         }
     }
 
+    /**
+     * Clips the values in the 2d array to be in range (min, max)
+     * @param array The array to modify.
+     * @param min The minimum value an element can be.
+     * @param max The maximum value an element can be.
+     */
     public static void clip(float[][] array, float min, float max){
         for(int i = 0; i < array.length; i++){
             clip(array[i], min, max);
         }
     }
 
+    /**
+     * Clips the values in the collection of 2d arrays to be in range (min, max)
+     * @param arrays The collection of 2d arrays to modify
+     * @param min The minimum value an element can be.
+     * @param max The maximum value an element can be.
+     */
     public static void clip(ArrayList<float[][]> arrays, float min, float max){
         for(int i = 0; i < arrays.size(); i++){
             clip(arrays.get(i), min, max);
         }
     }
 
+    /**
+     * Sets all the elements of the array to zero.
+     * @param a The array to modify.
+     */
     public static void clearArray(float[] a){
         for(int i = 0; i < a.length; i++){
             a[i] = 0;
         }
     }
 
+    /**
+     * Sets all the elements of the 2d array to zero.
+     * @param a The 2d array to modify.
+     */
     public static void clearArray(float[][] a){
         for(int i = 0; i < a.length; i++){
             clearArray(a[i]);
         }
     }
 
+    /**
+     * Scales all elements in the array.
+     * @param a The array to modify
+     * @param scalar The scaling factor
+     */
     public static void scaleArray(float[] a, float scalar){
         for(int i = 0; i < a.length; i++){
             a[i] *= scalar;
         }
     }
 
+    /**
+     * Scales all the elements in the 2d array.
+     * @param a The 2d array to modify.
+     * @param scalar The scaling factor
+     */
     public static void scaleArray(float[][] a, float scalar){
         for(int i = 0; i < a.length; i++){
             scaleArray(a[i], scalar);
