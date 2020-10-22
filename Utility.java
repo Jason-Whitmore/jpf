@@ -191,6 +191,11 @@ public class Utility{
         }
     }
 
+    /**
+     * Creates a formatted string of the array contents.
+     * @param array The array to turn into a string.
+     * @return The formatted string
+     */
     public static String arrayToString(float[] array){
         if(array.length == 0){
             return "[]";
@@ -211,6 +216,11 @@ public class Utility{
         return new String(sb);
     }
 
+    /**
+     * Creates a formatted string of the 2d array contents.
+     * @param array The 2d array to turn into a string.
+     * @return The formatted string.
+     */
     public static String arrayToString(float[][] array){
         StringBuilder sb = new StringBuilder();
 
@@ -227,6 +237,11 @@ public class Utility{
         return new String(sb);
     }
 
+    /**
+     * Creates a formatted string of the collection of 2d arrays.
+     * @param arrays The collection of 2d arrays.
+     * @return The formatted string.
+     */
     public static String arraysToString(ArrayList<float[][]> arrays){
 
         if(arrays.size() == 0){
