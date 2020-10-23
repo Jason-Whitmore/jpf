@@ -145,6 +145,13 @@ public class LinearAlgebra{
     }
 
 
+    /**
+     * Performs elementwise matrix multiplication. Matrix dimensions should be
+     * the same on both input matricies.
+     * @param a The first matrix.
+     * @param b The second matrix.
+     * @param result The matrix where the elementwise multiplication result will be placed.
+     */
     public static void elementwiseMultiply(float[][] a, float[][] b, float[][] result){
         //TODO: check for dimension issues
 
@@ -156,6 +163,13 @@ public class LinearAlgebra{
 
     }
 
+    /**
+     * Performs elementwise matrix multiplication. Matrix dimensions should be
+     * the same on both input matricies.
+     * @param a The first matrix.
+     * @param b The second matrix.
+     * @return The newly allocated result of the elementwise matrix multiplication.
+     */
     public static float[][] elementwiseMultiply(float[][] a, float[][] b){
         //TODO: check for dimension issues
 
@@ -166,6 +180,13 @@ public class LinearAlgebra{
         return r;
     }
 
+    /**
+     * Performs elementwise vector multiplication. Array dimensions should be
+     * the same on all inputs
+     * @param a The first vector/array.
+     * @param b The second vector/array.
+     * @param result The array where the result is placed.
+     */
     public static void elementwiseMultiply(float[] a, float[] b, float[] result){
         //TODO: check for dimension issues
 
@@ -175,6 +196,13 @@ public class LinearAlgebra{
         }
     }
 
+    /**
+     * Performs elementwise vector multiplication. Array dimensions should be
+     * the same on all inputs
+     * @param a The first vector/array.
+     * @param b The second vector/array.
+     * @return The newly allocated result array.
+     */
     public static float[] elementwiseMultiply(float[] a, float[] b){
         //TODO: check for dimension issues
 
@@ -187,6 +215,11 @@ public class LinearAlgebra{
     }
 
 
+    /**
+     * Converts a 1d array to a 2d matrix with 1 column
+     * @param array The array/vector to convert.
+     * @return The newly allocated matrix conversion of the array.
+     */
     public static float[][] arrayToMatrix(float[] array){
         float[][] r = new float[array.length][1];
 
