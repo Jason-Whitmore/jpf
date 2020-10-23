@@ -263,4 +263,22 @@ public class Utility{
         return new String(sb);
     }
 
+
+    public static float getRandomUniform(float lowerBound, float upperBound){
+        float upper;
+        float lower;
+
+        if(upperBound > lowerBound){
+            upper = upperBound;
+            lower = lowerBound;
+        } else {
+            upper = lowerBound;
+            lower = upperBound;
+        }
+
+        float delta = upper - lower;
+
+        return lower + delta * ((float)Math.random());
+    }
+
 }

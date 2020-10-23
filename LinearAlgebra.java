@@ -1,48 +1,59 @@
 
 
-
-class LinearAlgebra{
+/**
+ * Class that contains static functions for linear algebra and matrix operations
+ */
+public class LinearAlgebra{
 
     //Matrix initialization methods
 
+    /**
+     * Initializes a matrix with values from a random uniform distribution
+     * @param numRows The number of rows in the matrix.
+     * @param numColumns The number of columns in the matrix.
+     * @param lowerBound The minimum value that an element can be.
+     * @param upperBound The maximum value that an element can be.
+     * @return The randomized matrix.
+     */
     public static float[][] initializeRandomUniformMatrix(int numRows, int numColumns, float lowerBound, float upperBound){
         float[][] ret = new float[numRows][numColumns];
 
         for(int r = 0; r < numRows; r++){
             for(int c = 0; c < numColumns; c++){
-                ret[r][c] = getRandomUniform(lowerBound, upperBound);
+                ret[r][c] = Utility.getRandomUniform(lowerBound, upperBound);
             }
         }
 
         return ret;
     }
 
-    public static float getRandomUniform(float lowerBound, float upperBound){
-        float upper;
-        float lower;
-
-        if(upperBound > lowerBound){
-            upper = upperBound;
-            lower = lowerBound;
-        } else {
-            upper = lowerBound;
-            lower = upperBound;
-        }
-
-        float delta = upper - lower;
-
-        return lower + delta * ((float)Math.random());
-    }
-
+    
+    /**
+     * Simple wrapper function for getting the number of columns in a matrix.
+     * @param matrix The matrix to retrieve the number of columns.
+     * @return The number of columns.
+     */
     public static int getNumColumns(float[][] matrix){
         return matrix[0].length;
     }
 
+    /**
+     * Simple wrapper function for getting the number of rows in a matrix.
+     * @param matrix The matrix to retrieve the number of rows.
+     * @return The number of rows.
+     */
     public static int getNumRows(float[][] matrix){
         return matrix.length;
     }
 
+    /**
+     * Transposes one matrix into another matrix
+     * @param a The matrix to transpose.
+     * @param t The matrix to place the result in.
+     */
     public static void transpose(float[][] a, float[][] t){
+        //TODO: Enforce dimensions
+
         for(int r = 0; r < getNumRows(a); r++){
             for(int c = 0; c < getNumColumns(a); c++){
                 t[c][r] = a[r][c];
@@ -50,6 +61,11 @@ class LinearAlgebra{
         }
     }
 
+    /**
+     * 
+     * @param a
+     * @return
+     */
     public static float[][] transpose(float[][] a){
         float[][] t = new float[getNumColumns(a)][getNumRows(a)];
 
