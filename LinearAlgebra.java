@@ -62,9 +62,9 @@ public class LinearAlgebra{
     }
 
     /**
-     * 
-     * @param a
-     * @return
+     * Transposes the input matrix.
+     * @param a The matrix to transpose.
+     * @return The newly allocated transposed matrix.
      */
     public static float[][] transpose(float[][] a){
         float[][] t = new float[getNumColumns(a)][getNumRows(a)];
@@ -73,6 +73,12 @@ public class LinearAlgebra{
         return t;
     }
 
+    /**
+     * Performs matrix multiplication. Matrix dimensions should be valid.
+     * @param a The first matrix.
+     * @param b The second matrix.
+     * @param result The resulting matrix where a * b will be placed.
+     */
     public static void matrixMultiply(float[][] a, float[][] b, float[][] result){
         //TODO: First, check the parameters for dimension issues
 
@@ -90,6 +96,12 @@ public class LinearAlgebra{
         }
     }
 
+    /**
+     * Performs matrix multiplication. Matrix dimensions should be valid.
+     * @param a The first matrix.
+     * @param b The second matrix.
+     * @return The newly allocated result matrix a * b
+     */
     public static float[][] matrixMultiply(float[][] a, float[][] b){
         float[][] r = new float[getNumColumns(a)][getNumRows(b)];
 
@@ -98,6 +110,13 @@ public class LinearAlgebra{
         return r;
     }
 
+    /**
+     * Performs matrix addition. Matrix dimensions should be the same on both
+     * input matricies.
+     * @param a The first matrix.
+     * @param b The second matrix.
+     * @param result The matrix to place a + b into.
+     */
     public static void matrixAdd(float[][] a, float[][] b, float[][] result){
         //TODO: check for parameter dimension issues
 
@@ -110,6 +129,13 @@ public class LinearAlgebra{
 
     }
 
+    /**
+     * Performs matrix addition. Matrix dimensions should be the same on both
+     * input matricies.
+     * @param a The first matrix.
+     * @param b The second matrix.
+     * @return The newly allocated result of a + b
+     */
     public static float[][] matrixAdd(float[][] a, float[][] b){
         float[][] r = new float[getNumRows(a)][getNumColumns(a)];
 
