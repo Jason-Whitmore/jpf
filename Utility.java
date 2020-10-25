@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 /**
  * Class for assorted static functions that may be useful elsewhere in the project or for the user.
@@ -280,5 +281,45 @@ public class Utility{
 
         return lower + delta * ((float)Math.random());
     }
+
+
+    static class Initializers{
+
+        public void initializeUniform(ArrayList<float[][]> parameters, float min, float max){
+
+            for(int i = 0; i < parameters.size(); i++){
+                initializeUniform(parameters.get(i), min, max);
+            }
+
+        }
+
+        public void initializeUniform(float[][] matrix, float min, float max){
+            for(int r = 0; r < matrix.length; r++){
+                for(int c = 0; c < matrix[r].length; c++){
+                    matrix[r][c] = Utility.getRandomUniform(min, max);
+                }
+            }
+        }
+
+        public void initializeNormal(ArrayList<float[][]> parameters, float mean, float variance){
+            Random r = new Random();
+
+            for(int i = 0; i < parameters.size(); i++){
+                initializeNormal(parameters.get(i), mean, variance, r);
+            }
+        }
+
+        public void initializeNormal(float[][] matrix, float mean, float variance, Random randObject){
+            for(int r = 0; r < matrix.length; r++){
+                for(int c = 0; c < matrix[r].length; c++){
+                    float randomFloat = (float)randObject.nextGaussian();
+
+                    matrix[r][c] = (randomFloat * variance) - mean;
+                }
+            }
+        }
+
+    } 
+    
 
 }
