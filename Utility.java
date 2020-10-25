@@ -285,6 +285,12 @@ public class Utility{
 
     static class Initializers{
 
+        /**
+         * Initializes the parameters to a uniform distribution of (min, max)
+         * @param parameters The parameters to initialize
+         * @param min The minimum value an entry can be.
+         * @param max The maximum value an entry can be.
+         */
         public void initializeUniform(ArrayList<float[][]> parameters, float min, float max){
 
             for(int i = 0; i < parameters.size(); i++){
@@ -293,6 +299,12 @@ public class Utility{
 
         }
 
+        /**
+         * Initializes the entries in the matrix to a unfirom distribution of (min, max).
+         * @param matrix The matrix to initialize.
+         * @param min The minimum value an entry can be.
+         * @param max The maximum value an entry can be.
+         */
         public void initializeUniform(float[][] matrix, float min, float max){
             for(int r = 0; r < matrix.length; r++){
                 for(int c = 0; c < matrix[r].length; c++){
@@ -301,6 +313,12 @@ public class Utility{
             }
         }
 
+        /**
+         * Initializes the parameters to a samples from a normal distribution
+         * @param parameters The parameters to initialize.
+         * @param mean The mean of the normal distribution.
+         * @param variance The variance of the normal distribution.
+         */
         public void initializeNormal(ArrayList<float[][]> parameters, float mean, float variance){
             Random r = new Random();
 
@@ -309,6 +327,13 @@ public class Utility{
             }
         }
 
+        /**
+         * Initializes the matrix elements to be sample from a normal distribution.
+         * @param matrix The matrix to initialize.
+         * @param mean The mean of the normal distribution.
+         * @param variance The variance of the normal distribution.
+         * @param randObject The Random object to get the random samples from.
+         */
         public void initializeNormal(float[][] matrix, float mean, float variance, Random randObject){
             for(int r = 0; r < matrix.length; r++){
                 for(int c = 0; c < matrix[r].length; c++){
