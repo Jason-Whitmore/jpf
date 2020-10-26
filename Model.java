@@ -80,4 +80,10 @@ public abstract class Model{
      */
     public abstract float calculateLoss(ArrayList<float[][]> x, ArrayList<float[][]> y, Loss loss);
 
+    /**
+     * Saves the model to disc using a human readable format.
+     * @param filePath The file path to save the model to.
+     */
+    public abstract void saveModel(String filePath);
+
 }

@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -260,5 +263,39 @@ public class LinearModel extends Model{
         float[] yPred = predict(x);
 
         return loss.calculateLossScalar(y, yPred);
+    }
+
+    /**
+     * Saves the model to disk with a human readable format.
+     * @param filePath The file path to save the model to.
+     */
+    public void saveModel(String filePath){
+        //TODO: Check to see if parameter arraylist is good
+
+        StringBuilder sb = new StringBuilder();
+
+        //create the header
+        sb.append("LinearModel(");
+        sb.append(this.numInputs);
+        sb.append(this.numOutputs);
+        sb.append(")\n");
+
+        //Get the weight/transformation matrix
+        sb.append(Utility.arrayToString(getParameters().get(0)));
+        sb.append("\n");
+
+        //get the bias matrix/vector
+        sb.append(Utility.arrayToString(getParameters().get(1)));
+
+        //write the string to disk
+
+        try{
+            FileWriter f = new FileWriter(filePath);
+            f.write(sb.toString());
+
+        } catch(IOException e){
+            System.err.println("Exception occured: " + e.getMessage());
+        }
+        
     }
 }
