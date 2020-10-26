@@ -1,4 +1,6 @@
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,6 +52,28 @@ public class LinearModel extends Model{
         this.numOutputs = numOutputs;
 
         setParameters(params);
+    }
+
+    /**
+     * Constructs a linear model based on the human readable format in saveModel()
+     * @param filePath The file to read the model data from.
+     */
+    public LinearModel(String filePath){
+        FileReader f = null;
+
+        try{
+            f = new FileReader(filePath);
+        } catch(FileNotFoundException e){
+            System.err.println("Exception when trying to construct a Linear model from a file: " + e.getMessage());
+        }
+
+        if(f == null){
+            //TODO: Error here
+        }
+        
+        //Read the header line.
+
+        String header;
     }
 
     /**
