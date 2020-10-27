@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 
 /**
  * Class that contains static functions for linear algebra and matrix operations
@@ -21,6 +21,51 @@ public class LinearAlgebra{
         for(int r = 0; r < numRows; r++){
             for(int c = 0; c < numColumns; c++){
                 ret[r][c] = Utility.getRandomUniform(lowerBound, upperBound);
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * Determines if the input arraylist of arraylists is ragged, where atleast
+     * one of the arraylists is a different size than the others.
+     * @param <T> Can be of any type.
+     * @param data The ArrayList of ArrayLists to determine if ragged
+     * @return True if the array is ragged, else false 
+     */
+    public static <T> boolean isRagged(ArrayList<ArrayList<T>> data){
+        if(data == null || data.size() == 0){
+            return false;
+        }
+
+        int initialSize = data.get(0).size();
+
+        for(int r = 0; r < data.size(); r++){
+            if(initialSize != data.get(r).size()){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Initializes a matrix from the input data
+     * @param data The matrix data as an arraylist of arraylists
+     * @return The allocated and initialized matrix.
+     */
+    public static float[][] initializeFromArrayList(ArrayList<ArrayList<Float>> data){
+        //TODO: Check for bad ArrayList
+
+        int numRows = data.size();
+        int numCols = data.get(0).size();
+
+        float[][] ret = new float[numRows][numCols];
+
+        for(int r = 0; r < numRows; r++){
+            for(int c = 0; c < numCols; c++){
+                ret[r][c] = data.get(r).get(c);
             }
         }
 
