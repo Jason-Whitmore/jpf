@@ -72,6 +72,55 @@ public class LinearAlgebra{
         return ret;
     }
 
+
+    /**
+     * Allocates and initializes an array from the string
+     * 
+     * Example for syntax: [0,1,2,3]
+     * @param s The string to create the array from.
+     * @return The allocated and initialized array.
+     */
+    public static float[] initializeArrayFromString(String s){
+        ArrayList<Float> data = new ArrayList<Float>();
+
+        char[] c = s.toCharArray();
+
+        /**
+         * State description:
+         * 0: Currently in non numeral characters, looking for numerals
+         * 1: Current in numerals, looking for more numerals 
+         */
+        int state = 0;
+
+        StringBuilder sb = new StringBuilder();
+        
+        for(int i = 0; i < c.length; i++){
+            if(state == 0 && ((c[i] <= 57 && c[i] >= 48 ) || c[i] == '.')){
+                sb.append(c[i]);
+                state = 1;
+
+            } else if(state == 1 && (c[i] == '[' || c[i] == ']' || c[i] == ',')){
+                float parsedFloat = Float.parseFloat(sb.toString());
+                data.add(parsedFloat);
+                state = 0;
+
+                sb = new StringBuilder();
+            }
+        }
+
+        float[] r = new float[data.size()];
+        for(int i = 0; i < r.length; i++){
+            r[i] = data.get(i);
+        }
+
+        return r;
+    }
+
+
+    public static float[][] initializeFromString(String s){
+        return null;
+    }
+
     
     /**
      * Simple wrapper function for getting the number of columns in a matrix.
