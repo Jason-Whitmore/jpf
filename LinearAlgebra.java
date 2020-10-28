@@ -116,9 +116,30 @@ public class LinearAlgebra{
         return r;
     }
 
-
+    /**
+     * Initializes a matrix from a string.
+     * 
+     * Example format:
+     * [[1,0,0]
+     *  [0,1,0]
+     *  [0,0,1]]
+     * @param s The string containing the data for a matrix.
+     * @return The newly allocated matrix from string data.
+     */
     public static float[][] initializeFromString(String s){
-        return null;
+        String[] sSplit = s.split("\n");
+
+        sSplit[0] = s.substring(1);
+        sSplit[sSplit.length - 1] = sSplit[sSplit.length - 1].substring(0, sSplit.length - 1);
+
+        float[][] r = new float[sSplit.length][];
+
+        for(int i = 0; i < r.length; i++){
+            r[i] = initializeArrayFromString(sSplit[i]);
+        }
+
+
+        return r;
     }
 
     
