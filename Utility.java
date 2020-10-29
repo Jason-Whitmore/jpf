@@ -291,7 +291,7 @@ public class Utility{
          * @param min The minimum value an entry can be.
          * @param max The maximum value an entry can be.
          */
-        public void initializeUniform(ArrayList<float[][]> parameters, float min, float max){
+        public static void initializeUniform(ArrayList<float[][]> parameters, float min, float max){
 
             for(int i = 0; i < parameters.size(); i++){
                 initializeUniform(parameters.get(i), min, max);
@@ -305,7 +305,7 @@ public class Utility{
          * @param min The minimum value an entry can be.
          * @param max The maximum value an entry can be.
          */
-        public void initializeUniform(float[][] matrix, float min, float max){
+        public static void initializeUniform(float[][] matrix, float min, float max){
             for(int r = 0; r < matrix.length; r++){
                 for(int c = 0; c < matrix[r].length; c++){
                     matrix[r][c] = Utility.getRandomUniform(min, max);
@@ -319,7 +319,7 @@ public class Utility{
          * @param mean The mean of the normal distribution.
          * @param variance The variance of the normal distribution.
          */
-        public void initializeNormal(ArrayList<float[][]> parameters, float mean, float variance){
+        public static void initializeNormal(ArrayList<float[][]> parameters, float mean, float variance){
             Random r = new Random();
 
             for(int i = 0; i < parameters.size(); i++){
@@ -334,7 +334,7 @@ public class Utility{
          * @param variance The variance of the normal distribution.
          * @param randObject The Random object to get the random samples from.
          */
-        public void initializeNormal(float[][] matrix, float mean, float variance, Random randObject){
+        public static void initializeNormal(float[][] matrix, float mean, float variance, Random randObject){
             for(int r = 0; r < matrix.length; r++){
                 for(int c = 0; c < matrix[r].length; c++){
                     float randomFloat = (float)randObject.nextGaussian();
@@ -346,8 +346,35 @@ public class Utility{
 
     }
 
+    public static void passedTest(boolean worked){
+        if(worked){
+            System.out.println("Passed.");
+        } else {
+            System.out.println("Failed.");
+        }
+    }
 
-    public class Exceptions{
+    public static void unitTests(){
+        //Testing initializers
+        unitTestsInitializers();
+    }
+
+    public static void unitTestsInitializers(){
+
+        boolean worked = false;
+        System.out.println("Testing initializeNormal(ArrayList<float[][]>, mean, variance)");
+
+        try{
+            Initializers.initializeNormal(null, 0, 0);
+        } catch(NullPointerException e){
+            worked = true;
+        }
+
+        passedTest(worked);
+        worked = false;
+
+
+        
         
     }
     
