@@ -60,22 +60,35 @@ public class LinearModel extends Model{
      * @param filePath The file to read the model data from.
      */
     public LinearModel(String filePath){
-        BufferedReader br = null;
+        
+        String fileContents = Utility.getTextFileContents(filePath);
+
+        if(fileContents == null){
+            //TODO: Error here
+        }
+
+        //Parse the header (contains input, output vector sizes)
+        int numInputs = 0;
+        int numOutputs = 0;
 
         try{
-            br = new BufferedReader(new FileReader(filePath));
+            String headerLine = fileContents.substring(0, fileContents.indexOf("\n"));
 
-            String header = br.readLine();
-            
-            if(header == null){
-                //TODO: Error here
-            }
+            headerLine.replace("LinearModel(", "");
+            headerLine.replace(")", "");
 
+            String[] digitStrings = headerLine.split(",");
 
-
+            numInputs = Integer.parseInt(digitStrings[0]);
+            numOutputs = Integer.parseInt(digitStrings[1]);
         } catch(Exception e){
-            System.err.println("Exception when trying to construct a Linear model from a file: " + e.getMessage());
+            System.err.println("Exception caught while parsing a LinearModel's saved model's header: " + e.getMessage());
+            System.exit(1);
         }
+
+        //Parse the transformation matrix
+
+
     }
 
     /**
