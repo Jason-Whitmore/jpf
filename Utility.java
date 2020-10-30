@@ -1,3 +1,5 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -265,6 +267,12 @@ public class Utility{
     }
 
 
+    /**
+     * Gets a random sample from a uniform distribution.
+     * @param lowerBound The smallest value that can be returned.
+     * @param upperBound The largest value that can be returned.
+     * @return The random sample.
+     */
     public static float getRandomUniform(float lowerBound, float upperBound){
         float upper;
         float lower;
@@ -335,6 +343,7 @@ public class Utility{
          * @param randObject The Random object to get the random samples from.
          */
         public static void initializeNormal(float[][] matrix, float mean, float variance, Random randObject){
+
             for(int r = 0; r < matrix.length; r++){
                 for(int c = 0; c < matrix[r].length; c++){
                     float randomFloat = (float)randObject.nextGaussian();
@@ -344,6 +353,28 @@ public class Utility{
             }
         }
 
+    }
+
+    public static String getTextFileContents(String filePath){
+
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(filePath));
+
+            StringBuilder sb = new StringBuilder();
+
+            String line = br.readLine();
+            
+            while(line != null){
+                sb.append(line);
+                line = br.readLine();
+            }
+
+            return sb.toString();
+
+        } catch(Exception e){
+            System.err.println("Exception when trying to construct a Linear model from a file: " + e.getMessage());
+        }
+        return null;
     }
 
     public static void passedTest(boolean worked){
@@ -364,17 +395,30 @@ public class Utility{
         boolean worked = false;
         System.out.println("Testing initializeNormal(ArrayList<float[][]>, mean, variance)");
 
+        //try with arraylist as null
         try{
             Initializers.initializeNormal(null, 0, 0);
         } catch(NullPointerException e){
             worked = true;
         }
 
-        passedTest(worked);
-        worked = false;
+        //try with negative variance
+
+        try{
+            Initializers.initializeNormal(new ArrayList<float[][]>(), 0, -1);
+        } catch(Exception e){
+
+        }
+
 
 
         
+
+        passedTest(worked);
+
+
+        worked = false;
+        System.out.println("Testing initializeNormal");
         
     }
     

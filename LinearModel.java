@@ -1,3 +1,4 @@
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -59,21 +60,22 @@ public class LinearModel extends Model{
      * @param filePath The file to read the model data from.
      */
     public LinearModel(String filePath){
-        FileReader f = null;
+        BufferedReader br = null;
 
         try{
-            f = new FileReader(filePath);
-        } catch(FileNotFoundException e){
+            br = new BufferedReader(new FileReader(filePath));
+
+            String header = br.readLine();
+            
+            if(header == null){
+                //TODO: Error here
+            }
+
+
+
+        } catch(Exception e){
             System.err.println("Exception when trying to construct a Linear model from a file: " + e.getMessage());
         }
-
-        if(f == null){
-            //TODO: Error here
-        }
-        
-        //Read the header line.
-
-        String header;
     }
 
     /**
