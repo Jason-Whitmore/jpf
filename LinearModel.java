@@ -88,6 +88,34 @@ public class LinearModel extends Model{
 
         //Parse the transformation matrix
 
+        int transformationStartIndex = 0;
+        int transformationEndIndex = 0;
+        String transformationString = "";
+        try {
+            transformationStartIndex = fileContents.indexOf("[[");
+            transformationEndIndex = fileContents.indexOf("]]");
+        
+            transformationString = fileContents.substring(transformationStartIndex, transformationEndIndex);
+
+
+        } catch(Exception e){
+            System.err.println("Exception caught while parsing a LinearModel's transformation matrix from a file: " + e.getMessage());
+            System.exit(1);
+        }
+
+        //Attempt to convert to a matrix
+        try {
+            float[][] transformationMatrix = LinearAlgebra.initializeFromString(transformationString);
+
+            this.transformationMatrix = transformationMatrix;
+        } catch(Exception e){
+            System.err.println("Exception caught while parsing a LinearModel's transformation string from a file (check formatting): " + e.getMessage());
+            System.exit(1);
+        }
+        
+        
+
+        
 
     }
 
