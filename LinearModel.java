@@ -97,24 +97,34 @@ public class LinearModel extends Model{
         
             transformationString = fileContents.substring(transformationStartIndex, transformationEndIndex);
 
+            float[][] transformationMatrix = LinearAlgebra.initializeFromString(transformationString);
 
+            this.transformationMatrix = transformationMatrix;
         } catch(Exception e){
             System.err.println("Exception caught while parsing a LinearModel's transformation matrix from a file: " + e.getMessage());
             System.exit(1);
         }
 
-        //Attempt to convert to a matrix
-        try {
-            float[][] transformationMatrix = LinearAlgebra.initializeFromString(transformationString);
+        
+        //Attempt to parse bias vector
 
-            this.transformationMatrix = transformationMatrix;
+        int biasStartIndex = 0;
+        int biasEndIndex = 0;
+        String biasString = "";
+
+        try{
+            biasStartIndex = fileContents.indexOf("[[", transformationEndIndex);
+            biasEndIndex = fileContents.indexOf("]]", biasStartIndex);
+
+            biasString = fileContents.substring(biasStartIndex, biasEndIndex);
+
+            float[][] bias = LinearAlgebra.initializeFromString(biasString);
+
+            this.biasVector = bias;
         } catch(Exception e){
-            System.err.println("Exception caught while parsing a LinearModel's transformation string from a file (check formatting): " + e.getMessage());
+            System.err.println("Exception caugh while parsing a LinearModel's bias matrix from a file: " + e.getMessage());
             System.exit(1);
         }
-        
-        
-
         
 
     }
