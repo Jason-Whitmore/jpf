@@ -228,12 +228,14 @@ public class Utility{
         StringBuilder sb = new StringBuilder();
 
         sb.append("[");
-        sb.append(arrayToString(array[0]));
+        //sb.append(arrayToString(array[0]));
 
-        for(int i = 1; i < array.length; i++){
+        for(int i = 0; i < array.length - 1; i++){
             sb.append(arrayToString(array[i]));
             sb.append("\n");
         }
+
+        sb.append(arrayToString(array[array.length - 1]));
 
         sb.append("]");
 
@@ -252,16 +254,16 @@ public class Utility{
         }
         StringBuilder sb = new StringBuilder();
 
-        sb.append("[");
-        sb.append(arrayToString(arrays.get(0)));
+        sb.append("[\n");
+        //sb.append(arrayToString(arrays.get(0)));
 
-        for(int i = 1; i < arrays.size() - 1; i++){
+        for(int i = 0; i < arrays.size() - 1; i++){
             sb.append(arrayToString(arrays.get(i)));
             sb.append(",\n");
         }
 
         sb.append(arrayToString(arrays.get(arrays.size() - 1)));
-        sb.append("]");
+        sb.append("\n]");
 
         return new String(sb);
     }
