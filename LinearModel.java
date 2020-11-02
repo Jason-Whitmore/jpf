@@ -354,21 +354,20 @@ public class LinearModel extends Model{
         //create the header
         sb.append("LinearModel(");
         sb.append(this.numInputs);
+        sb.append(",");
         sb.append(this.numOutputs);
         sb.append(")\n");
 
-        //Get the weight/transformation matrix
-        sb.append(Utility.arrayToString(getParameters().get(0)));
-        sb.append("\n");
+        //append the parameters
 
-        //get the bias matrix/vector
-        sb.append(Utility.arrayToString(getParameters().get(1)));
+        sb.append(Utility.arraysToString(getParameters()));
 
         //write the string to disk
 
         try{
             FileWriter f = new FileWriter(filePath);
             f.write(sb.toString());
+            f.close();
 
         } catch(IOException e){
             System.err.println("Exception occured: " + e.getMessage());
