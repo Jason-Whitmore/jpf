@@ -369,6 +369,7 @@ public class Utility{
             while(line != null){
                 sb.append(line);
                 line = br.readLine();
+                sb.append("\n");
             }
 
             return sb.toString();

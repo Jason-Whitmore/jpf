@@ -98,8 +98,8 @@ public class LinearModel extends Model{
         int transformationEndIndex = 0;
         String transformationString = "";
         try {
-            transformationStartIndex = fileContents.indexOf("[[");
-            transformationEndIndex = fileContents.indexOf("]]");
+            transformationStartIndex = fileContents.indexOf("[[") + 0;
+            transformationEndIndex = fileContents.indexOf("]]") + 2;
         
             transformationString = fileContents.substring(transformationStartIndex, transformationEndIndex);
 
@@ -107,7 +107,8 @@ public class LinearModel extends Model{
 
             this.transformationMatrix = transformationMatrix;
 
-            System.out.println(Utility.arrayToString(this.transformationMatrix));
+            //System.out.println(transformationString);
+            //System.out.println(Utility.arrayToString(this.transformationMatrix));
         } catch(Exception e){
             System.err.println("Exception caught while parsing a LinearModel's transformation matrix from a file: " + e.getMessage());
             System.exit(1);
@@ -122,12 +123,13 @@ public class LinearModel extends Model{
 
         try{
             biasStartIndex = fileContents.indexOf("[[", transformationEndIndex);
-            biasEndIndex = fileContents.indexOf("]]", biasStartIndex);
+            biasEndIndex = fileContents.indexOf("]]", biasStartIndex) + 2;
 
             biasString = fileContents.substring(biasStartIndex, biasEndIndex);
 
             float[][] bias = LinearAlgebra.initializeFromString(biasString);
 
+            
             this.biasVector = bias;
         } catch(Exception e){
             System.err.println("Exception caugh while parsing a LinearModel's bias matrix from a file: " + e.getMessage());

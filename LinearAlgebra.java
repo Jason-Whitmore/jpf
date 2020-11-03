@@ -81,36 +81,16 @@ public class LinearAlgebra{
      * @return The allocated and initialized array.
      */
     public static float[] initializeArrayFromString(String s){
-        ArrayList<Float> data = new ArrayList<Float>();
 
-        char[] c = s.toCharArray();
+        s = s.replace("[", "");
+        s = s.replace("]", "");
 
-        /**
-         * State description:
-         * 0: Currently in non numeral characters, looking for numerals
-         * 1: Current in numerals, looking for more numerals 
-         */
-        int state = 0;
+        String[] sSplit = s.split(",");
 
-        StringBuilder sb = new StringBuilder();
-        
-        for(int i = 0; i < c.length; i++){
-            if(state == 0 && ((c[i] <= 57 && c[i] >= 48 ) || c[i] == '.')){
-                sb.append(c[i]);
-                state = 1;
+        float[] r = new float[sSplit.length];
 
-            } else if(state == 1 && (c[i] == '[' || c[i] == ']' || c[i] == ',')){
-                float parsedFloat = Float.parseFloat(sb.toString());
-                data.add(parsedFloat);
-                state = 0;
-
-                sb = new StringBuilder();
-            }
-        }
-
-        float[] r = new float[data.size()];
         for(int i = 0; i < r.length; i++){
-            r[i] = data.get(i);
+            r[i] = Float.parseFloat(sSplit[i]);
         }
 
         return r;
@@ -129,8 +109,8 @@ public class LinearAlgebra{
     public static float[][] initializeFromString(String s){
         String[] sSplit = s.split("\n");
 
-        sSplit[0] = s.substring(1);
-        sSplit[sSplit.length - 1] = sSplit[sSplit.length - 1].substring(0, sSplit.length - 1);
+        sSplit[0] = sSplit[0].replace("[[", "[");
+        sSplit[sSplit.length - 1] = sSplit[sSplit.length - 1].replace("]]", "]");
 
         float[][] r = new float[sSplit.length][];
 
