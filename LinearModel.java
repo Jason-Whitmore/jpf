@@ -72,17 +72,23 @@ public class LinearModel extends Model{
         int numOutputs = 0;
 
         try{
-            String headerLine = fileContents.substring(0, fileContents.indexOf("\n"));
+            String headerLine = fileContents.substring(0, fileContents.indexOf(")"));
 
-            headerLine.replace("LinearModel(", "");
-            headerLine.replace(")", "");
+            headerLine = headerLine.replace("LinearModel(", "");
+            headerLine = headerLine.replace(")", "");
+            headerLine = headerLine.replace("(", "");
 
             String[] digitStrings = headerLine.split(",");
 
             numInputs = Integer.parseInt(digitStrings[0]);
             numOutputs = Integer.parseInt(digitStrings[1]);
+
+            this.numInputs = numInputs;
+            this.numOutputs = numOutputs;
+
+            
         } catch(Exception e){
-            System.err.println("Exception caught while parsing a LinearModel's saved model's header: " + e.getMessage());
+            System.err.println("Exception caught while parsing a LinearModel's saved model's header: " + e.toString());
             System.exit(1);
         }
 
@@ -100,6 +106,8 @@ public class LinearModel extends Model{
             float[][] transformationMatrix = LinearAlgebra.initializeFromString(transformationString);
 
             this.transformationMatrix = transformationMatrix;
+
+            System.out.println(Utility.arrayToString(this.transformationMatrix));
         } catch(Exception e){
             System.err.println("Exception caught while parsing a LinearModel's transformation matrix from a file: " + e.getMessage());
             System.exit(1);
