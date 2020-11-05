@@ -357,6 +357,12 @@ public class Utility{
 
     }
 
+    /**
+     * Reads a text file and places all of the contents into a string
+     * @param filePath The filepath to the text file to read.
+     * @return The contents of the file as a string. Returns null and prints error message if file is
+     * unable to be read.
+     */
     public static String getTextFileContents(String filePath){
 
         try{
@@ -372,10 +378,12 @@ public class Utility{
                 sb.append("\n");
             }
 
+            br.close();
+
             return sb.toString();
 
         } catch(Exception e){
-            System.err.println("Exception when trying to construct a Linear model from a file: " + e.getMessage());
+            System.err.println("Exception when trying to read a text file: " + e.getMessage());
         }
         return null;
     }
