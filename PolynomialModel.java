@@ -13,7 +13,35 @@ public class PolynomialModel extends Model {
     float[][] biasVector;
 
     
+    public PolynomialModel(int numInputs, int numOutputs, int degree){
+        this.numInputs = numInputs;
 
+        this.numOutputs = numOutputs;
+
+        this.degree = degree;
+
+        //Create the polynomial weight matricies and initialize
+        for(int i = 0; i < numOutputs; i++){
+            weightMatricies.add(new float[numOutputs][degree]);
+        }
+
+        ArrayList<float[][]> params = new ArrayList<float[][]>();
+
+        params.addAll(weightMatricies);
+
+
+
+        this.biasVector = new float[numOutputs][1];
+
+        params.add(this.biasVector);
+
+        setParameters(params);
+
+
+        Utility.Initializers.initializeUniform(getParameters(), -1f, 1f);
+        
+        
+    }
 
 
     public ArrayList<float[]> predict(ArrayList<float[]> inputVectors) {
@@ -22,8 +50,7 @@ public class PolynomialModel extends Model {
     }
 
     
-    public void fit(ArrayList<float[][]> x, ArrayList<float[][]> y, int epochs, int minibatchSize, float valueClip,
-            Optimizer opt, Loss loss) {
+    public void fit(ArrayList<float[][]> x, ArrayList<float[][]> y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss) {
         // TODO Auto-generated method stub
 
     }
