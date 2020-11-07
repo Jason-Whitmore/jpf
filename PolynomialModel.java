@@ -44,6 +44,44 @@ public class PolynomialModel extends Model {
     }
 
 
+    public float[] predict(float[] inputVector){
+        //TODO: Check input dimensions
+
+        float[] outputVector = new float[numOutputs];
+
+        for(int x = 0; x < inputVector.length; x++){
+            float[] powers = calculatePowers(inputVector[x], degree);
+
+            
+            for(int y = 0; y < numOutputs; y++){
+
+            }
+        }
+
+
+
+
+        return outputVector;
+    }
+
+    /**
+     * Calculates an array of form [x, x^2, ..., x^maxPower]
+     * @param x The number to raise to the power of.
+     * @param maxPower The highest exponent in the sequence.
+     * @return Returns the power array.
+     */
+    private float[] calculatePowers(float x, int maxPower){
+        float[] r = new float[maxPower];
+        r[0] = x;
+
+        for(int i = 1; i < r.length; i++){
+            r[i] = x * r[i - 1];
+        }
+
+        return r;
+    }
+
+
     public ArrayList<float[]> predict(ArrayList<float[]> inputVectors) {
         // TODO Auto-generated method stub
         return null;
