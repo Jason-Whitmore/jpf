@@ -86,10 +86,38 @@ public class PolynomialModel extends Model {
         return r;
     }
 
+    /**
+     * Makes multiple predictions.
+     * @param inputVectors The set of input vectors to feed into the model.
+     * @return The predictions corresponding with the input vectors.
+     */
+    public float[][] predict(float[][] inputVectors){
+        float[][] r = new float[inputVectors.length][numOutputs];
 
+        for(int i = 0; i < r.length; i++){
+            float[] temp = predict(inputVectors[i]);
+
+            r[i] = temp;
+        }
+
+        return r;
+    }
+
+    /**
+     * Makes multiple predictions.
+     * @param inputVectors The set of input vectors to feed into the model.
+     * @return The predictions corresponding with the input vectors.
+     */
     public ArrayList<float[]> predict(ArrayList<float[]> inputVectors) {
-        // TODO Auto-generated method stub
-        return null;
+        ArrayList<float[]> r = new ArrayList<float[]>();
+
+        for(int i = 0; i < inputVectors.size(); i++){
+            float[] temp = predict(inputVectors.get(i));
+
+            r.add(temp);
+        }
+
+        return r;
     }
 
     
