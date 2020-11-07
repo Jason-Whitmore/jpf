@@ -52,14 +52,19 @@ public class PolynomialModel extends Model {
         for(int x = 0; x < inputVector.length; x++){
             float[] powers = calculatePowers(inputVector[x], degree);
 
-            
+
             for(int y = 0; y < numOutputs; y++){
 
+                for(int d = 0; d < powers.length; d++){
+                    outputVector[y] += weightMatricies.get(x)[y][d] * powers[d];
+                }
             }
         }
 
-
-
+        //Add bias matrix
+        for(int y = 0; y < numOutputs; y++){
+            outputVector[y] += biasVector[y][0];
+        }
 
         return outputVector;
     }
