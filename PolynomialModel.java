@@ -129,14 +129,25 @@ public class PolynomialModel extends Model {
         fit(x.get(0), y.get(0), epochs, minibatchSize, valueClip, opt, loss);
     }
 
+    public ArrayList<float[][]> calculateGradient(float[] x, float[] y){
+        ArrayList<float[][]> grad = Utility.cloneArrays(getParameters());
+
+        
+
+        return grad;
+    }
+
     public void fit(float[][] x, float[][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss){
 
     }
 
     
     public float calculateLoss(ArrayList<float[][]> x, ArrayList<float[][]> y, Loss loss) {
-        // TODO Auto-generated method stub
-        return 0;
+        if(x.size() != 1 || y.size() != 1){
+            return Float.NaN;
+        }
+
+        return calculateLoss(x.get(0), y.get(0), loss);
     }
 
     public float calculateLoss(float[][] x, float[][] y, Loss loss){
