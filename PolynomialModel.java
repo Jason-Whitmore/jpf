@@ -122,7 +122,14 @@ public class PolynomialModel extends Model {
 
     
     public void fit(ArrayList<float[][]> x, ArrayList<float[][]> y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss) {
-        // TODO Auto-generated method stub
+        if(x.size() != 1 && y.size() != 1){
+            return;
+        }
+
+        fit(x.get(0), y.get(0), epochs, minibatchSize, valueClip, opt, loss);
+    }
+
+    public void fit(float[][] x, float[][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss){
 
     }
 
@@ -130,6 +137,22 @@ public class PolynomialModel extends Model {
     public float calculateLoss(ArrayList<float[][]> x, ArrayList<float[][]> y, Loss loss) {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+    public float calculateLoss(float[][] x, float[][] y, Loss loss){
+        float sum = 0;
+
+        for(int i = 0; i < x.length; i++){
+            sum += calculateLoss(x[i], y[i], loss);
+        }
+
+        return sum / x.length;
+    }
+
+    public float calculateLoss(float[] x, float[] y, Loss loss){
+        float[] yPred = predict(x);
+
+        return loss.calculateLossScalar(y, yPred);
     }
 
     
