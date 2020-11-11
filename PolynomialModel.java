@@ -129,10 +129,22 @@ public class PolynomialModel extends Model {
         fit(x.get(0), y.get(0), epochs, minibatchSize, valueClip, opt, loss);
     }
 
-    public ArrayList<float[][]> calculateGradient(float[] x, float[] y){
+    public ArrayList<float[][]> calculateGradient(float[] x, float[] y, Loss loss){
         ArrayList<float[][]> grad = Utility.cloneArrays(getParameters());
 
-        
+        float[] yPred = predict(x);
+        float[] error = loss.calculateLossVectorGradient(y, yPred);
+
+        for(int i = 0; i < x.length; i++){
+            float[] powers = calculatePowers(x[i], degree);
+
+            for(int j = 0; j < y.length; j++){
+
+                for(int d = 0; d < degree; d++){
+                    grad.get(i)[j][d] = powers[d] * error[j];
+                }
+            }
+        }
 
         return grad;
     }
