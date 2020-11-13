@@ -20,6 +20,8 @@ public class PolynomialModel extends Model {
 
         this.degree = degree;
 
+        weightMatricies = new ArrayList<float[][]>();
+
         //Create the polynomial weight matricies and initialize
         for(int i = 0; i < numOutputs; i++){
             weightMatricies.add(new float[numOutputs][degree]);
@@ -146,10 +148,54 @@ public class PolynomialModel extends Model {
             }
         }
 
+        grad.set(grad.size() - 1, LinearAlgebra.arrayToMatrix(error));
+
         return grad;
     }
 
+
+    /**
+     * Fits the model's parameters to minimize the loss on the training dataset.
+     * @param x The training inputs. Number of columns should match the model's input size, and rows should be the number of data points.
+     * @param y The training outputs. Number of columns should match the model's output size, and rows should be the number of data points.
+     * @param epochs The number of epochs (or complete training passes over the training dataset). Should be greater than 0.
+     * @param minibatchSize The number of training data examples used when making a single update to the model's parameters.
+     * A higher number will take longer to compute, but the updates will be less noisy. Should be greater than 0.
+     * @param valueClip Clips the gradient's components to be in the range [-valueClip, valueClip]. Helps to stop exploding gradients.
+     * @param opt The optimizer to use during fitting.
+     * @param Loss The loss function used to make the model more accurate to the training dataset.
+     */
     public void fit(float[][] x, float[][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss){
+
+        for(int e = 0; e < epochs; e++){
+            //calculate minibatch indicies
+            ArrayList<ArrayList<Integer>> indicies = Utility.getMinibatchIndicies(x.length, minibatchSize);
+            //for each minibatch...
+            for(int mb = 0; mb < indicies.size(); mb++){
+
+                ArrayList<float[][]> minibatchGradient = Utility.cloneArrays(getParameters());
+
+                //for each data point in the minibatch
+                for(int i = 0; i < indicies.get(mb).size(); i++){
+                    int index = indicies.get(mb).get(i);
+
+                    //calculate the gradient
+                    ArrayList<float[][]> rawGradient = calculateGradient(x[index], y[index], loss);
+
+                    //clip the gradient
+                    Utility.clip(rawGradient, -valueClip, valueClip);
+
+                    //add it to the minibatch pool
+                    Utility.addGradient(minibatchGradient, rawGradient, 1.0f / indicies.get(mb).size());
+                }
+
+                minibatchGradient = opt.processGradient(minibatchGradient);
+
+                //minibatch gradient is calculated. Add to the model's parameters
+                Utility.addGradient(getParameters(), minibatchGradient, -1f);
+            }
+
+        }
 
     }
 
