@@ -110,6 +110,14 @@ public class Utility{
         }
     }
 
+    public static void clearArrays(ArrayList<float[][]> arrays){
+        //TODO: Check for null
+
+        for(int i = 0; i < arrays.size(); i++){
+            clearArray(arrays.get(i));
+        }
+    }
+
     /**
      * Scales all elements in the array.
      * @param a The array to modify
@@ -142,19 +150,23 @@ public class Utility{
             return null;
         }
 
-        ArrayList<float[][]> r = new ArrayList<float[][]>(arrays.size());
+        ArrayList<float[][]> ret = new ArrayList<float[][]>(arrays.size());
 
         for(int i = 0; i < arrays.size(); i++){
             int numRows = arrays.get(i).length;
             int numCols = arrays.get(i)[0].length;
 
-            r.add(new float[numRows][numCols]);
+            ret.add(new float[numRows][numCols]);
 
-            //TODO: Clone the elements in the arrays?
+            for(int r = 0; r < numRows; r++){
+                for(int c = 0; c < numCols; c++){
+                    ret.get(i)[r][c] = arrays.get(i)[r][c];
+                }
+            }
         }
 
 
-        return r;
+        return ret;
     }
 
     /**
