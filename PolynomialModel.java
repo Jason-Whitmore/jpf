@@ -133,6 +133,7 @@ public class PolynomialModel extends Model {
 
     public ArrayList<float[][]> calculateGradient(float[] x, float[] y, Loss loss){
         ArrayList<float[][]> grad = Utility.cloneArrays(getParameters());
+        Utility.clearArrays(grad);
 
         float[] yPred = predict(x);
         float[] error = loss.calculateLossVectorGradient(y, yPred);
@@ -174,6 +175,7 @@ public class PolynomialModel extends Model {
             for(int mb = 0; mb < indicies.size(); mb++){
 
                 ArrayList<float[][]> minibatchGradient = Utility.cloneArrays(getParameters());
+                Utility.clearArrays(minibatchGradient);
 
                 //for each data point in the minibatch
                 for(int i = 0; i < indicies.get(mb).size(); i++){

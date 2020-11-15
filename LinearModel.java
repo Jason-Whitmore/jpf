@@ -280,6 +280,8 @@ public class LinearModel extends Model{
 
                 ArrayList<float[][]> minibatchGradient = Utility.cloneArrays(getParameters());
 
+                Utility.clearArrays(minibatchGradient);
+
                 //for each data point in the minibatch
                 for(int i = 0; i < indicies.get(mb).size(); i++){
                     int index = indicies.get(mb).get(i);
