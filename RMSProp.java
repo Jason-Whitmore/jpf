@@ -15,7 +15,7 @@ public class RMSProp implements Optimizer{
 
         rho = 0.9f;
 
-        epsilon = 0.0000001f;
+        epsilon = 0.000001f;
 
         gradSquare = null;
     }
@@ -37,6 +37,7 @@ public class RMSProp implements Optimizer{
         if(gradSquare == null){
             ArrayList<float[][]> newState = Utility.cloneArrays(rawGradient);
             Utility.clearArrays(newState);
+            gradSquare = newState;
         }
 
 
@@ -47,10 +48,11 @@ public class RMSProp implements Optimizer{
                 for(int c = 0; c < gradSquare.get(i)[r].length; c++){
 
                     //maintain exponentially decaying average
-                    gradSquare.get(i)[r][c] = (rho * gradSquare.get(i)[r][c]) + ((1 - rho) * rawGradient.get(i)[r][c]);
+                    gradSquare.get(i)[r][c] = (rho * gradSquare.get(i)[r][c]) + ((1 - rho) * ((float)Math.pow(rawGradient.get(i)[r][c], 2)));
                 }
             }
         }
+
 
         ArrayList<float[][]> grad = Utility.cloneArrays(rawGradient);
         Utility.clearArrays(grad);
@@ -59,7 +61,7 @@ public class RMSProp implements Optimizer{
         for(int i = 0; i < grad.size(); i++){
             for(int r = 0; r < grad.get(i).length; r++){
                 for(int c = 0; c < grad.get(i)[r].length; c++){
-                    grad.get(i)[r][c] = learningRate * (1f / (float)Math.sqrt(gradSquare.get(i)[r][c] + epsilon) * rawGradient.get(i)[r][c]);
+                    grad.get(i)[r][c] = learningRate * (1f / (float)Math.sqrt(gradSquare.get(i)[r][c] + epsilon)) * rawGradient.get(i)[r][c];
                 }
             }
         }

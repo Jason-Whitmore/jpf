@@ -22,14 +22,14 @@ public class PolynomialModel extends Model {
 
         weightMatricies = new ArrayList<float[][]>();
 
+        ArrayList<float[][]> params = new ArrayList<float[][]>();
+
         //Create the polynomial weight matricies and initialize
         for(int i = 0; i < numOutputs; i++){
             weightMatricies.add(new float[numOutputs][degree]);
+            params.add(weightMatricies.get(i));
         }
 
-        ArrayList<float[][]> params = new ArrayList<float[][]>();
-
-        params.addAll(weightMatricies);
 
 
 
@@ -136,6 +136,7 @@ public class PolynomialModel extends Model {
         Utility.clearArrays(grad);
 
         float[] yPred = predict(x);
+
         float[] error = loss.calculateLossVectorGradient(y, yPred);
 
         for(int i = 0; i < x.length; i++){
@@ -150,6 +151,7 @@ public class PolynomialModel extends Model {
         }
 
         grad.set(grad.size() - 1, LinearAlgebra.arrayToMatrix(error));
+
 
         return grad;
     }
