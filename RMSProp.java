@@ -8,7 +8,7 @@ public class RMSProp implements Optimizer{
 
     private float epsilon;
 
-    ArrayList<float[][]> prevGradSquare;
+    ArrayList<float[][]> gradSquare;
 
     public RMSProp(){
         learningRate = 0.0001f;
@@ -17,7 +17,7 @@ public class RMSProp implements Optimizer{
 
         epsilon = 0.0000001f;
 
-        prevGradSquare = null;
+        gradSquare = null;
     }
 
     public RMSProp(float learningRate, float rho, float epsilon){
@@ -27,33 +27,57 @@ public class RMSProp implements Optimizer{
 
         this.epsilon = epsilon;
 
-        prevGradSquare = null;
+        gradSquare = null;
     }
 
 
     public ArrayList<float[][]> processGradient(ArrayList<float[][]> rawGradient){
-        if(prevGradSquare == null){
+
+        //Create internal state if it isn't already there.
+        if(gradSquare == null){
             ArrayList<float[][]> newState = Utility.cloneArrays(rawGradient);
             Utility.clearArrays(newState);
         }
 
+
+
+        //Update the state of the optimizer (estimation for avg squared gradient)
+        for(int i = 0; i < gradSquare.size(); i++){
+            for(int r = 0; r < gradSquare.get(i).length; r++){
+                for(int c = 0; c < gradSquare.get(i)[r].length; c++){
+
+                    //maintain exponentially decaying average
+                    gradSquare.get(i)[r][c] = (rho * gradSquare.get(i)[r][c]) + ((1 - rho) * rawGradient.get(i)[r][c]);
+                }
+            }
+        }
+
         ArrayList<float[][]> grad = Utility.cloneArrays(rawGradient);
         Utility.clearArrays(grad);
-
         
+        //populate gradient
+        for(int i = 0; i < grad.size(); i++){
+            for(int r = 0; r < grad.get(i).length; r++){
+                for(int c = 0; c < grad.get(i)[r].length; c++){
+                    grad.get(i)[r][c] = learningRate * (1f / (float)Math.sqrt(gradSquare.get(i)[r][c] + epsilon) * rawGradient.get(i)[r][c]);
+                }
+            }
+        }
+
+        return grad;
     }
 
     /**
      * Resets the optimizer state. Useful when retraining a model on new data.
      */
     public void resetState(){
-        if(prevGradSquare == null){
+        if(gradSquare == null){
             return;
         }
 
-        ArrayList<float[][]> newState = Utility.cloneArrays(prevGradSquare);
+        ArrayList<float[][]> newState = Utility.cloneArrays(gradSquare);
         Utility.clearArrays(newState);
 
-        prevGradSquare = newState;
+        gradSquare = newState;
     }
 }
