@@ -63,7 +63,7 @@ public class RMSProp implements Optimizer{
     }
 
     public void setLearningRate(float newLr){
-        this.learningRate = newLr;
+        learningRate = newLr;
     }
 
 
@@ -73,6 +73,9 @@ public class RMSProp implements Optimizer{
     }
 
     public void setRho(float newRho){
+        if(newRho < 0 || newRho > 1){
+            rho = 0.9f;
+        }
         this.rho = newRho;
     }
 
@@ -82,7 +85,11 @@ public class RMSProp implements Optimizer{
     }
 
     public void setEpsilon(float eps){
-        this.epsilon = eps;
+        if(eps < 0){
+            epsilon = 0;
+        }
+        
+        epsilon = eps;
     }
 
 
