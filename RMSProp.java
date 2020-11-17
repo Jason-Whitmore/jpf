@@ -1,15 +1,36 @@
 import java.util.ArrayList;
 
+
+/**
+ * Class which implements the RMSProp adaptive learning rate optimizer.
+ * It adapts the learning rate on a per parameter basis using exponentially decaying memory.
+ */
 public class RMSProp implements Optimizer{
 
+    /**
+     * The scalar learning rate to multiply the processed gradient by.
+     */
     private float learningRate;
 
+    /**
+     * The exponential decay factor on the internal memory. If rho = 1, then no changes will be made to the memory.
+     * If rho = 0, then the memory is never written to.
+     */
     private float rho;
 
+    /**
+     * The small scalar value used to prevent divide by zero errors.
+     */
     private float epsilon;
 
+    /**
+     * The exponentially decaying memory of each gradient component squared.
+     */
     ArrayList<float[][]> gradSquare;
 
+    /**
+     * Default constructor for the RMSProp optimizer. Sets the learning rate to 0.0001, rho to 0.9, epsilon to 0.000001.
+     */
     public RMSProp(){
         learningRate = 0.0001f;
 
@@ -20,6 +41,12 @@ public class RMSProp implements Optimizer{
         gradSquare = null;
     }
 
+    /**
+     * Constructs an RMSProp optimizer with user specified settings
+     * @param learningRate The scalar learning rate. Should be greater than 0.
+     * @param rho The exponential decay factor in the internal memory. Should be in range of (0, 1), closer to 1. Recommended as 0.9
+     * @param epsilon Small constant used to avoid divide by zero errors. Should be greater than 0.
+     */
     public RMSProp(float learningRate, float rho, float epsilon){
         this.learningRate = learningRate;
 
