@@ -58,6 +58,39 @@ public class RMSProp implements Optimizer{
     }
 
 
+    public float getLearningRate(){
+        return learningRate;
+    }
+
+    public void setLearningRate(float newLr){
+        this.learningRate = newLr;
+    }
+
+
+
+    public float getRho(){
+        return rho;
+    }
+
+    public void setRho(float newRho){
+        this.rho = newRho;
+    }
+
+
+    public float getEpsilon(){
+        return epsilon;
+    }
+
+    public void setEpsilon(float eps){
+        this.epsilon = eps;
+    }
+
+
+    /**
+     * Updates the internal state and applies the adaptive learning rate to each component of the raw gradient.
+     * @param rawGradient The unprocessed gradient from a model.
+     * @return The processed model with the applied per-parameter adaptive learning rate.
+     */
     public ArrayList<float[][]> processGradient(ArrayList<float[][]> rawGradient){
 
         //Create internal state if it isn't already there.
@@ -97,16 +130,9 @@ public class RMSProp implements Optimizer{
     }
 
     /**
-     * Resets the optimizer state. Useful when retraining a model on new data.
+     * Resets the optimizer internal memory. Useful when retraining a model on new data.
      */
     public void resetState(){
-        if(gradSquare == null){
-            return;
-        }
-
-        ArrayList<float[][]> newState = Utility.cloneArrays(gradSquare);
-        Utility.clearArrays(newState);
-
-        gradSquare = newState;
+        gradSquare = null;
     }
 }
