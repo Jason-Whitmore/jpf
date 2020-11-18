@@ -32,11 +32,11 @@ public class RMSProp implements Optimizer{
      * Default constructor for the RMSProp optimizer. Sets the learning rate to 0.0001, rho to 0.9, epsilon to 0.000001.
      */
     public RMSProp(){
-        learningRate = 0.0001f;
+        setLearningRate(0.0001f);
 
-        rho = 0.9f;
+        setRho(0.9f);
 
-        epsilon = 0.000001f;
+        setEpsilon(0.000001f);
 
         gradSquare = null;
     }
@@ -48,11 +48,11 @@ public class RMSProp implements Optimizer{
      * @param epsilon Small constant used to avoid divide by zero errors. Should be greater than 0.
      */
     public RMSProp(float learningRate, float rho, float epsilon){
-        this.learningRate = learningRate;
+        setLearningRate(learningRate);
 
-        this.rho = rho;
+        setRho(rho);
 
-        this.epsilon = epsilon;
+        setEpsilon(epsilon);
 
         gradSquare = null;
     }
@@ -88,7 +88,7 @@ public class RMSProp implements Optimizer{
         if(eps < 0){
             epsilon = 0;
         }
-        
+
         epsilon = eps;
     }
 
