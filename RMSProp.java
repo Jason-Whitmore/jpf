@@ -57,21 +57,35 @@ public class RMSProp implements Optimizer{
         gradSquare = null;
     }
 
-
+    /**
+     * @return The learning rate used for this optimizer.
+     */
     public float getLearningRate(){
         return learningRate;
     }
 
+    /**
+     * Sets this optimizer's learning rate to the user specified value. Should be greater than 0.
+     * @param newLr The new learning rate to set this optimizer to.
+     */
     public void setLearningRate(float newLr){
         learningRate = newLr;
     }
 
 
-
+    /**
+     * @return This optimizer's rho value, which controls the speed which the internal memory decays.
+     */
     public float getRho(){
         return rho;
     }
 
+    /**
+     * Sets this optimizer's rho value, which controls the speed which the internal memory decays.
+     * 
+     * @param newRho The new rho value to set this optimizer to. This value should be in range (0,1),
+     * where 0 is instant decay, and 1 is no decay. Recommended as 0.9
+     */
     public void setRho(float newRho){
         if(newRho < 0 || newRho > 1){
             rho = 0.9f;
@@ -79,11 +93,17 @@ public class RMSProp implements Optimizer{
         this.rho = newRho;
     }
 
-
+    /**
+     * @return Returns the epsilon value used to prevent divide by zero errors.
+     */
     public float getEpsilon(){
         return epsilon;
     }
 
+    /**
+     * Sets the epsilon value used to prevent divide by zero errors.
+     * @param eps The new epsilon value. Should be >= 0, which is enforced by max(0, eps)
+     */
     public void setEpsilon(float eps){
         if(eps < 0){
             epsilon = 0;
