@@ -11,7 +11,16 @@ public abstract class SimpleModel extends Model{
 
     public abstract float[] predict(float[] inputVector);
 
-    public abstract float[][] predict(float[][] inputVectors);
+
+    public float[][] predict(float[][] inputVectors){
+        float[][] outputVectors = new float[inputVectors.length][];
+
+        for(int i = 0; i < outputVectors.length; i++){
+            outputVectors[i] = predict(inputVectors[i]);
+        }
+
+        return outputVectors;
+    }
 
     /**
      * Fits the model based on training parameters
@@ -30,7 +39,34 @@ public abstract class SimpleModel extends Model{
      */
     public abstract void fit(float[][] x, float[][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss);
 
-    public abstract void fit(ArrayList<float[]> x, ArrayList<float[]> y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss){
+    public void fit(ArrayList<float[]> x, ArrayList<float[]> y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss){
+        float[][] xArray = new float[x.size()][];
+        
+        for(int i = 0; i < x.size(); i++){
+            xArray[i] = x.get(i);
+        }
 
+
+        float[][] yArray = new float[y.size()][];
+
+        for(int i = 0; i < y.size(); i++){
+            yArray[i] = y.get(i);
+        }
+
+        fit(xArray, yArray, epochs, minibatchSize, valueClip, opt, loss);
+    }
+
+    public abstract float calculateLoss(float[] x, float[] y, Loss loss);
+
+
+    
+    public float calculateLoss(float[][] x, float[][] y, Loss loss){
+        float sum = 0;
+
+        for(int i = 0; i < x.length; i++){
+            sum += calculateLoss(x[i], y[i], loss);
+        }
+
+        return sum / x.length;
     }
 }
