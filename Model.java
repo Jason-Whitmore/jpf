@@ -45,40 +45,6 @@ public abstract class Model{
         return count;
     }
 
-    /**
-     * Makes predictions with multiple input vectors (mainly for multi-vector input models). If the model
-     * does not support multiple input vectors (like LinearModel and PolynomialModel), then both  the input
-     * and output ArrayLists should be of size 1.
-     */
-    public abstract ArrayList<float[]> predict(ArrayList<float[]> inputVectors);
-
-    /**
-     * Fits the model based on training parameters
-     * @param x The ArrayList of input data. Each ArrayList element is for each input vector. For models with
-     * one input vector, this ArrayList should be of size 1. x[i] should be the ith input vector in the
-     * training dataset.
-     * @param y The ArrayList of output data. Each ArrayList element is for each output vector. For models with
-     * one output vector, this ArrayList should be of size 1. y[i] should be the ith output vector in the
-     * training dataset.
-     * @param epochs The number of complete passes over the dataset during training.
-     * @param minibatchSize The number of training examples used in a single update of model parameters. A higher number
-     * takes longer to compute, but is more representative of the dataset and produces a "smoother" gradient.
-     * @param valueClip Elementwise clip to the gradient vector to prevent exploding gradients
-     * @param opt The optimizer to use during training.
-     * @param loss The loss function used to calculate the loss at the output vector(s)
-     */
-    public abstract void fit(ArrayList<float[][]> x, ArrayList<float[][]> y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss);
-
-    /**
-     * Calculates scalar loss based on provided data
-     * @param x The ArrayList of test data inputs. If the model requires only 1 input vector, the ArrayList should be of size 1.
-     * x[i] should be the ith test input vector.
-     * @param y The ArrayList of test data outputs. If the model requires only 1 input vector, the ArrayList should be of size 1.
-     * y[i] should be the ith test output vector.
-     * @param loss The loss function to calculate the scalar loss with
-     * @return The average scalar loss based on the provided data.
-     */
-    public abstract float calculateLoss(ArrayList<float[][]> x, ArrayList<float[][]> y, Loss loss);
 
     /**
      * Saves the model to disc using a human readable format.

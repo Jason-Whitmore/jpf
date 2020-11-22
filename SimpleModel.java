@@ -24,11 +24,9 @@ public abstract class SimpleModel extends Model{
 
     /**
      * Fits the model based on training parameters
-     * @param x The ArrayList of input data. Each ArrayList element is for each input vector. For models with
-     * one input vector, this ArrayList should be of size 1. x[i] should be the ith input vector in the
+     * @param x The training inputs as a 2d array. x[i] should be the ith input vector in the
      * training dataset.
-     * @param y The ArrayList of output data. Each ArrayList element is for each output vector. For models with
-     * one output vector, this ArrayList should be of size 1. y[i] should be the ith output vector in the
+     * @param y The training outputs as a 2d array. y[i] should be the ith output vector in the
      * training dataset.
      * @param epochs The number of complete passes over the dataset during training.
      * @param minibatchSize The number of training examples used in a single update of model parameters. A higher number
@@ -58,7 +56,22 @@ public abstract class SimpleModel extends Model{
 
     public abstract float calculateLoss(float[] x, float[] y, Loss loss);
 
+    public float calculateLoss(ArrayList<float[]> x, ArrayList<float[]> y, Loss loss){
+        float[][] xArray = new float[x.size()][];
 
+        for(int i = 0; i < x.size(); i++){
+            xArray[i] = x.get(i);
+        }
+
+
+        float[][] yArray = new float[y.size()][];
+
+        for(int i = 0; i < y.size(); i++){
+            yArray[i] = y.get(i);
+        }
+
+        return calculateLoss(xArray, yArray, loss);
+    }
     
     public float calculateLoss(float[][] x, float[][] y, Loss loss){
         float sum = 0;
