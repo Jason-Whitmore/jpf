@@ -54,8 +54,22 @@ public abstract class SimpleModel extends Model{
         fit(xArray, yArray, epochs, minibatchSize, valueClip, opt, loss);
     }
 
+    /**
+     * Calculates scalar loss on one data sample.
+     * @param x The model input.
+     * @param y The model output.
+     * @param loss The loss function to use to calculate the scalar loss.
+     * @return The scalar loss
+     */
     public abstract float calculateLoss(float[] x, float[] y, Loss loss);
 
+    /**
+     * Calculates the average scalar loss on multiple data samples.
+     * @param x The model inputs.
+     * @param y The model ouputs corresponding with inputs
+     * @param loss The loss function to use to calculate the scalar losses.
+     * @return The average scalar loss.
+     */
     public float calculateLoss(ArrayList<float[]> x, ArrayList<float[]> y, Loss loss){
         float[][] xArray = new float[x.size()][];
 
@@ -73,6 +87,13 @@ public abstract class SimpleModel extends Model{
         return calculateLoss(xArray, yArray, loss);
     }
     
+    /**
+     * Calculates the average scalar loss on multiple data samples.
+     * @param x The model inputs.
+     * @param y The model ouputs corresponding with inputs
+     * @param loss The loss function to use to calculate the scalar losses.
+     * @return The average scalar loss.
+     */
     public float calculateLoss(float[][] x, float[][] y, Loss loss){
         float sum = 0;
 
