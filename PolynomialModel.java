@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class PolynomialModel extends Model {
+public class PolynomialModel extends SimpleModel {
 
     int numInputs;
 
@@ -123,13 +123,6 @@ public class PolynomialModel extends Model {
     }
 
     
-    public void fit(ArrayList<float[][]> x, ArrayList<float[][]> y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss) {
-        if(x.size() != 1 && y.size() != 1){
-            return;
-        }
-
-        fit(x.get(0), y.get(0), epochs, minibatchSize, valueClip, opt, loss);
-    }
 
     public ArrayList<float[][]> calculateGradient(float[] x, float[] y, Loss loss){
         ArrayList<float[][]> grad = Utility.cloneArrays(getParameters());
@@ -203,14 +196,6 @@ public class PolynomialModel extends Model {
 
     }
 
-    
-    public float calculateLoss(ArrayList<float[][]> x, ArrayList<float[][]> y, Loss loss) {
-        if(x.size() != 1 || y.size() != 1){
-            return Float.NaN;
-        }
-
-        return calculateLoss(x.get(0), y.get(0), loss);
-    }
 
     public float calculateLoss(float[][] x, float[][] y, Loss loss){
         float sum = 0;
