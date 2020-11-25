@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -278,6 +280,21 @@ public class Utility{
         sb.append("\n]");
 
         return new String(sb);
+    }
+
+
+    public static boolean writeStringToFile(String filePath, String contents){
+        try{
+            FileWriter f = new FileWriter(filePath);
+            f.write(contents);
+            f.close();
+
+        } catch(IOException e){
+            System.err.println("Exception occured: " + e.getMessage());
+            return false;
+        }
+
+        return true;
     }
 
 

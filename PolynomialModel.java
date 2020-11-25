@@ -201,8 +201,11 @@ public class PolynomialModel extends SimpleModel {
 
     
     public void saveModel(String filePath) {
+        //TODO: Check if file path is valid
 
-        
+        String contents = Utility.arraysToString(getParameters());
+
+        Utility.writeStringToFile(filePath, contents);
     }
     
 }

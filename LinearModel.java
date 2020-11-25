@@ -262,14 +262,7 @@ public class LinearModel extends Model{
 
         //write the string to disk
 
-        try{
-            FileWriter f = new FileWriter(filePath);
-            f.write(sb.toString());
-            f.close();
-
-        } catch(IOException e){
-            System.err.println("Exception occured: " + e.getMessage());
-        }
+        Utility.writeStringToFile(filePath, sb.toString());
         
     }
 }
