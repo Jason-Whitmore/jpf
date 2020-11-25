@@ -46,6 +46,38 @@ public class PolynomialModel extends SimpleModel {
     }
 
 
+    public PolynomialModel(String filePath){
+        //Load file contents
+        String contents = Utility.getTextFileContents(filePath);
+
+        if(contents == null){
+            return;
+        }
+
+        //Remove extranous brackets in the string
+        contents = contents.replace("[\n", "");
+        contents = contents.replace("\n]", "");
+
+        //Convert contents into an arraylist of 2d arrays
+        String[] stringSplit = contents.split(",");
+
+        ArrayList<float[][]> arrays = new ArrayList<float[][]>();
+
+        for(int i = 0; i < stringSplit.length; i++){
+            arrays.add(LinearAlgebra.initializeFromString(stringSplit[i]));
+        }
+
+        setParameters(arrays);
+
+        weightMatricies = new ArrayList<float[][]>();
+        for(int i = 0; i < arrays.size() - 1; i++){
+            weightMatricies.add(arrays.get(i));
+        }
+
+        biasVector = arrays.get(arrays.size() - 1);
+    }
+
+
     public float[] predict(float[] inputVector){
         //TODO: Check input dimensions
 
@@ -169,8 +201,8 @@ public class PolynomialModel extends SimpleModel {
 
     
     public void saveModel(String filePath) {
-        // TODO Auto-generated method stub
 
+        
     }
     
 }
