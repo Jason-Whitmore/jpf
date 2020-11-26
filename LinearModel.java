@@ -63,30 +63,10 @@ public class LinearModel extends Model{
             //TODO: Error here
         }
 
-        //Parse the header (contains input, output vector sizes)
-        int numInputs = 0;
-        int numOutputs = 0;
+        fileContents = fileContents.replace("[\n", "");
+        fileContents = fileContents.replace("\n]", "");
 
-        try{
-            String headerLine = fileContents.substring(0, fileContents.indexOf(")"));
 
-            headerLine = headerLine.replace("LinearModel(", "");
-            headerLine = headerLine.replace(")", "");
-            headerLine = headerLine.replace("(", "");
-
-            String[] digitStrings = headerLine.split(",");
-
-            numInputs = Integer.parseInt(digitStrings[0]);
-            numOutputs = Integer.parseInt(digitStrings[1]);
-
-            this.numInputs = numInputs;
-            this.numOutputs = numOutputs;
-
-            
-        } catch(Exception e){
-            System.err.println("Exception caught while parsing a LinearModel's saved model's header: " + e.toString());
-            System.exit(1);
-        }
 
         //Parse the transformation matrix
 
@@ -132,7 +112,8 @@ public class LinearModel extends Model{
             System.exit(1);
         }
         
-
+        numInputs = LinearAlgebra.getNumColumns(transformationMatrix);
+        numOutputs = LinearAlgebra.getNumRows(biasVector);
     }
 
     /**
@@ -248,13 +229,6 @@ public class LinearModel extends Model{
         //TODO: Check to see if parameter arraylist is good
 
         StringBuilder sb = new StringBuilder();
-
-        //create the header
-        sb.append("LinearModel(");
-        sb.append(this.numInputs);
-        sb.append(",");
-        sb.append(this.numOutputs);
-        sb.append(")\n");
 
         //append the parameters
 

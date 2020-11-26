@@ -282,15 +282,19 @@ public class Utility{
         return new String(sb);
     }
 
-
+    /**
+     * Writes the contents to the filepath.
+     * @param filePath The filepath to write to.
+     * @param contents The text file contents that will be placed at the filepath.
+     * @return True on success, false on failure.
+     */
     public static boolean writeStringToFile(String filePath, String contents){
         try{
             FileWriter f = new FileWriter(filePath);
             f.write(contents);
             f.close();
 
-        } catch(IOException e){
-            System.err.println("Exception occured: " + e.getMessage());
+        } catch(Exception e){
             return false;
         }
 

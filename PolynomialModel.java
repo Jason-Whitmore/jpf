@@ -205,7 +205,11 @@ public class PolynomialModel extends SimpleModel {
 
         String contents = Utility.arraysToString(getParameters());
 
-        Utility.writeStringToFile(filePath, contents);
+        boolean success = Utility.writeStringToFile(filePath, contents);
+
+        if(!success){
+            
+        }
     }
     
 }
