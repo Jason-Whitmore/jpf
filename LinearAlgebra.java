@@ -141,8 +141,18 @@ public class LinearAlgebra{
      */
     public static ArrayList<float[][]> initializeMatrixListFromString(String s){
         
+        s = s.replace("[\n", "");
+        s = s.replace("\n]", "");
 
+        String[] sSplit = s.split(",");
 
+        ArrayList<float[][]> r = new ArrayList<float[][]>(sSplit.length);
+
+        for(int i = 0; i < sSplit.length; i++){
+            r.add(initializeMatrixFromString(sSplit[i]));
+        }
+
+        return r;
     }
 
     
