@@ -303,6 +303,57 @@ public class Utility{
 
 
     /**
+     * Allocates and initializes an array from the string.
+     * This function serves as a shortcut for the same function in the LinearAlgebra class.
+     * 
+     * Example for syntax: [0,1,2,3]
+     * @param s The string to create the array from.
+     * @return The allocated and initialized array.
+     */
+    public static float[] initializeArrayFromString(String s){
+        return LinearAlgebra.initializeArrayFromString(s);
+    }
+
+
+    /**
+     * Initializes a matrix from a string.
+     * This function serves as a shortcut for the same function in the LinearAlgebra class.
+     * 
+     * Example format:
+     * [[1,0,0]
+     *  [0,1,0]
+     *  [0,0,1]]
+     * @param s The string containing the data for a matrix.
+     * @return The newly allocated matrix from string data.
+     */
+    public static float[][] initializeMatrixFromString(String s){
+        return LinearAlgebra.initializeMatrixFromString(s);
+    }
+
+
+    /**
+     * Converts string representation of multiple matricies into an arraylist of initialized matricies.
+     * This function serves as a shortcut for the same function in the LinearAlgebra class.
+     * 
+     * Example format:
+     * 
+     * [
+     * [[1,2,3]
+     * [4,5,6]
+     * [7,8,9]],
+     * [[1,2,3]
+     * [4,5,6]
+     * [7,8,9]]
+     * ]
+     * @param s The string to parse into an arraylist of matricies.
+     * @return The initialized arraylist of matricies
+     */
+    public static ArrayList<float[][]> initializeMatrixListFromString(String s){
+        return LinearAlgebra.initializeMatrixListFromString(s);
+    }
+
+
+    /**
      * Gets a random sample from a uniform distribution.
      * @param lowerBound The smallest value that can be returned.
      * @param upperBound The largest value that can be returned.
