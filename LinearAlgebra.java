@@ -106,7 +106,7 @@ public class LinearAlgebra{
      * @param s The string containing the data for a matrix.
      * @return The newly allocated matrix from string data.
      */
-    public static float[][] initializeFromString(String s){
+    public static float[][] initializeMatrixFromString(String s){
         String[] sSplit = s.split("\n");
 
         sSplit[0] = sSplit[0].replace("[[", "[");
@@ -120,6 +120,29 @@ public class LinearAlgebra{
 
 
         return r;
+    }
+
+
+    /**
+     * Converts string representation of multiple matricies into an arraylist of initialized matricies.
+     * 
+     * Example format:
+     * 
+     * [
+     * [[1,2,3]
+     * [4,5,6]
+     * [7,8,9]],
+     * [[1,2,3]
+     * [4,5,6]
+     * [7,8,9]]
+     * ]
+     * @param s The string to parse into an arraylist of matricies.
+     * @return The initialized arraylist of matricies
+     */
+    public static ArrayList<float[][]> initializeMatrixListFromString(String s){
+        
+
+
     }
 
     

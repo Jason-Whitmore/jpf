@@ -79,7 +79,7 @@ public class LinearModel extends Model{
         
             transformationString = fileContents.substring(transformationStartIndex, transformationEndIndex);
 
-            float[][] transformationMatrix = LinearAlgebra.initializeFromString(transformationString);
+            float[][] transformationMatrix = LinearAlgebra.initializeMatrixFromString(transformationString);
 
             this.transformationMatrix = transformationMatrix;
 
@@ -103,7 +103,7 @@ public class LinearModel extends Model{
 
             biasString = fileContents.substring(biasStartIndex, biasEndIndex);
 
-            float[][] bias = LinearAlgebra.initializeFromString(biasString);
+            float[][] bias = LinearAlgebra.initializeMatrixFromString(biasString);
 
             
             this.biasVector = bias;
@@ -226,7 +226,6 @@ public class LinearModel extends Model{
      * @param filePath The file path to save the model to.
      */
     public void saveModel(String filePath){
-        //TODO: Check to see if parameter arraylist is good
 
         StringBuilder sb = new StringBuilder();
 

@@ -64,7 +64,7 @@ public class PolynomialModel extends SimpleModel {
         ArrayList<float[][]> arrays = new ArrayList<float[][]>();
 
         for(int i = 0; i < stringSplit.length; i++){
-            arrays.add(LinearAlgebra.initializeFromString(stringSplit[i]));
+            arrays.add(LinearAlgebra.initializeMatrixFromString(stringSplit[i]));
         }
 
         setParameters(arrays);
