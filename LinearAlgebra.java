@@ -85,7 +85,11 @@ public class LinearAlgebra{
         s = s.replace("[", "");
         s = s.replace("]", "");
 
-        String[] sSplit = s.split(",");
+        s = s.trim();
+
+        
+
+        String[] sSplit = s.split(" ");
 
         float[] r = new float[sSplit.length];
 
@@ -107,6 +111,9 @@ public class LinearAlgebra{
      * @return The newly allocated matrix from string data.
      */
     public static float[][] initializeMatrixFromString(String s){
+
+        s = s.trim();
+
         String[] sSplit = s.split("\n");
 
         sSplit[0] = sSplit[0].replace("[[", "[");
@@ -140,9 +147,13 @@ public class LinearAlgebra{
      * @return The initialized arraylist of matricies
      */
     public static ArrayList<float[][]> initializeMatrixListFromString(String s){
-        
-        s = s.replace("[\n", "");
-        s = s.replace("\n]", "");
+
+        //remove the opening and closing brackets
+        s = s.substring(1);
+        s = s.substring(0, s.length() - 2);
+
+        s = s.trim();
+
 
         String[] sSplit = s.split(",");
 

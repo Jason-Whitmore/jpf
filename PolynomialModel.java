@@ -55,17 +55,10 @@ public class PolynomialModel extends SimpleModel {
         }
 
         //Remove extranous brackets in the string
-        contents = contents.replace("[\n", "");
-        contents = contents.replace("\n]", "");
+        //contents = contents.replace("[\n", "");
+        //contents = contents.replace("\n]", "");
 
-        //Convert contents into an arraylist of 2d arrays
-        String[] stringSplit = contents.split(",");
-
-        ArrayList<float[][]> arrays = new ArrayList<float[][]>();
-
-        for(int i = 0; i < stringSplit.length; i++){
-            arrays.add(LinearAlgebra.initializeMatrixFromString(stringSplit[i]));
-        }
+        ArrayList<float[][]> arrays = Utility.initializeMatrixListFromString(contents);
 
         setParameters(arrays);
 
@@ -75,6 +68,12 @@ public class PolynomialModel extends SimpleModel {
         }
 
         biasVector = arrays.get(arrays.size() - 1);
+
+        this.numInputs = arrays.size() - 1;
+
+        this.numOutputs = LinearAlgebra.getNumRows(biasVector);
+
+        this.degree = LinearAlgebra.getNumColumns(arrays.get(0));
     }
 
 
