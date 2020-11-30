@@ -1,17 +1,19 @@
 import java.util.ArrayList;
 
-
+/**
+ * Defines abstract class for simple models which have one input vector and one output vector.
+ */
 public abstract class SimpleModel extends Model{
 
     /**
      * The length of the input vector
      */
-    private int numInputs;
+    protected int numInputs;
 
     /**
      * The length of the output vector.
      */
-    private int numOutputs;
+    protected int numOutputs;
 
 
     /**
@@ -42,7 +44,7 @@ public abstract class SimpleModel extends Model{
     }
 
 
-    public abstract ArrayList<float[][]> calculateGradient(float[] x, float[] y, Loss loss);
+    protected abstract ArrayList<float[][]> calculateGradient(float[] x, float[] y, Loss loss);
 
     /**
      * Fits the model's parameters to minimize the loss on the training dataset.

@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Class for the structure and behavior of Linear Models, which inherit from the abstract Model class.
  * This type of model is good for modeling data relationships that fit into the form y = Ax + b
  */
-public class LinearModel extends Model{
+public class LinearModel extends SimpleModel{
 
     /**
      * The transformation, or weight matrix of the model. This is the matrix A in y = Ax + b
@@ -17,16 +17,6 @@ public class LinearModel extends Model{
      * The bias vector of the model. This is the vector b in y = Ax + b
      */
     private float[][] biasVector;
-
-    /**
-     * The number of components in the input vector
-     */
-    private int numInputs;
-
-    /**
-     * The number of components in the output vector
-     */
-    private int numOutputs;
 
     
     /**
@@ -150,7 +140,7 @@ public class LinearModel extends Model{
      * @param loss The loss function used to calculate the gradient
      * @return The gradient as an ArrayList of matricies. These are in the same order as getParameters (transformation, bias)
      */
-    private ArrayList<float[][]> calculateGradient(float[] inputVector, float[] outputVector, Loss loss){
+    protected ArrayList<float[][]> calculateGradient(float[] inputVector, float[] outputVector, Loss loss){
         ArrayList<float[][]> gradient = new ArrayList<float[][]>(2);
 
         float[] yPredicted = this.predict(inputVector);
