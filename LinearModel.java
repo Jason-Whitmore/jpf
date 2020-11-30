@@ -49,58 +49,9 @@ public class LinearModel extends SimpleModel{
         
         String fileContents = Utility.getTextFileContents(filePath);
 
-        if(fileContents == null){
-            //TODO: Error here
-        }
+        ArrayList<float[][]> params = Utility.initializeMatrixListFromString(fileContents);
 
-        fileContents = fileContents.replace("[\n", "");
-        fileContents = fileContents.replace("\n]", "");
-
-
-
-        //Parse the transformation matrix
-
-        int transformationStartIndex = 0;
-        int transformationEndIndex = 0;
-        String transformationString = "";
-        try {
-            transformationStartIndex = fileContents.indexOf("[[") + 0;
-            transformationEndIndex = fileContents.indexOf("]]") + 2;
-        
-            transformationString = fileContents.substring(transformationStartIndex, transformationEndIndex);
-
-            float[][] transformationMatrix = LinearAlgebra.initializeMatrixFromString(transformationString);
-
-            this.transformationMatrix = transformationMatrix;
-
-            //System.out.println(transformationString);
-            //System.out.println(Utility.arrayToString(this.transformationMatrix));
-        } catch(Exception e){
-            System.err.println("Exception caught while parsing a LinearModel's transformation matrix from a file: " + e.getMessage());
-            System.exit(1);
-        }
-
-        
-        //Attempt to parse bias vector
-
-        int biasStartIndex = 0;
-        int biasEndIndex = 0;
-        String biasString = "";
-
-        try{
-            biasStartIndex = fileContents.indexOf("[[", transformationEndIndex);
-            biasEndIndex = fileContents.indexOf("]]", biasStartIndex) + 2;
-
-            biasString = fileContents.substring(biasStartIndex, biasEndIndex);
-
-            float[][] bias = LinearAlgebra.initializeMatrixFromString(biasString);
-
-            
-            this.biasVector = bias;
-        } catch(Exception e){
-            System.err.println("Exception caugh while parsing a LinearModel's bias matrix from a file: " + e.getMessage());
-            System.exit(1);
-        }
+        setParameters(params);
         
         numInputs = LinearAlgebra.getNumColumns(transformationMatrix);
         numOutputs = LinearAlgebra.getNumRows(biasVector);
@@ -217,15 +168,11 @@ public class LinearModel extends SimpleModel{
      */
     public void saveModel(String filePath){
 
-        StringBuilder sb = new StringBuilder();
-
-        //append the parameters
-
-        sb.append(Utility.arraysToString(getParameters()));
+        String contents = Utility.arraysToString(getParameters());
 
         //write the string to disk
 
-        Utility.writeStringToFile(filePath, sb.toString());
+        Utility.writeStringToFile(filePath, contents);
         
     }
 }
