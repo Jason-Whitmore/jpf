@@ -3,11 +3,30 @@ import java.util.ArrayList;
 
 public abstract class SimpleModel extends Model{
 
+    /**
+     * The length of the input vector
+     */
     private int numInputs;
 
+    /**
+     * The length of the output vector.
+     */
     private int numOutputs;
 
 
+    /**
+     * @return The length of the input vector.
+     */
+    public int getNumInputs(){
+        return numInputs;
+    }
+
+    /**
+     * @return The length of the output vector.
+     */
+    public int getNumOutputs(){
+        return numOutputs;
+    }
 
     public abstract float[] predict(float[] inputVector);
 

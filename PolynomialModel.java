@@ -55,8 +55,6 @@ public class PolynomialModel extends SimpleModel {
         }
 
         //Remove extranous brackets in the string
-        //contents = contents.replace("[\n", "");
-        //contents = contents.replace("\n]", "");
 
         ArrayList<float[][]> arrays = Utility.initializeMatrixListFromString(contents);
 
