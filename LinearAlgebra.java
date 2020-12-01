@@ -80,7 +80,7 @@ public class LinearAlgebra{
      * @param s The string to create the array from.
      * @return The allocated and initialized array.
      */
-    public static float[] initializeArrayFromString(String s){
+    public static float[] stringToArray(String s){
 
         s = s.replace("[", "");
         s = s.replace("]", "");
@@ -110,7 +110,7 @@ public class LinearAlgebra{
      * @param s The string containing the data for a matrix.
      * @return The newly allocated matrix from string data.
      */
-    public static float[][] initializeMatrixFromString(String s){
+    public static float[][] stringToMatrix(String s){
 
         s = s.trim();
 
@@ -122,7 +122,7 @@ public class LinearAlgebra{
         float[][] r = new float[sSplit.length][];
 
         for(int i = 0; i < r.length; i++){
-            r[i] = initializeArrayFromString(sSplit[i]);
+            r[i] = stringToArray(sSplit[i]);
         }
 
 
@@ -146,7 +146,7 @@ public class LinearAlgebra{
      * @param s The string to parse into an arraylist of matricies.
      * @return The initialized arraylist of matricies
      */
-    public static ArrayList<float[][]> initializeMatrixListFromString(String s){
+    public static ArrayList<float[][]> stringToMatrixList(String s){
 
         //remove the opening and closing brackets
         s = s.substring(1);
@@ -160,7 +160,7 @@ public class LinearAlgebra{
         ArrayList<float[][]> r = new ArrayList<float[][]>(sSplit.length);
 
         for(int i = 0; i < sSplit.length; i++){
-            r.add(initializeMatrixFromString(sSplit[i]));
+            r.add(stringToMatrix(sSplit[i]));
         }
 
         return r;

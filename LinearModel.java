@@ -49,7 +49,7 @@ public class LinearModel extends SimpleModel{
         
         String fileContents = Utility.getTextFileContents(filePath);
 
-        ArrayList<float[][]> params = Utility.initializeMatrixListFromString(fileContents);
+        ArrayList<float[][]> params = Utility.stringToMatrixList(fileContents);
 
         setParameters(params);
         

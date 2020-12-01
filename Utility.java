@@ -310,8 +310,8 @@ public class Utility{
      * @param s The string to create the array from.
      * @return The allocated and initialized array.
      */
-    public static float[] initializeArrayFromString(String s){
-        return LinearAlgebra.initializeArrayFromString(s);
+    public static float[] stringToArray(String s){
+        return LinearAlgebra.stringToArray(s);
     }
 
 
@@ -326,8 +326,8 @@ public class Utility{
      * @param s The string containing the data for a matrix.
      * @return The newly allocated matrix from string data.
      */
-    public static float[][] initializeMatrixFromString(String s){
-        return LinearAlgebra.initializeMatrixFromString(s);
+    public static float[][] stringToMatrix(String s){
+        return LinearAlgebra.stringToMatrix(s);
     }
 
 
@@ -348,8 +348,8 @@ public class Utility{
      * @param s The string to parse into an arraylist of matricies.
      * @return The initialized arraylist of matricies
      */
-    public static ArrayList<float[][]> initializeMatrixListFromString(String s){
-        return LinearAlgebra.initializeMatrixListFromString(s);
+    public static ArrayList<float[][]> stringToMatrixList(String s){
+        return LinearAlgebra.stringToMatrixList(s);
     }
 
 
