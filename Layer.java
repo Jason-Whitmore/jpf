@@ -7,10 +7,14 @@ public abstract class Layer {
 
     protected ArrayList<Layer> inputLayers;
 
+    private float[] inputVector;
+
 
 
 
     protected ArrayList<Layer> outputLayers;
+
+    private float[] outputVector;
 
 
 
@@ -35,6 +39,17 @@ public abstract class Layer {
     }
 
 
+    public float[] getInputVector(){
+        return inputVector;
+    }
+
+    public void setInputVector(float[] newInputVector){
+        inputVector = newInputVector;
+    }
+
+
+
+
     public ArrayList<Layer> getOutputLayers(){
         return outputLayers;
     }
@@ -42,6 +57,19 @@ public abstract class Layer {
     public void setOutputLayers(ArrayList<Layer> layers){
         outputLayers = layers;
     }
+
+
+
+
+    public float[] getOutputVector(){
+        return outputVector;
+    }
+
+    public void setOutputVector(float[] newOutputVector){
+        outputVector = newOutputVector;
+    }
+
+    
 
     
     public abstract void forwardPass();
