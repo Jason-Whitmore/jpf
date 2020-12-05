@@ -473,7 +473,11 @@ public class Utility{
     }
 
 
-
+    /**
+     * Copies the contents from one array into the other
+     * @param source The array to copy contents to.
+     * @param destination The array to copy contents from.
+     */
     public static void copyArrayContents(float[] source, float[] destination){
         for(int i = 0; i < source.length; i++){
             destination[i] = source[i];
