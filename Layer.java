@@ -7,14 +7,14 @@ public abstract class Layer {
 
     protected ArrayList<Layer> inputLayers;
 
-    private float[] inputVector;
+    protected float[] inputVector;
 
 
 
 
     protected ArrayList<Layer> outputLayers;
 
-    private float[] outputVector;
+    protected float[] outputVector;
 
 
 
