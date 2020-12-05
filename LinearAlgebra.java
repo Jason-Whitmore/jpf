@@ -368,4 +368,20 @@ public class LinearAlgebra{
 
         return r;
     }
+
+
+    /**
+     * Converts the first column of a matrix into an array
+     * @param matrix The matrix to convert.
+     * @return The newly allocated array conversion.
+     */
+    public static float[] matrixToArray(float[][] matrix){
+        float[] r = new float[matrix.length];
+
+        for(int i = 0; i < r.length; i++){
+            r[i] = matrix[i][0];
+        }
+
+        return r;
+    }
 }

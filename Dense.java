@@ -18,22 +18,42 @@ public class Dense extends Layer {
         int inputLayerOutputSize = inputLayer.getOutputVector().length;
 
         inputVector = new float[inputLayerOutputSize];
-
         outputVector = new float[numUnits];
 
 
-        
-        weightMatrix = new float[numUnits][inputLayerOutputSize];
 
+        weightMatrix = new float[numUnits][inputLayerOutputSize];
         biasMatrix = new float[numUnits][1];
 
         ArrayList<float[][]> params = new ArrayList<float[][]>(2);
         params.add(weightMatrix);
         params.add(biasMatrix);
+
+        setParameters(params);
     }
 
     public void forwardPass(){
 
+        //Do matrix multiplication on the input vector: Wx
+
+        float[][] wx = LinearAlgebra.matrixMultiply(weightMatrix, LinearAlgebra.arrayToMatrix(inputVector));
+
+        //add bias
+        float[][] wxPlusBias = LinearAlgebra.matrixAdd(wx, biasMatrix);
+
+        //use as input to activation function.
+
+        outputVector = activationFunction.f(LinearAlgebra.matrixToArray(wxPlusBias));
+
+        //distribute the outputvector to the next layers
+
+        ArrayList<Layer> outputLayers = getOutputLayers();
+
+        for(int i = 0; i < outputLayers.size(); i++){
+            float[] nextInputVector = outputLayers.get(i).getInputVector();
+
+            Utility.copyArrayContents(outputVector, nextInputVector);
+        }
     }
 
     public void backwardPass(){

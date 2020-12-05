@@ -472,6 +472,14 @@ public class Utility{
         return null;
     }
 
+
+
+    public static void copyArrayContents(float[] source, float[] destination){
+        for(int i = 0; i < source.length; i++){
+            destination[i] = source[i];
+        }
+    }
+
     public static void passedTest(boolean worked){
         if(worked){
             System.out.println("Passed.");
