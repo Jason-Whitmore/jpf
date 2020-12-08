@@ -25,6 +25,15 @@ public class NeuralNetwork extends Model{
     }
 
 
+    public ArrayList<float[]> predict(ArrayList<float[]> inputVectors){
+        return null;
+    }
+
+    private ArrayList<float[][]> calculateGradient(ArrayList<float[]> inputVectors, ArrayList<float[]> outputVectors){
+        return null;
+    }
+
+
     public void saveModel(String filePath){
 
     }
