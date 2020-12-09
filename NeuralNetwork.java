@@ -58,8 +58,10 @@ public class NeuralNetwork extends Model{
         ArrayList<float[][]> params = new ArrayList<float[][]>();
 
         for(int i = 0; i < allLayers.size(); i++){
-            
+            params.addAll(allLayers.get(i).getParameters());
         }
+
+        setParameters(params);
     }
 
 
