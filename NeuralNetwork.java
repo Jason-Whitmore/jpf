@@ -12,13 +12,25 @@ public class NeuralNetwork extends Model{
     private ArrayList<Layer> allLayers;
 
     public NeuralNetwork(ArrayList<Input> inputLayers, ArrayList<Layer> outputLayers){
-
         this.inputLayers = inputLayers;
-
         this.outputLayers = outputLayers;
 
         allLayers = serializeLayers();
+        updateParameters();
+    }
 
+
+
+    public NeuralNetwork(Input inputLayer, Layer outputLayer){
+        ArrayList<Input> inputList = new ArrayList<Input>();
+        inputList.add(inputLayer);
+        this.inputLayers = inputList;
+
+        ArrayList<Layer> outputList = new ArrayList<Layer>();
+        outputList.add(outputLayer);
+        this.outputLayers = outputList;
+
+        allLayers = serializeLayers();
         updateParameters();
     }
 
@@ -43,6 +55,10 @@ public class NeuralNetwork extends Model{
 
                 for(int i = 0; i < top.getOutputLayers().size(); i++){
                     stack.push(top.getOutputLayers().get(i));
+                }
+
+                for(int i = 0; i < top.getInputLayers().size(); i++){
+                    stack.push(top.getInputLayers().get(i));
                 }
             }
             
