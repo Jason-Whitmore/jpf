@@ -18,6 +18,8 @@ public class NeuralNetwork extends Model{
         this.outputLayers = outputLayers;
 
         allLayers = serializeLayers();
+
+        updateParameters();
     }
 
     private ArrayList<Layer> serializeLayers(){

@@ -18,6 +18,10 @@ public abstract class Layer {
 
 
 
+    protected ArrayList<float[][]> gradient;
+
+
+
     //getters and setters for class fields
 
     public ArrayList<float[][]> getParameters(){
@@ -69,6 +73,11 @@ public abstract class Layer {
         outputVector = newOutputVector;
     }
 
+
+    
+    public ArrayList<float[][]> getGradient(){
+        return gradient;
+    }
     
 
     
