@@ -86,7 +86,48 @@ public class NeuralNetwork extends Model{
 
 
     public ArrayList<float[]> predict(ArrayList<float[]> inputVectors){
-        return null;
+        ArrayList<float[]> outputVectors = new ArrayList<float[]>(outputLayers.size());
+
+        Stack<Layer> stack = new Stack<Layer>();
+
+        HashSet<Layer> completedPass = new HashSet<Layer>();
+
+        for(int i = 0; i < outputLayers.size(); i++){
+            stack.push(outputLayers.get(i));
+        }
+
+
+        while(!stack.empty()){
+            Layer top = stack.peek();
+
+            if(completedPass.contains(top)){
+                stack.pop();
+            } else {
+
+                //check to see if all of the required input passes have been completed
+                boolean canForwardPass = true;
+                for(int i = 0; i < top.getInputLayers().size(); i++){
+                    if(!completedPass.contains(top.getInputLayers().get(i))){
+                        stack.push(top.getInputLayers().get(i));
+                        canForwardPass = false;
+                    }
+                }
+
+                if(canForwardPass){
+                    top.forwardPass();
+                    completedPass.add(top);
+                    stack.pop();
+                }
+            }
+        }
+
+        //Allocate copies of the output vectors from the output layers
+        for(int i = 0; i < outputLayers.size(); i++){
+            float[] output = outputLayers.get(i).inputVector.clone();
+            outputVectors.add(output);
+        }
+
+        return outputVectors;
     }
 
     private ArrayList<float[][]> calculateGradient(ArrayList<float[]> inputVectors, ArrayList<float[]> outputVectors){
