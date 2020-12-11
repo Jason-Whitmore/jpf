@@ -242,7 +242,7 @@ public class LinearAlgebra{
      * @return The newly allocated result matrix a * b
      */
     public static float[][] matrixMultiply(float[][] a, float[][] b){
-        float[][] r = new float[getNumColumns(a)][getNumRows(b)];
+        float[][] r = new float[getNumRows(a)][getNumColumns(b)];
 
         matrixMultiply(a, b, r);
 

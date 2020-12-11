@@ -3,20 +3,15 @@
 
 public class Input extends Layer{
 
-    private int inputVectorSize;
-
     public Input(int inputVectorSize){
-        setInputVectorSize(inputVectorSize);
+        super();
+
+        inputVector = new float[inputVectorSize];
+
+        outputVector = new float[inputVectorSize];
     }
 
 
-    public int getInputVectorSize(){
-        return inputVectorSize;
-    }
-
-    public void setInputVectorSize(int newInputVectorSize){
-        this.inputVectorSize = newInputVectorSize;
-    }
 
     public void forwardPass(){
 

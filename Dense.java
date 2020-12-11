@@ -9,6 +9,8 @@ public class Dense extends Layer {
     private float[][] biasMatrix;
 
     public Dense(int numUnits, ActivationFunction f, Layer inputLayer){
+        super();
+
         activationFunction = f;
 
         ArrayList<Layer> inputLayers = new ArrayList<Layer>(1);
@@ -23,6 +25,8 @@ public class Dense extends Layer {
 
 
         weightMatrix = new float[numUnits][inputLayerOutputSize];
+        Utility.Initializers.initializeUniform(weightMatrix, -0.1f, 0.1f);
+
         biasMatrix = new float[numUnits][1];
 
         ArrayList<float[][]> params = new ArrayList<float[][]>(2);

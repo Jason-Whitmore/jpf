@@ -20,7 +20,11 @@ public abstract class Layer {
 
     protected ArrayList<float[][]> gradient;
 
-
+    public Layer(){
+        parameters = new ArrayList<float[][]>();
+        inputLayers = new ArrayList<Layer>();
+        outputLayers = new ArrayList<Layer>();
+    }
 
     //getters and setters for class fields
 
