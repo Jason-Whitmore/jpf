@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Dense extends Layer {
 
@@ -16,6 +17,11 @@ public class Dense extends Layer {
         ArrayList<Layer> inputLayers = new ArrayList<Layer>(1);
         inputLayers.add(inputLayer);
         setInputLayers(inputLayers);
+
+        //connect input layer's output to this this layer
+        for(int i = 0; i < inputLayers.size(); i++){
+            inputLayers.get(i).getOutputLayers().add(this);
+        }
 
         int inputLayerOutputSize = inputLayer.getOutputVector().length;
 

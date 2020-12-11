@@ -1,5 +1,4 @@
-
-
+import java.util.Arrays;
 
 public class Input extends Layer{
 
@@ -14,18 +13,13 @@ public class Input extends Layer{
 
 
     public void forwardPass(){
-
         //copy data directly from input vector to output vector
-        for(int j = 0; j < getInputVector().length; j++){
-            getOutputVector()[j] = getInputVector()[j];
-        }
+        Utility.copyArrayContents(getInputVector(), getOutputVector());
 
-        for(int i = 0; i < getOutputLayers().size(); i++){
+        for(int i = 0; i < outputLayers.size(); i++){
+            float[] nextInputVector = outputLayers.get(i).getInputVector();
 
-            for(int j = 0; j < getOutputLayers().get(i).getInputVector().length; j++){
-                getOutputLayers().get(i).getInputVector()[j] = getOutputVector()[j];
-            }
-            
+            Utility.copyArrayContents(outputVector, nextInputVector);
         }
     }
 

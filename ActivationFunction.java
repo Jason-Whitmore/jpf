@@ -27,7 +27,7 @@ public abstract class ActivationFunction{
      */
     public void f(float[] x, float[] dest){
         for(int i = 0; i < x.length; i++){
-            dest[i] = f(dest[i]);
+            dest[i] = f(x[i]);
         }
     }
 

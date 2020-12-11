@@ -92,6 +92,10 @@ public class NeuralNetwork extends Model{
 
         HashSet<Layer> completedPass = new HashSet<Layer>();
 
+        for(int i = 0; i < inputLayers.size(); i++){
+            Utility.copyArrayContents(inputVectors.get(i), inputLayers.get(i).getInputVector());
+        }
+
         for(int i = 0; i < outputLayers.size(); i++){
             stack.push(outputLayers.get(i));
         }
