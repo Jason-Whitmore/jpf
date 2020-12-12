@@ -25,6 +25,7 @@ public class Input extends Layer{
 
 
     public void backwardPass(){
+        //No work required since there is no parameters
         return;
     }
 }

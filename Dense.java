@@ -40,6 +40,12 @@ public class Dense extends Layer {
         params.add(biasMatrix);
 
         setParameters(params);
+
+        //set up gradients
+        gradient = Utility.cloneArrays(getParameters());
+        Utility.clearArrays(gradient);
+
+
     }
 
     public void forwardPass(){
@@ -67,6 +73,23 @@ public class Dense extends Layer {
     }
 
     public void backwardPass(){
+        //Determine the error vector, dO/d(wx+b)
+        float[] error = null;
 
+        //In a dense layer, the bias gradient is just the error vector
+        float[] biasGradient = error.clone();
+        gradient.set(1, LinearAlgebra.arrayToMatrix(biasGradient));
+
+
+        //The weight gradient is just the error multiplied by the input vector component
+        float[][] weightGradient = new float[weightMatrix.length][weightMatrix[0].length];
+
+        for(int r = 0; r < weightMatrix.length; r++){
+            for(int c = 0; c < weightMatrix[0].length; c++){
+            
+            }
+        }
+
+        gradient.set(0, weightGradient);
     }
 }
