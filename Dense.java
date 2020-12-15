@@ -9,6 +9,11 @@ public class Dense extends Layer {
 
     private float[][] biasMatrix;
 
+
+
+    //for backward prop purposes
+    private float[][] wxPlusBias;
+
     public Dense(int numUnits, ActivationFunction f, Layer inputLayer){
         super();
 
@@ -55,7 +60,7 @@ public class Dense extends Layer {
         float[][] wx = LinearAlgebra.matrixMultiply(weightMatrix, LinearAlgebra.arrayToMatrix(inputVector));
 
         //add bias
-        float[][] wxPlusBias = LinearAlgebra.matrixAdd(wx, biasMatrix);
+        wxPlusBias = LinearAlgebra.matrixAdd(wx, biasMatrix);
 
         //use as input to activation function.
 
@@ -73,11 +78,15 @@ public class Dense extends Layer {
     }
 
     public void backwardPass(){
-        //Determine the error vector, dO/d(wx+b)
-        float[] error = null;
+        //Determine the error vector from the next layer
+        float[] dLdO = getOutputLayers().get(0).getLayerError();
+
+        //Determine the error vector of this layer's output wrt the sum
+        float[] dOdS = LinearAlgebra.elementwiseMultiply(dLdO, activationFunction.fPrime(LinearAlgebra.matrixToArray(wxPlusBias)));
+
 
         //In a dense layer, the bias gradient is just the error vector
-        float[] biasGradient = error.clone();
+        float[] biasGradient = dOdS.clone();
         gradient.set(1, LinearAlgebra.arrayToMatrix(biasGradient));
 
 

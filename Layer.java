@@ -16,9 +16,12 @@ public abstract class Layer {
 
     protected float[] outputVector;
 
-
+    
+    //Fields for storing information for backpropagation
 
     protected ArrayList<float[][]> gradient;
+
+    protected float[] layerError;
 
     public Layer(){
         parameters = new ArrayList<float[][]>();
@@ -81,6 +84,10 @@ public abstract class Layer {
     
     public ArrayList<float[][]> getGradient(){
         return gradient;
+    }
+
+    public float[] getLayerError(){
+        return layerError;
     }
     
 
