@@ -93,9 +93,11 @@ public class Dense extends Layer {
         //The weight gradient is just the error multiplied by the input vector component
         float[][] weightGradient = new float[weightMatrix.length][weightMatrix[0].length];
 
+        float[] inputVector = getInputVector();
+
         for(int r = 0; r < weightMatrix.length; r++){
             for(int c = 0; c < weightMatrix[0].length; c++){
-            
+                weightMatrix[r][c] = dOdS[r] * inputVector[c];
             }
         }
 

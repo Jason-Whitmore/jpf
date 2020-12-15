@@ -135,7 +135,17 @@ public class NeuralNetwork extends Model{
     }
 
     private ArrayList<float[][]> calculateGradient(ArrayList<float[]> inputVectors, ArrayList<float[]> outputVectors){
-        return null;
+        ArrayList<float[][]> grad = new ArrayList<float[][]>();
+
+        //complete the forward pass
+        predict(inputVectors);
+
+        //Iterate over the layers and collect the gradients into one ArrayList
+        for(int i = 0; i < allLayers.size(); i++){
+            grad.addAll(allLayers.get(i).getGradient());
+        }
+
+        return grad;
     }
 
 
