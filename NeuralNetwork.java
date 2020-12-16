@@ -134,23 +134,40 @@ public class NeuralNetwork extends Model{
         return outputVectors;
     }
 
-    private ArrayList<float[][]> calculateGradient(ArrayList<float[]> inputVectors, ArrayList<float[]> outputVectors){
+    private ArrayList<float[][]> calculateGradient(ArrayList<float[]> inputVectors, ArrayList<float[]> outputVectors, ArrayList<Loss> losses){
         ArrayList<float[][]> grad = new ArrayList<float[][]>();
         //complete the forward pass
-        predict(inputVectors);
+        ArrayList<float[]> yPreds = predict(inputVectors);
 
         Stack<Layer> stack = new Stack<Layer>();
-        HashSet<Layer> visited = new HashSet<Layer>();
+        HashSet<Layer> completed = new HashSet<Layer>();
 
         for(int i = 0; i < outputLayers.size(); i++){
-            //TODO: Apply loss on the output layers
+            float[] error = losses.get(i).calculateLossVectorGradient(outputVectors.get(i), yPreds.get(i));
+            outputLayers.get(i).setLayerError(error);
+        }
 
-            stack.push(outputLayers.get(i));
-            visited.add(outputLayers.get(i));
+        for(int i = 0; i < inputLayers.size(); i++){
+            stack.push(inputLayers.get(i));
         }
 
         while(!stack.empty()){
+            Layer top = stack.pop();
 
+            boolean canComplete = true;
+
+            for(int i = 0; i < top.getOutputLayers().size(); i++){
+                if(top.getOutputLayers().get(i).getLayerError() == null){
+                    canComplete = false;
+                    stack.push(top.getOutputLayers().get(i));
+                }
+            }
+
+            if(canComplete){
+                top.backwardPass();
+                stack.pop();
+                completed.add(top);
+            }
         }
 
 

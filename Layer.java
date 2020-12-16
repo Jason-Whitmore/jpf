@@ -89,6 +89,10 @@ public abstract class Layer {
     public float[] getLayerError(){
         return layerError;
     }
+
+    public void setLayerError(float[] error){
+        layerError = error;
+    }
     
 
     
