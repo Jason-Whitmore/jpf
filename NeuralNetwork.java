@@ -136,7 +136,18 @@ public class NeuralNetwork extends Model{
 
 
     public float[] predict(float[] x){
+        //Check to see if model input arrays are compatible
+        if(inputLayers.size() != 1 || outputLayers.size() != 1){
+            return null;
+        }
 
+        ArrayList<float[]> inputVectors = new ArrayList<float[]>();
+
+        inputVectors.add(x);
+
+        ArrayList<float[]> outputList = predict(inputVectors);
+
+        return outputList.get(0);
     }
 
     private ArrayList<float[][]> calculateGradient(ArrayList<float[]> inputVectors, ArrayList<float[]> outputVectors, ArrayList<Loss> losses){
