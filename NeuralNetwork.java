@@ -134,6 +134,11 @@ public class NeuralNetwork extends Model{
         return outputVectors;
     }
 
+
+    public float[] predict(float[] x){
+
+    }
+
     private ArrayList<float[][]> calculateGradient(ArrayList<float[]> inputVectors, ArrayList<float[]> outputVectors, ArrayList<Loss> losses){
         ArrayList<float[][]> grad = new ArrayList<float[][]>();
         //complete the forward pass
@@ -157,7 +162,7 @@ public class NeuralNetwork extends Model{
             boolean canComplete = true;
 
             for(int i = 0; i < top.getOutputLayers().size(); i++){
-                if(top.getOutputLayers().get(i).getLayerError() == null){
+                if(!completed.contains(top.getOutputLayers().get(i))){
                     canComplete = false;
                     stack.push(top.getOutputLayers().get(i));
                 }
@@ -178,6 +183,28 @@ public class NeuralNetwork extends Model{
         }
 
         return grad;
+    }
+
+
+    public void resetRecurrentStates(){
+
+        for(int i = 0; i < allLayers.size(); i++){
+
+            //Reset layer if LSTM
+            if(true){
+
+            }
+
+            //Resest layer if recurrent
+            if(true){
+
+            }
+        }
+    }
+
+
+    public void fit(ArrayList<float[][]> x, ArrayList<float[][]> y, int epochs, int minibatchSize, float valueClip, Optimizer opt, ArrayList<Loss> losses){
+        
     }
 
 
