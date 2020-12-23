@@ -233,6 +233,20 @@ public class NeuralNetwork extends Model{
     }
 
 
+    public void fit(float[][] x, float[][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss){
+        ArrayList<float[][]> inputList = new ArrayList<float[][]>();
+        inputList.add(x);
+
+        ArrayList<float[][]> outputList = new ArrayList<float[][]>();
+        outputList.add(y);
+
+        ArrayList<Loss> lossList = new ArrayList<Loss>();
+        lossList.add(loss);
+
+        fit(inputList, outputList, epochs, minibatchSize, valueClip, opt, lossList);
+    }
+
+
     public void saveModel(String filePath){
 
     }
