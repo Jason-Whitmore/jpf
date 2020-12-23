@@ -150,6 +150,20 @@ public class NeuralNetwork extends Model{
         return outputList.get(0);
     }
 
+
+    private ArrayList<float[][]> calculateGradient(float[] inputVector, float[] outputVector, Loss loss){
+        ArrayList<float[]> inputList = new ArrayList<float[]>();
+        inputList.add(inputVector);
+
+        ArrayList<float[]> outputList = new ArrayList<float[]>();
+        outputList.add(outputVector);
+
+        ArrayList<Loss> lossList = new ArrayList<Loss>();
+        lossList.add(loss);
+
+        return calculateGradient(inputList, outputList, lossList);
+    }
+
     private ArrayList<float[][]> calculateGradient(ArrayList<float[]> inputVectors, ArrayList<float[]> outputVectors, ArrayList<Loss> losses){
         ArrayList<float[][]> grad = new ArrayList<float[][]>();
         //complete the forward pass
