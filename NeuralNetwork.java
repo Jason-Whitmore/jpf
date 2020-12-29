@@ -230,6 +230,35 @@ public class NeuralNetwork extends Model{
 
     public void fit(ArrayList<float[][]> x, ArrayList<float[][]> y, int epochs, int minibatchSize, float valueClip, Optimizer opt, ArrayList<Loss> losses){
         
+        for(int e = 0; e < epochs; e++){
+            //calculate minibatch indicies
+            ArrayList<ArrayList<Integer>> indicies = Utility.getMinibatchIndicies(x.get(0).length, minibatchSize);
+            
+
+            for(int mb = 0; mb < indicies.size(); mb++){
+                ArrayList<float[][]> minibatchGradient = Utility.cloneArrays(getParameters());
+                Utility.clearArrays(minibatchGradient);
+
+                for(int i = 0; i < indicies.get(mb).size(); i++){
+
+
+                    //ArrayList<float[][]> rawGradient = calculateGradient(x, y, losses);
+                }
+
+            }
+        }
+    }
+
+
+    
+    private ArrayList<float[]> isolateRow(ArrayList<float[][]> data, int row){
+        ArrayList<float[]> ret = new ArrayList<float[]>(data.size());
+
+        for(int i = 0; i < data.size(); i++){
+            ret.add(data.get(i)[row]);
+        }
+
+        return ret;
     }
 
 
