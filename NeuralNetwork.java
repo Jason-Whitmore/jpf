@@ -236,21 +236,39 @@ public class NeuralNetwork extends Model{
             
 
             for(int mb = 0; mb < indicies.size(); mb++){
+                //create space to store the averaged collection of gradients
                 ArrayList<float[][]> minibatchGradient = Utility.cloneArrays(getParameters());
                 Utility.clearArrays(minibatchGradient);
 
+                //calculate gradients based on each data sample in the minibatch
                 for(int i = 0; i < indicies.get(mb).size(); i++){
 
+                    ArrayList<float[]> trainX = isolateRow(x, indicies.get(mb).get(i));
+                    ArrayList<float[]> trainY = isolateRow(y, indicies.get(mb).get(i));
 
-                    //ArrayList<float[][]> rawGradient = calculateGradient(x, y, losses);
+                    ArrayList<float[][]> rawGradient = calculateGradient(trainX, trainY, losses);
+
+
+                    //add gradient to minibatch pool
+                    Utility.addGradient(minibatchGradient, rawGradient, 1.0f / indicies.get(mb).size());
                 }
+
+                //clip the gradient if applicable
+                if(valueClip > 0){
+                    Utility.clip(minibatchGradient, -valueClip, valueClip);
+                }
+
+                minibatchGradient = opt.processGradient(minibatchGradient);
+
+                //minibatch processed. Add to Network's parameters
+                Utility.addGradient(getParameters(), minibatchGradient, -1f);
 
             }
         }
     }
 
 
-    
+
     private ArrayList<float[]> isolateRow(ArrayList<float[][]> data, int row){
         ArrayList<float[]> ret = new ArrayList<float[]>(data.size());
 
