@@ -79,7 +79,14 @@ public class Dense extends Layer {
 
     public void backwardPass(){
         //Determine the error vector from the next layer
-        float[] dLdO = getOutputLayers().get(0).getLayerError();
+        float[] dLdO;
+        
+        if(getOutputLayers().size() == 0){
+            dLdO = getLayerError();
+        } else {
+            dLdO = getOutputLayers().get(0).getLayerError();
+        }
+        
 
         //Determine the error vector of this layer's output wrt the sum
         float[] dOdS = LinearAlgebra.elementwiseMultiply(dLdO, activationFunction.fPrime(LinearAlgebra.matrixToArray(wxPlusBias)));

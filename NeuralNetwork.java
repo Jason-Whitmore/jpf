@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Stack;
 
@@ -175,6 +176,7 @@ public class NeuralNetwork extends Model{
         for(int i = 0; i < outputLayers.size(); i++){
             float[] error = losses.get(i).calculateLossVectorGradient(outputVectors.get(i), yPreds.get(i));
             outputLayers.get(i).setLayerError(error);
+            System.out.println(Arrays.toString(error));
         }
 
         for(int i = 0; i < inputLayers.size(); i++){
@@ -182,7 +184,7 @@ public class NeuralNetwork extends Model{
         }
 
         while(!stack.empty()){
-            Layer top = stack.pop();
+            Layer top = stack.peek();
 
             boolean canComplete = true;
 
