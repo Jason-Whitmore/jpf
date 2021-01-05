@@ -80,7 +80,7 @@ public class Dense extends Layer {
     public void backwardPass(){
         //Determine the error vector from the next layer
         float[] dLdO;
-        
+
         if(getOutputLayers().size() == 0){
             dLdO = getLayerError();
         } else {
@@ -104,7 +104,7 @@ public class Dense extends Layer {
 
         for(int r = 0; r < weightMatrix.length; r++){
             for(int c = 0; c < weightMatrix[0].length; c++){
-                weightMatrix[r][c] = dOdS[r] * inputVector[c];
+                weightGradient[r][c] = dOdS[r] * inputVector[c];
             }
         }
 
