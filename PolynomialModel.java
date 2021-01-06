@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.ArrayList;
 
 public class PolynomialModel extends SimpleModel {
@@ -196,14 +197,24 @@ public class PolynomialModel extends SimpleModel {
 
     
     public void saveModel(String filePath) {
-        //TODO: Check if file path is valid
+        File f = new File(filePath);
+        
+        if(f.isDirectory()){
+           System.err.println("Error: File path points to a directory name.");
+           return; 
+        }
+
+        if(!f.canWrite()){
+            System.err.println("Error: File path cannot be written to.");
+            return;
+        }
 
         String contents = Utility.arraysToString(getParameters());
 
         boolean success = Utility.writeStringToFile(filePath, contents);
 
         if(!success){
-            
+            System.err.println("Error: Polynomial model could not be saved.");
         }
     }
     
