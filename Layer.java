@@ -21,7 +21,10 @@ public abstract class Layer {
 
     protected ArrayList<float[][]> gradient;
 
-    protected float[] layerError;
+    //Gradient of the loss function wrt this layer's output
+    protected float[] dLdO;
+
+    protected float[] dOdI;
 
     public Layer(){
         parameters = new ArrayList<float[][]>();
@@ -86,12 +89,20 @@ public abstract class Layer {
         return gradient;
     }
 
-    public float[] getLayerError(){
-        return layerError;
+    public float[] getdLdO(){
+        return dLdO;
     }
 
-    public void setLayerError(float[] error){
-        layerError = error;
+    public void setdLdO(float[] newDerivative){
+        dLdO = newDerivative;
+    }
+
+    public float[] getdOdI(){
+        return dOdI;
+    }
+
+    public void setdOdI(float[] newDerivative){
+        dOdI = newDerivative;
     }
     
 

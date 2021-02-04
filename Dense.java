@@ -78,14 +78,16 @@ public class Dense extends Layer {
     }
 
     public void backwardPass(){
-        //Determine the error vector from the next layer
-        float[] dLdO;
+        //Determine the error vector from the next layers
+        Utility.clearArray(getdLdO());
 
-        if(getOutputLayers().size() == 0){
-            dLdO = getLayerError();
-        } else {
-            dLdO = getOutputLayers().get(0).getLayerError();
+
+        for(int i = 0; i < getOutputLayers().size(); i++){
+            for(int j = 0; j < getOutputLayers().get(i).getdOdI().length; i++){
+
+            }
         }
+
         
 
         //Determine the error vector of this layer's output wrt the sum
