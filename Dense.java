@@ -115,6 +115,14 @@ public class Dense extends Layer {
 
         //determine dLdX
 
-        
+        Utility.clearArray(getdLdX());
+        for(int i = 0; i < inputVector.length; i++){
+            for(int j = 0; j < outputVector.length; j++){
+                getdLdX()[i] = 
+            }
+            
+        }
+
+
     }
 }
