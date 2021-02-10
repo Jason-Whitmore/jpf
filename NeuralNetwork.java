@@ -175,7 +175,7 @@ public class NeuralNetwork extends Model{
 
         for(int i = 0; i < outputLayers.size(); i++){
             float[] error = losses.get(i).calculateLossVectorGradient(outputVectors.get(i), yPreds.get(i));
-            outputLayers.get(i).setLayerError(error);
+            outputLayers.get(i).setdLdY(error);
             System.out.println(Arrays.toString(error));
         }
 

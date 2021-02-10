@@ -118,7 +118,7 @@ public class Dense extends Layer {
         Utility.clearArray(getdLdX());
         for(int i = 0; i < inputVector.length; i++){
             for(int j = 0; j < outputVector.length; j++){
-                getdLdX()[i] = 
+                getdLdX()[i] += weightMatrix[j][i] * dYdS[i] * dLdY[i];
             }
             
         }
