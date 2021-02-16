@@ -176,7 +176,7 @@ public class NeuralNetwork extends Model{
         for(int i = 0; i < outputLayers.size(); i++){
             float[] error = losses.get(i).calculateLossVectorGradient(outputVectors.get(i), yPreds.get(i));
             outputLayers.get(i).setdLdY(error);
-            System.out.println(Arrays.toString(error));
+            //System.out.println(Arrays.toString(error));
         }
 
         for(int i = 0; i < inputLayers.size(); i++){
@@ -206,7 +206,9 @@ public class NeuralNetwork extends Model{
 
         //Iterate over the layers and collect the gradients into one ArrayList
         for(int i = 0; i < allLayers.size(); i++){
-            grad.addAll(allLayers.get(i).getGradient());
+            if(allLayers.get(i).getGradient() != null){
+                grad.addAll(allLayers.get(i).getGradient());
+            }
         }
 
         return grad;

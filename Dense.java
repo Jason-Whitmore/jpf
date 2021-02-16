@@ -50,7 +50,9 @@ public class Dense extends Layer {
         gradient = Utility.cloneArrays(getParameters());
         Utility.clearArrays(gradient);
 
-
+        //Set up backprop arrays
+        dLdX = new float[inputLayerOutputSize];
+        dLdY = new float[numUnits];
     }
 
     public void forwardPass(){
@@ -83,7 +85,7 @@ public class Dense extends Layer {
 
 
         for(int i = 0; i < getOutputLayers().size(); i++){
-            for(int j = 0; j < getOutputLayers().get(i).getdLdX().length; i++){
+            for(int j = 0; j < getOutputLayers().get(i).getdLdX().length; j++){
                 getdLdY()[j] += getOutputLayers().get(i).getdLdX()[j];
             }
         }
@@ -118,7 +120,7 @@ public class Dense extends Layer {
         Utility.clearArray(getdLdX());
         for(int i = 0; i < inputVector.length; i++){
             for(int j = 0; j < outputVector.length; j++){
-                getdLdX()[i] += weightMatrix[j][i] * dYdS[i] * dLdY[i];
+                getdLdX()[i] += weightMatrix[j][i] * dYdS[j] * dLdY[j];
             }
             
         }
