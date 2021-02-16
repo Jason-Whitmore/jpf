@@ -81,7 +81,7 @@ public class Dense extends Layer {
 
     public void backwardPass(){
         //Determine the error vector from the next layers
-        Utility.clearArray(getdLdY());
+        //Utility.clearArray(getdLdY());
 
 
         for(int i = 0; i < getOutputLayers().size(); i++){
@@ -93,11 +93,11 @@ public class Dense extends Layer {
         
 
         //Determine the error vector of this layer's output wrt the sum
-        float[] dYdS = LinearAlgebra.elementwiseMultiply(dLdY, activationFunction.fPrime(LinearAlgebra.matrixToArray(wxPlusBias)));
+        float[] dLdS = LinearAlgebra.elementwiseMultiply(dLdY, activationFunction.fPrime(LinearAlgebra.matrixToArray(wxPlusBias)));
 
 
         //In a dense layer, the bias gradient is just the error vector
-        float[] biasGradient = dYdS.clone();
+        float[] biasGradient = dLdS.clone();
         gradient.set(1, LinearAlgebra.arrayToMatrix(biasGradient));
 
 
@@ -108,7 +108,7 @@ public class Dense extends Layer {
 
         for(int r = 0; r < weightMatrix.length; r++){
             for(int c = 0; c < weightMatrix[0].length; c++){
-                weightGradient[r][c] = dYdS[r] * inputVector[c];
+                weightGradient[r][c] = dLdS[r] * inputVector[c];
             }
         }
 
@@ -117,14 +117,11 @@ public class Dense extends Layer {
 
         //determine dLdX
 
-        Utility.clearArray(getdLdX());
         for(int i = 0; i < inputVector.length; i++){
             for(int j = 0; j < outputVector.length; j++){
-                getdLdX()[i] += weightMatrix[j][i] * dYdS[j] * dLdY[j];
+                getdLdX()[i] += weightMatrix[j][i] * dLdS[j];
             }
             
         }
-
-
     }
 }

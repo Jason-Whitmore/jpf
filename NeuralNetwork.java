@@ -166,6 +166,17 @@ public class NeuralNetwork extends Model{
     }
 
     private ArrayList<float[][]> calculateGradient(ArrayList<float[]> inputVectors, ArrayList<float[]> outputVectors, ArrayList<Loss> losses){
+        //Clear the dLdX and dLdY vectors from all layers
+        for(int i = 0; i < allLayers.size(); i++){
+            if(allLayers.get(i).getdLdX() != null){
+                Utility.clearArray(allLayers.get(i).getdLdX());
+            }
+            if(allLayers.get(i).getdLdY() != null){
+                Utility.clearArray(allLayers.get(i).getdLdY());
+            }
+        }
+
+
         ArrayList<float[][]> grad = new ArrayList<float[][]>();
         //complete the forward pass
         ArrayList<float[]> yPreds = predict(inputVectors);
@@ -176,7 +187,8 @@ public class NeuralNetwork extends Model{
         for(int i = 0; i < outputLayers.size(); i++){
             float[] error = losses.get(i).calculateLossVectorGradient(outputVectors.get(i), yPreds.get(i));
             outputLayers.get(i).setdLdY(error);
-            //System.out.println(Arrays.toString(error));
+            outputLayers.get(i).backwardPass();
+            completed.add(outputLayers.get(i));
         }
 
         for(int i = 0; i < inputLayers.size(); i++){
@@ -204,11 +216,12 @@ public class NeuralNetwork extends Model{
 
 
 
-        //Iterate over the layers and collect the gradients into one ArrayList
+        //Iterate over the layers and collect the gradients into one ArrayList. Also, reset the dLdY and dLdX vectors
         for(int i = 0; i < allLayers.size(); i++){
             if(allLayers.get(i).getGradient() != null){
                 grad.addAll(allLayers.get(i).getGradient());
             }
+
         }
 
         return grad;
