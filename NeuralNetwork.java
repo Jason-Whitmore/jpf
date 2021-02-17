@@ -128,7 +128,7 @@ public class NeuralNetwork extends Model{
 
         //Allocate copies of the output vectors from the output layers
         for(int i = 0; i < outputLayers.size(); i++){
-            float[] output = outputLayers.get(i).inputVector.clone();
+            float[] output = outputLayers.get(i).outputVector.clone();
             outputVectors.add(output);
         }
 
