@@ -14,6 +14,8 @@ public class CSVWriter {
 
         this.numCols = columnHeaders.length;
 
+        this.dataString = "";
+
         addRow(columnHeaders);
     }
 
