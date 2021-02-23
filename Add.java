@@ -49,6 +49,7 @@ class Add extends Layer{
 
 
     public void backwardPass(){
-
+        initializedLdY();
+        
     }
 }

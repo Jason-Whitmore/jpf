@@ -104,6 +104,16 @@ public abstract class Layer {
     public void setdLdX(float[] newDerivative){
         dLdX = newDerivative;
     }
+
+    protected void initializedLdY(){
+        Utility.clearArray(dLdY);
+
+        for(int i = 0; i < getOutputLayers().size(); i++){
+            for(int j = 0; j < dLdY.length; j++){
+                dLdY[j] += getOutputLayers().get(i).getdLdX()[j];
+            }
+        }
+    }
     
 
     
