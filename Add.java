@@ -50,6 +50,9 @@ class Add extends Layer{
 
     public void backwardPass(){
         initializedLdY();
-        
+
+        for(int i = 0; i < getdLdX().length; i++){
+            getdLdX()[i] = getdLdY()[i];
+        }
     }
 }
