@@ -34,6 +34,38 @@ class Add extends Layer{
         this.dLdY = new float[layerSize];
     }
 
+    public Add(ArrayList<Layer> inputLayers, Layer outputLayer){
+        super();
+
+        //Confirm that the size of all input and output layers have vectors of equal length
+        layerSize = inputLayers.get(0).getOutputVector().length;
+
+        for(int i = 1; i < inputLayers.size(); i++){
+            if(inputLayers.get(i).getOutputVector().length != layerSize){
+                //TODO: Fatal error here
+            }
+        }
+
+        for(int i = 0; i < outputLayers.size(); i++){
+            if(outputLayers.get(i).getInputVector().length != layerSize){
+                //TODO: Fatal error here
+            }
+        }
+
+        this.inputLayers = inputLayers;
+
+        this.outputLayers = new ArrayList<Layer>();
+        this.outputLayers.add(outputLayer);
+
+        this.parameters = null;
+
+        this.inputVector = new float[layerSize];
+        this.outputVector = new float[layerSize];
+
+        this.dLdX = new float[layerSize];
+        this.dLdY = new float[layerSize];
+    }
+
 
     public void forwardPass(){
         Utility.clearArray(this.inputVector);
