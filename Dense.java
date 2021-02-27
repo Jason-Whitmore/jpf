@@ -24,9 +24,7 @@ public class Dense extends Layer {
         setInputLayers(inputLayers);
 
         //connect input layer's output to this this layer
-        for(int i = 0; i < inputLayers.size(); i++){
-            inputLayers.get(i).getOutputLayers().add(this);
-        }
+        connectInputLayers();
 
         int inputLayerOutputSize = inputLayer.getOutputVector().length;
 
