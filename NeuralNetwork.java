@@ -135,6 +135,27 @@ public class NeuralNetwork extends Model{
         return outputVectors;
     }
 
+    public float calculateLoss(float[] inputVector, float[] outputVector, Loss loss){
+        if(inputLayers.size() != 1 || outputLayers.size() != 1){
+            //TODO: Crash program if wrong loss function is used?
+            return Float.NaN;
+        }
+
+        float[] yPred = predict(inputVector);
+
+        return loss.calculateLossScalar(outputVector, yPred);
+    }
+
+    public float calculateLoss(float[][] inputVectors, float[][] outputVectors, Loss loss){
+        float sum = 0;
+
+        for(int i = 0; i < inputVectors.length; i++){
+            sum += calculateLoss(inputVectors[i], outputVectors[i], loss);
+        }
+
+        return sum / inputVectors.length;
+    }
+
 
     public float[] predict(float[] x){
         //Check to see if model input arrays are compatible
