@@ -157,6 +157,33 @@ public class NeuralNetwork extends Model{
     }
 
 
+
+    public float[] calculateLoss(ArrayList<float[]> inputs, ArrayList<float[]> outputs, ArrayList<Loss> losses){
+        float[] scalarLosses = new float[outputs.size()];
+
+        ArrayList<float[]> yPreds = predict(inputs);
+
+        for(int i = 0; i < scalarLosses.length; i++){
+            scalarLosses[i] = losses.get(i).calculateLossScalar(outputs.get(i), yPreds.get(i));
+        }
+
+        return scalarLosses;
+    }
+
+
+    public float calculateAverageLoss(ArrayList<float[]> inputs, ArrayList<float[]> outputs, ArrayList<Loss> losses){
+        float[] scalarLosses = calculateLoss(inputs, outputs, losses);
+
+        float sum = 0;
+
+        for(int i = 0; i < scalarLosses.length; i++){
+            sum += scalarLosses[i];
+        }
+
+        return sum / scalarLosses.length;
+    }
+
+
     public float[] predict(float[] x){
         //Check to see if model input arrays are compatible
         if(inputLayers.size() != 1 || outputLayers.size() != 1){
