@@ -68,13 +68,7 @@ public class Dense extends Layer {
 
         //distribute the outputvector to the next layers
 
-        ArrayList<Layer> outputLayers = getOutputLayers();
-
-        for(int i = 0; i < outputLayers.size(); i++){
-            float[] nextInputVector = outputLayers.get(i).getInputVector();
-
-            Utility.copyArrayContents(outputVector, nextInputVector);
-        }
+        distributeOutputToNextLayers();
     }
 
     public void backwardPass(){

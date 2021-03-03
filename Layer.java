@@ -120,6 +120,16 @@ public abstract class Layer {
             inputLayers.get(i).getOutputLayers().add(this);
         }
     }
+
+    protected void distributeOutputToNextLayers(){
+        ArrayList<Layer> outputLayers = getOutputLayers();
+
+        for(int i = 0; i < outputLayers.size(); i++){
+            float[] nextInputVector = outputLayers.get(i).getInputVector();
+
+            Utility.copyArrayContents(outputVector, nextInputVector);
+        }
+    }
     
 
     

@@ -313,6 +313,9 @@ public class NeuralNetwork extends Model{
 
                     ArrayList<float[][]> rawGradient = calculateGradient(trainX, trainY, losses);
 
+                    //System.out.println(Utility.arraysToString(rawGradient));
+                    //System.exit(0);
+
 
                     //add gradient to minibatch pool
                     Utility.addGradient(minibatchGradient, rawGradient, 1.0f / indicies.get(mb).size());

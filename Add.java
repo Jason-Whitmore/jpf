@@ -21,7 +21,7 @@ class Add extends Layer{
 
         this.inputLayers = inputLayers;
 
-        this.parameters = null;
+        this.parameters = new ArrayList<float[][]>();
 
         this.inputVector = new float[layerSize];
         this.outputVector = new float[layerSize];
@@ -43,6 +43,8 @@ class Add extends Layer{
                 this.outputVector[i] += this.inputVector[i];
             }
         }
+
+        distributeOutputToNextLayers();
     }
 
 
