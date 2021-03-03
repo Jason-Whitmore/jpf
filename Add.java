@@ -44,7 +44,7 @@ class Add extends Layer{
             }
         }
 
-        distributeOutputToNextLayers();
+        
     }
 
 
