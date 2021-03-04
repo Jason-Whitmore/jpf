@@ -473,6 +473,28 @@ public class Utility{
     }
 
 
+
+    public String[][] readFromCSV(String filePath, String lineDelimiter, String elementDelimiter){
+        String fileContents = getTextFileContents(filePath);
+
+        String[] lines = fileContents.split(lineDelimiter);
+
+        String[][] r = new String[lines.length][];
+
+        for(int i = 0; i < r.length; i++){
+            String[] lineSplit = lines[i].split(elementDelimiter);
+
+            r[i] = lineSplit;
+        }
+
+        return r;
+    }
+
+    public String[][] readFromCSV(String filepath){
+        return readFromCSV(filepath, "\n", ",");
+    }
+
+
     /**
      * Copies the contents from one array into the other
      * @param source The array to copy contents to.
