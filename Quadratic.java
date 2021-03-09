@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Runner {
+public class Quadratic {
     public static void main(String[] args){
 
         int numSamples = 1000;

@@ -21,6 +21,7 @@ class Add extends Layer{
 
         this.inputLayers = inputLayers;
 
+        //TODO: Add weight parameters? More research may be required.
         this.parameters = new ArrayList<float[][]>();
 
         this.inputVector = new float[layerSize];
