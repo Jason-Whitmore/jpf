@@ -4,11 +4,17 @@ public class Quadratic {
     public static void main(String[] args){
 
         int numSamples = 1000;
+        int numEpochs = 1000;
+        int hiddenLayerSize = 16;
+        int epochsPerOutput = 100;
+
         float[][] trainX = new float[numSamples][1];
         float[][] trainY = new float[numSamples][1];
 
         int index = 0;
-        for(float x = 0; x < 10; x += 0.01){
+        for(float i = 0; i < numSamples; i++){
+
+            float x = Utility.getRandomUniform(-3f, 3f);
             trainX[index][0] = x;
             trainY[index][0] = x * x;
             index++;
@@ -19,24 +25,33 @@ public class Quadratic {
 
         Input in = new Input(1);
 
-        Dense hidden1 = new Dense(64, new Tanh(), in);
-        Dense hidden2 = new Dense(64, new Tanh(), hidden1);
+        Dense hidden1 = new Dense(hiddenLayerSize, new Tanh(), in);
+        Dense hidden2 = new Dense(hiddenLayerSize, new Tanh(), hidden1);
 
         Dense out = new Dense(1, new Linear(), hidden2);
 
         NeuralNetwork nn = new NeuralNetwork(in, out);
 
-        float[][] yPred = new float[trainX.length][10];
+        ArrayList<float[]> outputs = new ArrayList<float[]>();
+        ArrayList<Integer> epochOutput = new ArrayList<Integer>();
 
-        for(int e = 0; e < 1000; e += 100){
+        for(int e = 0; e < numEpochs; e++){
             //train for some epochs
 
-            nn.fit(trainX, trainY, 100, 32, 0.1f, new RMSProp(), new MSE());
+            nn.fit(trainX, trainY, 1, 32, 10f, new RMSProp(), new MSE());
 
             //Make predictions
-            for(int i = 0; i < trainX.length; i++){
-                yPred[i][e / 100] = nn.predict(trainX[i])[0];
+            if(e % epochsPerOutput == 0){
+                //Record the current epoch
+                epochOutput.add(e);
+
+                //Make predictions on datapoints and record the results
+                
             }
+
+            float loss = nn.calculateLoss(trainX, trainY, new MSE());
+
+            System.out.println("Epoch " + e + " complete. Training loss: " + loss);
         }
 
         //Write results into a csv file
