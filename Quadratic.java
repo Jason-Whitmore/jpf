@@ -5,7 +5,7 @@ public class Quadratic {
 
         int numSamples = 1000;
         int numEpochs = 1000;
-        int hiddenLayerSize = 16;
+        int hiddenLayerSize = 32;
         int epochsPerOutput = 100;
 
         float[][] trainX = new float[numSamples][1];
@@ -46,7 +46,7 @@ public class Quadratic {
                 epochOutput.add(e);
 
                 //Make predictions on datapoints and record the results
-                
+
             }
 
             float loss = nn.calculateLoss(trainX, trainY, new MSE());
@@ -63,19 +63,6 @@ public class Quadratic {
         }
 
         CSVWriter writer = new CSVWriter("Quadratic.csv", columnHeaders);
-
-        for(int r = 0; r < trainX.length; r++){
-            ArrayList<String> rowString = new ArrayList<String>();
-            rowString.add("" + trainX[r][0]);
-
-            for(int c = 0; c < yPred[0].length; c++){
-                rowString.add("" + yPred[r][c]);
-            }
-
-            writer.addRow(rowString.toArray(new String[rowString.size()]));
-        }
-
-        writer.writeToFile();
         
     }
 }
