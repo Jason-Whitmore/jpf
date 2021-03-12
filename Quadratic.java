@@ -3,10 +3,18 @@ import java.util.ArrayList;
 public class Quadratic {
     public static void main(String[] args){
 
-        int numSamples = 1000;
+        //Neural network variables
         int numEpochs = 1000;
         int hiddenLayerSize = 32;
-        int epochsPerOutput = 100;
+
+        //Dataset variables
+        int numSamples = 1000;
+        float dataMin = -3f;
+        float dataMax = 3f;
+
+        //Output variables
+        float outputStepSize = 0.01f;
+
 
         float[][] trainX = new float[numSamples][1];
         float[][] trainY = new float[numSamples][1];
@@ -33,7 +41,7 @@ public class Quadratic {
         NeuralNetwork nn = new NeuralNetwork(in, out);
 
         ArrayList<float[]> outputs = new ArrayList<float[]>();
-        ArrayList<Integer> epochOutput = new ArrayList<Integer>();
+        ArrayList<Integer> epochNumber = new ArrayList<Integer>();
 
         for(int e = 0; e < numEpochs; e++){
             //train for some epochs
@@ -41,13 +49,23 @@ public class Quadratic {
             nn.fit(trainX, trainY, 1, 32, 10f, new RMSProp(), new MSE());
 
             //Make predictions
-            if(e % epochsPerOutput == 0){
-                //Record the current epoch
-                epochOutput.add(e);
+            //Record the current epoch
+            epochNumber.add(e);
 
-                //Make predictions on datapoints and record the results
-
+            //Make predictions on datapoints and record the results
+            float[] epochOutputs = new float[(int)((dataMax - dataMin) / outputStepSize)];
+            index = 0;
+            for(float x = dataMin; x <= dataMax; x += outputStepSize){
+                float[] inputVector = new float[1];
+                inputVector[0] = x;
+                float output = nn.predict(inputVector)[0];
+                epochOutputs[index] = output;
+                index++;
             }
+
+            outputs.add(epochOutputs);
+
+            
 
             float loss = nn.calculateLoss(trainX, trainY, new MSE());
 
