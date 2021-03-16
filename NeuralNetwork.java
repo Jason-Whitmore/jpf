@@ -76,8 +76,8 @@ public class NeuralNetwork extends Model{
 
         ArrayList<float[][]> params = new ArrayList<float[][]>();
 
-        for(int i = 0; i < allLayers.size(); i++){
-            params.addAll(allLayers.get(i).getParameters());
+        for(int i = 0; i < allLayers.length; i++){
+            params.addAll(allLayers[i].getParameters());
         }
 
         setParameters(params);
@@ -87,18 +87,18 @@ public class NeuralNetwork extends Model{
 
 
     public ArrayList<float[]> predict(ArrayList<float[]> inputVectors){
-        ArrayList<float[]> outputVectors = new ArrayList<float[]>(outputLayers.size());
+        ArrayList<float[]> outputVectors = new ArrayList<float[]>(outputLayers.length);
 
         Stack<Layer> stack = new Stack<Layer>();
 
         HashSet<Layer> completedPass = new HashSet<Layer>();
 
-        for(int i = 0; i < inputLayers.size(); i++){
-            Utility.copyArrayContents(inputVectors.get(i), inputLayers.get(i).getInputVector());
+        for(int i = 0; i < inputLayers.length; i++){
+            Utility.copyArrayContents(inputVectors.get(i), inputLayers[i].getInputVector());
         }
 
-        for(int i = 0; i < outputLayers.size(); i++){
-            stack.push(outputLayers.get(i));
+        for(int i = 0; i < outputLayers.length; i++){
+            stack.push(outputLayers[i]);
         }
 
 
@@ -127,8 +127,8 @@ public class NeuralNetwork extends Model{
         }
 
         //Allocate copies of the output vectors from the output layers
-        for(int i = 0; i < outputLayers.size(); i++){
-            float[] output = outputLayers.get(i).outputVector.clone();
+        for(int i = 0; i < outputLayers.length; i++){
+            float[] output = outputLayers[i].outputVector.clone();
             outputVectors.add(output);
         }
 
@@ -136,7 +136,7 @@ public class NeuralNetwork extends Model{
     }
 
     public float calculateLoss(float[] inputVector, float[] outputVector, Loss loss){
-        if(inputLayers.size() != 1 || outputLayers.size() != 1){
+        if(inputLayers.length != 1 || outputLayers.length != 1){
             //TODO: Crash program if wrong loss function is used?
             return Float.NaN;
         }
@@ -186,7 +186,7 @@ public class NeuralNetwork extends Model{
 
     public float[] predict(float[] x){
         //Check to see if model input arrays are compatible
-        if(inputLayers.size() != 1 || outputLayers.size() != 1){
+        if(inputLayers.length != 1 || outputLayers.length != 1){
             return null;
         }
 
@@ -215,12 +215,12 @@ public class NeuralNetwork extends Model{
 
     private ArrayList<float[][]> calculateGradient(ArrayList<float[]> inputVectors, ArrayList<float[]> outputVectors, ArrayList<Loss> losses){
         //Clear the dLdX and dLdY vectors from all layers
-        for(int i = 0; i < allLayers.size(); i++){
-            if(allLayers.get(i).getdLdX() != null){
-                Utility.clearArray(allLayers.get(i).getdLdX());
+        for(int i = 0; i < allLayers.length; i++){
+            if(allLayers[i].getdLdX() != null){
+                Utility.clearArray(allLayers[i].getdLdX());
             }
-            if(allLayers.get(i).getdLdY() != null){
-                Utility.clearArray(allLayers.get(i).getdLdY());
+            if(allLayers[i].getdLdY() != null){
+                Utility.clearArray(allLayers[i].getdLdY());
             }
         }
 
@@ -232,15 +232,15 @@ public class NeuralNetwork extends Model{
         Stack<Layer> stack = new Stack<Layer>();
         HashSet<Layer> completed = new HashSet<Layer>();
 
-        for(int i = 0; i < outputLayers.size(); i++){
+        for(int i = 0; i < outputLayers.length; i++){
             float[] error = losses.get(i).calculateLossVectorGradient(outputVectors.get(i), yPreds.get(i));
-            outputLayers.get(i).setdLdY(error);
-            outputLayers.get(i).backwardPass();
-            completed.add(outputLayers.get(i));
+            outputLayers[i].setdLdY(error);
+            outputLayers[i].backwardPass();
+            completed.add(outputLayers[i]);
         }
 
-        for(int i = 0; i < inputLayers.size(); i++){
-            stack.push(inputLayers.get(i));
+        for(int i = 0; i < inputLayers.length; i++){
+            stack.push(inputLayers[i]);
         }
 
         while(!stack.empty()){
@@ -265,9 +265,9 @@ public class NeuralNetwork extends Model{
 
 
         //Iterate over the layers and collect the gradients into one ArrayList. Also, reset the dLdY and dLdX vectors
-        for(int i = 0; i < allLayers.size(); i++){
-            if(allLayers.get(i).getGradient() != null){
-                grad.addAll(allLayers.get(i).getGradient());
+        for(int i = 0; i < allLayers.length; i++){
+            if(allLayers[i].getGradient() != null){
+                grad.addAll(allLayers[i].getGradient());
             }
 
         }
@@ -278,14 +278,14 @@ public class NeuralNetwork extends Model{
 
     public void resetRecurrentStates(){
 
-        for(int i = 0; i < allLayers.size(); i++){
+        for(int i = 0; i < allLayers.length; i++){
 
             //Reset layer if LSTM
             if(true){
 
             }
 
-            //Resest layer if recurrent
+            //Reset layer if recurrent
             if(true){
 
             }
