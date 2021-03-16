@@ -6,15 +6,15 @@ import java.util.Stack;
 
 public class NeuralNetwork extends Model{
 
-    private ArrayList<Input> inputLayers;
+    private Input[] inputLayers;
 
-    private ArrayList<Layer> outputLayers;
+    private Layer[] outputLayers;
 
-    private ArrayList<Layer> allLayers;
+    private Layer[] allLayers;
 
     public NeuralNetwork(ArrayList<Input> inputLayers, ArrayList<Layer> outputLayers){
-        this.inputLayers = inputLayers;
-        this.outputLayers = outputLayers;
+        this.inputLayers = inputLayers.toArray(new Input[inputLayers.size()]);
+        this.outputLayers = outputLayers.toArray(new Input[outputLayers.size()]);;
 
         allLayers = serializeLayers();
         updateParameters();
@@ -23,19 +23,19 @@ public class NeuralNetwork extends Model{
 
 
     public NeuralNetwork(Input inputLayer, Layer outputLayer){
-        ArrayList<Input> inputList = new ArrayList<Input>();
-        inputList.add(inputLayer);
-        this.inputLayers = inputList;
+        Input[] inputArray = new Input[1];
+        inputArray[0] = inputLayer;
+        this.inputLayers = inputArray;
 
-        ArrayList<Layer> outputList = new ArrayList<Layer>();
-        outputList.add(outputLayer);
-        this.outputLayers = outputList;
+        Layer[] outputArray = new Layer[1];
+        outputArray[0] = outputLayer;
+        this.outputLayers = outputArray;
 
         allLayers = serializeLayers();
         updateParameters();
     }
 
-    private ArrayList<Layer> serializeLayers(){
+    private Layer[] serializeLayers(){
         //Use depth first traversal to grab all layers
         HashSet<Layer> visited = new HashSet<Layer>();
 
@@ -43,7 +43,7 @@ public class NeuralNetwork extends Model{
 
         ArrayList<Layer> r = new ArrayList<Layer>();
 
-        stack.push(inputLayers.get(0));
+        stack.push(inputLayers[0]);
 
         while(!stack.empty()){
 
@@ -65,7 +65,7 @@ public class NeuralNetwork extends Model{
             
         }
 
-        return r;
+        return r.toArray(new Layer[r.size()]);
     }
 
 
