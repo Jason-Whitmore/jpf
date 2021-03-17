@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Stack;
 
@@ -362,7 +363,40 @@ public class NeuralNetwork extends Model{
     }
 
 
+    private HashMap<Layer, Integer> getLayerIndexMap(){
+        HashMap<Layer, Integer> map = new HashMap<>();
+
+        for(int i = 0; i < allLayers.length; i++){
+            map.put(allLayers[i], i);
+        }
+
+        return map;
+    }
+
+    private String connectionInfoToString(){
+        HashMap<Layer, Integer> indexMap = getLayerIndexMap();
+
+        //Determine the connection information and write to string
+        //From-to format for connections: (fromIndex) -> (toIndex, toIndex, ...)
+
+        StringBuilder connectionSB = new StringBuilder();
+
+        //Write the starting string for this section
+        connectionSB.append("START LAYER CONNECTIONS:");
+        
+
+
+        //Write the end of section string
+        connectionSB.append("END LAYER CONNECTIONS:");
+
+        return connectionSB.toString();
+    }
+
     public void saveModel(String filePath){
+
+        
+
+
 
     }
 }
