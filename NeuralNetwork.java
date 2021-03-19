@@ -405,7 +405,7 @@ public class NeuralNetwork extends Model{
     }
 
 
-    public String layerInfoToString(){
+    private String layerInfoToString(){
         StringBuilder sb = new StringBuilder();
 
         sb.append("START LAYER INFO");

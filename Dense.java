@@ -117,4 +117,21 @@ public class Dense extends Layer {
             
         }
     }
+
+
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+
+        int layerSize = biasMatrix.length;
+
+        //Provide basic constructor information
+        sb.append("DENSE(" + layerSize + ", " + activationFunction.toString() + "\n");
+
+        //provide weight information:
+        sb.append(Utility.arraysToString(getParameters()));
+
+        sb.append(")");
+
+        return sb.toString();
+    }
 }

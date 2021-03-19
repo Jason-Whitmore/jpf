@@ -28,4 +28,10 @@ public class Input extends Layer{
         //No work required since there is no parameters
         return;
     }
+
+    @Override
+    public String toString(){
+        //Only need to provide the length of the input vector.
+        return "INPUT(" + inputVector.length + ")";
+    }
 }
