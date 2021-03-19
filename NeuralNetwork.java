@@ -377,26 +377,56 @@ public class NeuralNetwork extends Model{
         HashMap<Layer, Integer> indexMap = getLayerIndexMap();
 
         //Determine the connection information and write to string
-        //From-to format for connections: (fromIndex) -> (toIndex, toIndex, ...)
+        //From-to format for connections: fromIndex -> toIndex, toIndex, ...
 
         StringBuilder connectionSB = new StringBuilder();
 
         //Write the starting string for this section
-        connectionSB.append("START LAYER CONNECTIONS:");
-        
+        connectionSB.append("START LAYER CONNECTIONS:\n");
+
+        for(int i = 0; i < allLayers.length; i++){
+            StringBuilder lineSB = new StringBuilder();
+
+            lineSB.append(i + " -> ");
+
+            for(int j = 0; j < allLayers[i].getOutputLayers().size() - 1; i++){
+                lineSB.append(indexMap + ", ");
+            }
+
+            lineSB.append(allLayers[i].getOutputLayers().get(allLayers[i].getOutputLayers().size() - 1));
+            lineSB.append("\n");
+        }
 
 
         //Write the end of section string
-        connectionSB.append("END LAYER CONNECTIONS:");
+        connectionSB.append("END LAYER CONNECTIONS");
 
         return connectionSB.toString();
     }
 
+
+    public String layerInfoToString(){
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("START LAYER INFO");
+
+        for(int i = 0; i < allLayers.length; i++){
+            sb.append(allLayers[i].toString());
+            sb.append("\n");
+        }
+
+        sb.append("END LAYER INFO");
+
+        return sb.toString();
+    }
+
     public void saveModel(String filePath){
 
-        
+        String connectionInfo = connectionInfoToString();
+        String layerInfo = layerInfoToString();
+        String modelInfo = connectionInfo + "\n" + layerInfo;
 
-
+        Utility.writeStringToFile(filePath, modelInfo);
 
     }
 }
