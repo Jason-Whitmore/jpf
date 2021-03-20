@@ -382,24 +382,28 @@ public class NeuralNetwork extends Model{
         StringBuilder connectionSB = new StringBuilder();
 
         //Write the starting string for this section
-        connectionSB.append("START LAYER CONNECTIONS:\n");
+        connectionSB.append("START LAYER CONNECTIONS INFO\n");
 
         for(int i = 0; i < allLayers.length; i++){
             StringBuilder lineSB = new StringBuilder();
 
             lineSB.append(i + " -> ");
-
-            for(int j = 0; j < allLayers[i].getOutputLayers().size() - 1; i++){
-                lineSB.append(indexMap + ", ");
+            
+            if(allLayers[i].getOutputLayers().size() >= 1){
+                for(int j = 0; j < allLayers[i].getOutputLayers().size() - 1; j++){
+                    lineSB.append(indexMap.get(allLayers[i].getOutputLayers().get(j)) + ", ");
+                }
+    
+                lineSB.append(indexMap.get(allLayers[i].getOutputLayers().get(allLayers[i].getOutputLayers().size() - 1)));
             }
 
-            lineSB.append(allLayers[i].getOutputLayers().get(allLayers[i].getOutputLayers().size() - 1));
             lineSB.append("\n");
+            connectionSB.append(lineSB);
         }
 
 
         //Write the end of section string
-        connectionSB.append("END LAYER CONNECTIONS");
+        connectionSB.append("END LAYER CONNECTIONS INFO");
 
         return connectionSB.toString();
     }
@@ -408,7 +412,7 @@ public class NeuralNetwork extends Model{
     private String layerInfoToString(){
         StringBuilder sb = new StringBuilder();
 
-        sb.append("START ALL LAYER INFO");
+        sb.append("START ALL LAYER INFO\n");
 
         for(int i = 0; i < allLayers.length; i++){
             sb.append("LAYER START\n");
