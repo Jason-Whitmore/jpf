@@ -56,4 +56,8 @@ class Add extends Layer{
             getdLdX()[i] = getdLdY()[i];
         }
     }
+
+    public String toString(){
+        return "Add(" + this.layerSize + ")";
+    }
 }
