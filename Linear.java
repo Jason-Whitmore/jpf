@@ -9,4 +9,9 @@ public class Linear extends ActivationFunction{
     public float fPrime(float x){
         return 1;
     }
+
+
+    public String toString(){
+        return "Linear";
+    }
 }

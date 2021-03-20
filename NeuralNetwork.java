@@ -408,14 +408,16 @@ public class NeuralNetwork extends Model{
     private String layerInfoToString(){
         StringBuilder sb = new StringBuilder();
 
-        sb.append("START LAYER INFO");
+        sb.append("START ALL LAYER INFO");
 
         for(int i = 0; i < allLayers.length; i++){
+            sb.append("LAYER START\n");
             sb.append(allLayers[i].toString());
             sb.append("\n");
+            sb.append("LAYER END\n");
         }
 
-        sb.append("END LAYER INFO");
+        sb.append("END ALL LAYER INFO");
 
         return sb.toString();
     }

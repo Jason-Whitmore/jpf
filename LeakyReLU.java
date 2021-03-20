@@ -24,4 +24,9 @@ public class LeakyReLU extends ActivationFunction{
             return alpha;
         }
     }
+
+
+    public String toString(){
+        return "LeakyReLU(" + this.alpha + ")";
+    }
 }

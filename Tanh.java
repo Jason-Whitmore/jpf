@@ -12,4 +12,9 @@ public class Tanh extends ActivationFunction{
 
         return 1 - (t * t);
     }
+
+
+    public String toString(){
+        return "Tanh";
+    }
 }
