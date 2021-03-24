@@ -12,6 +12,8 @@ public class Concatenate extends Layer{
 
         updateLayerSize();
         outputVector = new float[this.size];
+        dLdY = new float[this.size];
+        dLdX = new float[this.size];
     }
 
     public Concatenate(Layer[] inputLayers){
@@ -25,6 +27,8 @@ public class Concatenate extends Layer{
         updateLayerSize();
 
         outputVector = new float[this.size];
+        dLdY = new float[this.size];
+        dLdX = new float[this.size];
     }
 
     public void forwardPass(){
@@ -40,7 +44,13 @@ public class Concatenate extends Layer{
     }
 
     public void backwardPass(){
+        this.initializedLdY();
 
+        int outputIndex = 0;
+
+        for(int i = 0; i < this.dLdX.length; i++){
+            this.dLdX[i] = this.getdLdY()[i];
+        }
     }
 
 
