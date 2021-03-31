@@ -41,15 +41,16 @@ public class Softmax extends Layer{
             }
         }
 
+        //Determine sum of exponents before doing the backprop step
+        float constant = 0;
+        for(int i = 0; i < this.inputVector.length; i++){
+            constant += (float)Math.exp((double)this.inputVector[i]);
+        }
+
         for(int i = 0; i < this.inputVector.length; i++){
 
-            //Determine the sum of exponents that are not x[i]
-            float constant = 0;
-            for(int j = 0; j < this.inputVector.length; j++){
-                if(j != i){
-                    constant += (float)Math.exp((double)this.inputVector[j]);
-                }
-            }
+            //Subtract the current exponential from the constant
+            constant -= (float)Math.exp((double) this.inputVector[i]);
 
             double exponential = Math.exp((double)this.inputVector[i]);
 
@@ -57,6 +58,9 @@ public class Softmax extends Layer{
             double gradient = (((exponential + constant) * exponential) - (exponential * exponential)) / (float)Math.pow((double)exponential, 2.0);
 
             this.dLdX[i] = (float)gradient;
+
+            //Add the current exponential to the constant
+            constant += (float)Math.exp((double) this.inputVector[i]);
         }
 
     }
