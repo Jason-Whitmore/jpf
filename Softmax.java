@@ -34,12 +34,7 @@ public class Softmax extends Layer{
 
     public void backwardPass(){
         //Determine error vector from next layers
-
-        for(int i = 0; i < getOutputLayers().size(); i++){
-            for(int j = 0; j < getOutputLayers().get(i).getdLdX().length; j++){
-                getdLdY()[j] += getOutputLayers().get(i).getdLdX()[j];
-            }
-        }
+        initializedLdY();
 
         //Determine sum of exponents before doing the backprop step
         float constant = 0;

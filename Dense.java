@@ -74,14 +74,7 @@ public class Dense extends Layer {
 
     public void backwardPass(){
         //Determine the error vector from the next layers
-        //Utility.clearArray(getdLdY());
-
-
-        for(int i = 0; i < getOutputLayers().size(); i++){
-            for(int j = 0; j < getOutputLayers().get(i).getdLdX().length; j++){
-                getdLdY()[j] += getOutputLayers().get(i).getdLdX()[j];
-            }
-        }
+        initializedLdY();
 
         
 
