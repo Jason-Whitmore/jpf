@@ -59,4 +59,9 @@ public class SoftmaxLayer extends Layer{
         }
 
     }
+
+
+    public String toString(){
+        return "Softmax()";
+    }
 }
