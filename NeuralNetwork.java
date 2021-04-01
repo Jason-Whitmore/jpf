@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Stack;
 
+import jdk.jshell.execution.Util;
+
 
 public class NeuralNetwork extends Model{
 
@@ -83,10 +85,85 @@ public class NeuralNetwork extends Model{
         setParameters(params);
     }
 
+    public float calculateLoss(float[] inputVector, float[] outputVector, Loss loss){
+        if(inputLayers.size() != 1 || outputLayers.size() != 1){
+            //TODO: Crash program if wrong loss function is used?
+            return Float.NaN;
+        }
+
+        float[] yPred = predict(inputVector);
+
+        return loss.calculateLossScalar(outputVector, yPred);
+    }
+
+    public float calculateLoss(float[][] inputVectors, float[][] outputVectors, Loss loss){
+        float sum = 0;
+
+        for(int i = 0; i < inputVectors.length; i++){
+            sum += calculateLoss(inputVectors[i], outputVectors[i], loss);
+        }
+
+        return sum / inputVectors.length;
+    }
 
 
 
-    public ArrayList<float[]> predict(ArrayList<float[]> inputVectors){
+    public float[] calculateLoss(float[][] x, float[][] yTrue, Loss[] losses){
+        float[] scalarLosses = new float[yTrue.length];
+
+        float[][] yPreds = predict(x);
+
+        for(int i = 0; i < scalarLosses.length; i++){
+            scalarLosses[i] = losses[i].calculateLossScalar(yTrue[i], yPreds[i]);
+        }
+
+        return scalarLosses;
+    }
+
+
+    public float calculateAverageLoss(float[][] inputs, float[][] outputs, Loss[] losses){
+        float[] scalarLosses = calculateLoss(inputs, outputs, losses);
+
+        float sum = 0;
+
+        for(int i = 0; i < scalarLosses.length; i++){
+            sum += scalarLosses[i];
+        }
+
+        return sum / scalarLosses.length;
+    }
+
+    
+    /**
+     * Predict function for Neural Networks that have only one input vector and one output vector
+     * @param x The input vector.
+     * @return The output vector. If this model has more than one input vector or more than one output vector, then null is returned.
+     */
+    public float[] predict(float[] x){
+        //Check to see if model input arrays are compatible
+        if(inputLayers.size() != 1 || outputLayers.size() != 1){
+            return null;
+        }
+
+        float[][] xVectors = new float[1][x.length];
+        Utility.copyArrayContents(x, xVectors[0]);
+        return predict(xVectors)[0];
+    }
+
+
+    public float[][] predict(float[][] x){
+        //Check to see if model inputs match
+        if(this.inputLayers.size() != x.length){
+            
+        }
+
+        //Create the output vectors
+        float[][] y = new float[this.outputLayers.size()][];
+
+        for(int i = 0; i < this.outputLayers.size(); i++){
+            y[i] = new float[this.outputLayers.get(i).getOutputVector().length];
+        }
+
         ArrayList<float[]> outputVectors = new ArrayList<float[]>(outputLayers.size());
 
         Stack<Layer> stack = new Stack<Layer>();
@@ -94,7 +171,7 @@ public class NeuralNetwork extends Model{
         HashSet<Layer> completedPass = new HashSet<Layer>();
 
         for(int i = 0; i < inputLayers.size(); i++){
-            Utility.copyArrayContents(inputVectors.get(i), inputLayers.get(i).getInputVector());
+            Utility.copyArrayContents(x[i], inputLayers.get(i).getInputVector());
         }
 
         for(int i = 0; i < outputLayers.size(); i++){
@@ -128,86 +205,8 @@ public class NeuralNetwork extends Model{
 
         //Allocate copies of the output vectors from the output layers
         for(int i = 0; i < outputLayers.size(); i++){
-            float[] output = outputLayers.get(i).outputVector.clone();
-            outputVectors.add(output);
+            Utility.copyArrayContents(outputLayers.get(i).getOutputVector(), y[i]);
         }
-
-        return outputVectors;
-    }
-
-    public float calculateLoss(float[] inputVector, float[] outputVector, Loss loss){
-        if(inputLayers.size() != 1 || outputLayers.size() != 1){
-            //TODO: Crash program if wrong loss function is used?
-            return Float.NaN;
-        }
-
-        float[] yPred = predict(inputVector);
-
-        return loss.calculateLossScalar(outputVector, yPred);
-    }
-
-    public float calculateLoss(float[][] inputVectors, float[][] outputVectors, Loss loss){
-        float sum = 0;
-
-        for(int i = 0; i < inputVectors.length; i++){
-            sum += calculateLoss(inputVectors[i], outputVectors[i], loss);
-        }
-
-        return sum / inputVectors.length;
-    }
-
-
-
-    public float[] calculateLoss(ArrayList<float[]> inputs, ArrayList<float[]> outputs, ArrayList<Loss> losses){
-        float[] scalarLosses = new float[outputs.size()];
-
-        ArrayList<float[]> yPreds = predict(inputs);
-
-        for(int i = 0; i < scalarLosses.length; i++){
-            scalarLosses[i] = losses.get(i).calculateLossScalar(outputs.get(i), yPreds.get(i));
-        }
-
-        return scalarLosses;
-    }
-
-
-    public float calculateAverageLoss(ArrayList<float[]> inputs, ArrayList<float[]> outputs, ArrayList<Loss> losses){
-        float[] scalarLosses = calculateLoss(inputs, outputs, losses);
-
-        float sum = 0;
-
-        for(int i = 0; i < scalarLosses.length; i++){
-            sum += scalarLosses[i];
-        }
-
-        return sum / scalarLosses.length;
-    }
-
-    
-    public float[] predict(float[] x){
-        //Check to see if model input arrays are compatible
-        if(inputLayers.size() != 1 || outputLayers.size() != 1){
-            return null;
-        }
-
-        ArrayList<float[]> inputVectors = new ArrayList<float[]>();
-
-        inputVectors.add(x);
-
-        ArrayList<float[]> outputList = predict(inputVectors);
-
-        return outputList.get(0);
-    }
-
-    public float[][] predict(float[][] x){
-        //Check to see if model inputs match
-        if(this.inputLayers.size() != x.length){
-            
-        }
-
-        float[][] y = new float[this.outputLayers.size()][];
-
-        
 
         return y;
     }
