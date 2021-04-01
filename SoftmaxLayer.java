@@ -1,11 +1,11 @@
 
 
 
-public class Softmax extends Layer{
+public class SoftmaxLayer extends Layer{
 
     private int numUnits;
 
-    public Softmax(Layer inputLayer){
+    public SoftmaxLayer(Layer inputLayer){
         super();
 
         this.numUnits = inputLayer.outputVector.length;
