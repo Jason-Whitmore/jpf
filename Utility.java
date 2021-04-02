@@ -92,6 +92,21 @@ public class Utility{
         }
     }
 
+
+    public static float sum(float[] a){
+        float sum = 0;
+        
+        for(int i = 0; i < a.length; i++){
+            sum += a[i];
+        }
+
+        return sum;
+    }
+
+    public static float mean(float[] a){
+        return sum(a) / a.length;
+    }
+
     /**
      * Sets all the elements of the array to zero.
      * @param a The array to modify.

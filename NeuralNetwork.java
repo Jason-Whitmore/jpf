@@ -85,7 +85,14 @@ public class NeuralNetwork extends Model{
         setParameters(params);
     }
 
-    public float calculateLoss(float[] inputVector, float[] outputVector, Loss loss){
+    /**
+     * Calculates the scalar loss on a neural network with one input and one output layer.
+     * @param inputVector
+     * @param outputVector
+     * @param loss
+     * @return
+     */
+    public float calculateScalarLoss(float[] inputVector, float[] outputVector, Loss loss){
         if(inputLayers.size() != 1 || outputLayers.size() != 1){
             //TODO: Crash program if wrong loss function is used?
             return Float.NaN;
@@ -96,18 +103,13 @@ public class NeuralNetwork extends Model{
         return loss.calculateLossScalar(outputVector, yPred);
     }
 
-    public float calculateLoss(float[][] inputVectors, float[][] outputVectors, Loss loss){
-        float sum = 0;
-
-        for(int i = 0; i < inputVectors.length; i++){
-            sum += calculateLoss(inputVectors[i], outputVectors[i], loss);
-        }
-
-        return sum / inputVectors.length;
-    }
-
-
-
+    /**
+     * Calculates the losses on a neural network with multiple input or multiple output layers.
+     * @param x
+     * @param yTrue
+     * @param losses
+     * @return
+     */
     public float[] calculateLoss(float[][] x, float[][] yTrue, Loss[] losses){
         float[] scalarLosses = new float[yTrue.length];
 
@@ -121,7 +123,7 @@ public class NeuralNetwork extends Model{
     }
 
 
-    public float calculateAverageLoss(float[][] inputs, float[][] outputs, Loss[] losses){
+    public float calculateMeanLoss(float[][] inputs, float[][] outputs, Loss[] losses){
         float[] scalarLosses = calculateLoss(inputs, outputs, losses);
 
         float sum = 0;
@@ -211,19 +213,6 @@ public class NeuralNetwork extends Model{
         return y;
     }
 
-
-    private ArrayList<float[][]> calculateGradient(float[] inputVector, float[] outputVector, Loss loss){
-        float[][] x = new float[1][];
-        x[0] = inputVector;
-
-        float[][] y = new float[1][];
-        y[0] = outputVector;
-
-        Loss[] losses = new Loss[1];
-        losses[0] = loss;
-
-        return calculateGradient(x, y, losses);
-    }
 
     private ArrayList<float[][]> calculateGradient(float[][] inputVectors, float[][] outputVectors, Loss[] losses){
         //Clear the dLdX and dLdY vectors from all layers
