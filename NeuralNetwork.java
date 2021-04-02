@@ -213,19 +213,19 @@ public class NeuralNetwork extends Model{
 
 
     private ArrayList<float[][]> calculateGradient(float[] inputVector, float[] outputVector, Loss loss){
-        ArrayList<float[]> inputList = new ArrayList<float[]>();
-        inputList.add(inputVector);
+        float[][] x = new float[1][];
+        x[0] = inputVector;
 
-        ArrayList<float[]> outputList = new ArrayList<float[]>();
-        outputList.add(outputVector);
+        float[][] y = new float[1][];
+        y[0] = outputVector;
 
-        ArrayList<Loss> lossList = new ArrayList<Loss>();
-        lossList.add(loss);
+        Loss[] losses = new Loss[1];
+        losses[0] = loss;
 
-        return calculateGradient(inputList, outputList, lossList);
+        return calculateGradient(x, y, losses);
     }
 
-    private ArrayList<float[][]> calculateGradient(ArrayList<float[]> inputVectors, ArrayList<float[]> outputVectors, ArrayList<Loss> losses){
+    private ArrayList<float[][]> calculateGradient(float[][] inputVectors, float[][] outputVectors, Loss[] losses){
         //Clear the dLdX and dLdY vectors from all layers
         for(int i = 0; i < allLayers.size(); i++){
             if(allLayers.get(i).getdLdX() != null){
@@ -239,13 +239,13 @@ public class NeuralNetwork extends Model{
 
         ArrayList<float[][]> grad = new ArrayList<float[][]>();
         //complete the forward pass
-        ArrayList<float[]> yPreds = predict(inputVectors);
+        float[][] yPreds = predict(inputVectors);
 
         Stack<Layer> stack = new Stack<Layer>();
         HashSet<Layer> completed = new HashSet<Layer>();
 
         for(int i = 0; i < outputLayers.size(); i++){
-            float[] error = losses.get(i).calculateLossVectorGradient(outputVectors.get(i), yPreds.get(i));
+            float[] error = losses[i].calculateLossVectorGradient(outputVectors[i], yPreds[i]);
             outputLayers.get(i).setdLdY(error);
             outputLayers.get(i).backwardPass();
             completed.add(outputLayers.get(i));
@@ -276,7 +276,7 @@ public class NeuralNetwork extends Model{
 
 
 
-        //Iterate over the layers and collect the gradients into one ArrayList. Also, reset the dLdY and dLdX vectors
+        //Iterate over the layers and collect the gradients into one ArrayList.
         for(int i = 0; i < allLayers.size(); i++){
             if(allLayers.get(i).getGradient() != null){
                 grad.addAll(allLayers.get(i).getGradient());
@@ -305,11 +305,12 @@ public class NeuralNetwork extends Model{
     }
 
 
-    public void fit(ArrayList<float[][]> x, ArrayList<float[][]> y, int epochs, int minibatchSize, float valueClip, Optimizer opt, ArrayList<Loss> losses){
+
+    public void fit(float[][][] x, float[][][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss[] losses){
         
         for(int e = 0; e < epochs; e++){
             //calculate minibatch indicies
-            ArrayList<ArrayList<Integer>> indicies = Utility.getMinibatchIndicies(x.get(0).length, minibatchSize);
+            ArrayList<ArrayList<Integer>> indicies = Utility.getMinibatchIndicies(x.length, minibatchSize);
             
 
             for(int mb = 0; mb < indicies.size(); mb++){
@@ -320,8 +321,8 @@ public class NeuralNetwork extends Model{
                 //calculate gradients based on each data sample in the minibatch
                 for(int i = 0; i < indicies.get(mb).size(); i++){
 
-                    ArrayList<float[]> trainX = isolateRow(x, indicies.get(mb).get(i));
-                    ArrayList<float[]> trainY = isolateRow(y, indicies.get(mb).get(i));
+                    float[][] trainX = x[indicies.get(mb).get(i)];
+                    float[][] trainY = y[indicies.get(mb).get(i)];
 
                     ArrayList<float[][]> rawGradient = calculateGradient(trainX, trainY, losses);
 
@@ -348,29 +349,39 @@ public class NeuralNetwork extends Model{
     }
 
 
+    public void fit(float[][][] x, float[][][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, ArrayList<Loss> losses){
+        Loss[] lossArray = new Loss[losses.size()];
+        lossArray = losses.toArray(lossArray);
 
-    private ArrayList<float[]> isolateRow(ArrayList<float[][]> data, int row){
-        ArrayList<float[]> ret = new ArrayList<float[]>(data.size());
-
-        for(int i = 0; i < data.size(); i++){
-            ret.add(data.get(i)[row]);
-        }
-
-        return ret;
+        fit(x, y, epochs, minibatchSize, valueClip, opt, lossArray);
     }
 
 
+    /**
+     * Fits a single input, single output vector dataset to this model.
+     * @param x
+     * @param y
+     * @param epochs
+     * @param minibatchSize
+     * @param valueClip
+     * @param opt
+     * @param loss
+     */
     public void fit(float[][] x, float[][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss){
-        ArrayList<float[][]> inputList = new ArrayList<float[][]>();
-        inputList.add(x);
+        //Check if model has one input and one output vector, if not, throw an exception?
+        float[][][] trainX = new float[x.length][1][];
+        float[][][] trainY = new float[y.length][1][];
 
-        ArrayList<float[][]> outputList = new ArrayList<float[][]>();
-        outputList.add(y);
+        for(int i = 0; i < x.length; i++){
+            trainX[i][0] = x[i];
+            trainY[i][0] = y[i];
+        }
 
-        ArrayList<Loss> lossList = new ArrayList<Loss>();
-        lossList.add(loss);
 
-        fit(inputList, outputList, epochs, minibatchSize, valueClip, opt, lossList);
+        Loss[] losses = new Loss[1];
+        losses[0] = loss;
+
+        fit(trainX, trainY, epochs, minibatchSize, valueClip, opt, losses);
     }
 
 
