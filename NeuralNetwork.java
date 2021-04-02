@@ -104,7 +104,42 @@ public class NeuralNetwork extends Model{
     }
 
     /**
-     * Calculates the losses on a neural network with multiple input or multiple output layers.
+     * Calculates the mean scalar for multiple data samples for a single input/output layer neural network.
+     * @param x
+     * @param y
+     * @param loss
+     * @return
+     */
+    public float calculateMeanScalarLoss(float[][] x, float[][] y, Loss loss){
+
+        float sum = 0;
+        
+        for(int i = 0; i < x.length; i++){
+            sum += calculateScalarLoss(x[i], y[i], loss);
+        }
+
+        return sum / x.length;
+    }
+
+    public float[] calculateMeanLosses(float[][][] x, float[][][] y, Loss[] losses){
+        float[] r = new float[losses.length];
+
+        for(int i = 0; i < x.length; i++){
+            float[] sampleLoss = calculateLoss(x[i], y[i], losses);
+
+            for(int j = 0; j < r.length; j++){
+                r[j] += sampleLoss[j];
+            }
+        }
+
+        for(int i = 0; i < r.length; i++){
+            r[i] /= x.length;
+        }
+        return r;
+    }
+
+    /**
+     * Calculates the scalar losses on a neural network with multiple input or multiple output layers on a single data point.
      * @param x
      * @param yTrue
      * @param losses
@@ -123,17 +158,6 @@ public class NeuralNetwork extends Model{
     }
 
 
-    public float calculateMeanLoss(float[][] inputs, float[][] outputs, Loss[] losses){
-        float[] scalarLosses = calculateLoss(inputs, outputs, losses);
-
-        float sum = 0;
-
-        for(int i = 0; i < scalarLosses.length; i++){
-            sum += scalarLosses[i];
-        }
-
-        return sum / scalarLosses.length;
-    }
 
     
     /**
