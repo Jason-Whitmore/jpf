@@ -68,4 +68,22 @@ public abstract class ActivationFunction{
 
         return r;
     }
+
+
+    /**
+     * Constructs the activation function from the string. Used to help construct neural networks from strings/text files.
+     * @param s The string containing the activation function name. Check the toString() functions.
+     * @return The activation function object described in the input string.
+     */
+    public static ActivationFunction constructFromString(String s){
+        if(s.equals("Tanh")){
+            return new Tanh();
+        } else if(s.contains("LeakyReLU")){
+            String alphaString = s.substring(s.indexOf("(") + 1, s.indexOf(")"));
+            float alpha = Float.parseFloat(alphaString);
+            return new LeakyReLU(alpha);
+        }
+
+        return null;
+    }
 }
