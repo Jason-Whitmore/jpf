@@ -19,7 +19,6 @@ public class Dense extends Layer {
 
         activationFunction = f;
 
-        ArrayList<Layer> inputLayers = new ArrayList<Layer>(1);
         inputLayers.add(inputLayer);
         setInputLayers(inputLayers);
 
@@ -51,6 +50,33 @@ public class Dense extends Layer {
         //Set up backprop arrays
         dLdX = new float[inputLayerOutputSize];
         dLdY = new float[numUnits];
+    }
+
+
+    /**
+     * Constructs a dense layer from a string description. Check toString().
+     * This string should start with "DENSE(" and ends with "\n]"
+     * @param layerInfoString The layer info string returned by the toString() method.
+     */
+    public Dense(String layerInfoString){
+        super();
+        
+        //Isolate the header information (layer size, activation function) and initialize variables.
+        this.initializeFromHeaderString(layerInfoString);
+
+        String paramString = layerInfoString.substring(layerInfoString.indexOf("[\n"), layerInfoString.indexOf("]\n") + 2);
+        this.setParameters(Utility.stringToMatrixList(paramString));
+
+    }
+
+    private void initializeFromHeaderString(String layerInfoString){
+        String headerInfo = layerInfoString.substring(0, layerInfoString.indexOf(")") + 1);
+        headerInfo.replace("(", "");
+        headerInfo.replace(")", "");
+
+        String[] headerInfoSplit = headerInfo.split(",");
+        int numUnits = Integer.parseInt(headerInfoSplit[0]);
+        ActivationFunction f;
     }
 
     public void forwardPass(){
@@ -122,8 +148,6 @@ public class Dense extends Layer {
 
         //Provide weight information:
         sb.append(Utility.arraysToString(getParameters()));
-
-        sb.append(")");
 
         return sb.toString();
     }
