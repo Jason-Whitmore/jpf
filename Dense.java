@@ -55,28 +55,41 @@ public class Dense extends Layer {
 
     /**
      * Constructs a dense layer from a string description. Check toString().
-     * This string should start with "DENSE(" and ends with "\n]"
+     * This string should start with "DENSE(" and ends with "\n]".
      * @param layerInfoString The layer info string returned by the toString() method.
      */
     public Dense(String layerInfoString){
         super();
-        
-        //Isolate the header information (layer size, activation function) and initialize variables.
-        this.initializeFromHeaderString(layerInfoString);
 
         String paramString = layerInfoString.substring(layerInfoString.indexOf("[\n"), layerInfoString.indexOf("]\n") + 2);
         this.setParameters(Utility.stringToMatrixList(paramString));
 
+        //From the parsed parameters, get the layer size and the input vector size
+        int numUnits = this.biasMatrix.length;
+        int inputSize = this.weightMatrix[0].length;
+
+        //Allocate and initialize vectors
+        this.inputVector = new float[inputSize];
+        this.outputVector = new float[numUnits];
+
+        this.dLdX = new float[inputSize];
+        this.dLdY = new float[numUnits];
+
+        //Allocate and initialize gradients
+        this.gradient = Utility.cloneArrays(getParameters());
+        Utility.clearArrays(this.gradient);
+
+        //Isolate the activation function string and initialize
+        this.initializeActivationFunctionFromString(layerInfoString);
     }
 
-    private void initializeFromHeaderString(String layerInfoString){
+    private void initializeActivationFunctionFromString(String layerInfoString){
         String headerInfo = layerInfoString.substring(0, layerInfoString.indexOf(")") + 1);
         headerInfo.replace("(", "");
         headerInfo.replace(")", "");
 
         String[] headerInfoSplit = headerInfo.split(",");
-        int numUnits = Integer.parseInt(headerInfoSplit[0]);
-        ActivationFunction f;
+        this.activationFunction = ActivationFunction.constructFromString(headerInfoSplit[1]);
     }
 
     public void forwardPass(){
