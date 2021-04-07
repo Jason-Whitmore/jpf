@@ -128,4 +128,18 @@ public abstract class Layer {
 
     public abstract void backwardPass();
 
+
+    public Layer createLayerFromString(String layerInfoString){
+
+        if(layerInfoString.contains("INPUT")){
+            return new Input(layerInfoString);
+        } else if(layerInfoString.contains("DENSE")){
+            return new Dense(layerInfoString);
+        } else if(layerInfoString.contains("ADD")){
+            return new Add(layerInfoString);
+        }
+
+        return null;
+    }
+
 }
