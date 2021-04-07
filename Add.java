@@ -21,8 +21,6 @@ class Add extends Layer{
 
         this.inputLayers = inputLayers;
 
-        this.parameters = new ArrayList<float[][]>();
-
         this.inputVector = new float[layerSize];
         this.outputVector = new float[layerSize];
 
@@ -30,6 +28,25 @@ class Add extends Layer{
         this.dLdY = new float[layerSize];
 
         connectInputLayers();
+    }
+
+    /**
+     * Constructs add layer from string. String should be of form "Add(n)" where n is the layer size.
+     * @param layerInfoString The layer information string that is used to construct the layer.
+     */
+    public Add(String layerInfoString){
+        super();
+
+        String layerSizeString = layerInfoString.replace("Add(", "").replace(")", "");
+
+        int layerSize = Integer.parseInt(layerSizeString);
+
+        this.inputVector = new float[layerSize];
+        this.outputVector = new float[layerSize];
+
+        this.dLdX = new float[layerSize];
+        this.dLdY = new float[layerSize];
+
     }
 
 
