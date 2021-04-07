@@ -37,7 +37,7 @@ class Add extends Layer{
     public Add(String layerInfoString){
         super();
 
-        String layerSizeString = layerInfoString.replace("Add(", "").replace(")", "");
+        String layerSizeString = layerInfoString.replace("ADD(", "").replace(")", "");
 
         int layerSize = Integer.parseInt(layerSizeString);
 
@@ -74,6 +74,6 @@ class Add extends Layer{
     }
 
     public String toString(){
-        return "Add(" + this.layerSize + ")";
+        return "ADD(" + this.layerSize + ")";
     }
 }

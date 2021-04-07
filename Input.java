@@ -1,4 +1,3 @@
-import java.util.Arrays;
 
 public class Input extends Layer{
 
@@ -8,6 +7,17 @@ public class Input extends Layer{
         inputVector = new float[inputVectorSize];
 
         outputVector = new float[inputVectorSize];
+    }
+
+    public Input(String layerInfoString){
+        super();
+
+        String layerSizeString = layerInfoString.replace("INPUT(", "").replace(")", "");
+
+        int layerSize = Integer.parseInt(layerSizeString);
+
+        inputVector = new float[layerSize];
+        outputVector = new float[layerSize];
     }
 
 
