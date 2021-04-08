@@ -76,12 +76,14 @@ public abstract class ActivationFunction{
      * @return The activation function object described in the input string.
      */
     public static ActivationFunction constructFromString(String s){
-        if(s.equals("Tanh")){
+        if(s.equals("TANH")){
             return new Tanh();
-        } else if(s.contains("LeakyReLU")){
-            String alphaString = s.substring(s.indexOf("(") + 1, s.indexOf(")"));
+        } else if(s.contains("LEAKYRELU")){
+            String alphaString = s.replace("LEAKYRELU(", "").replace(")", "");
             float alpha = Float.parseFloat(alphaString);
             return new LeakyReLU(alpha);
+        } else if(s.equals("LINEAR")){
+            return new Linear();
         }
 
         return null;

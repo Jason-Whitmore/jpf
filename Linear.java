@@ -12,6 +12,6 @@ public class Linear extends ActivationFunction{
 
 
     public String toString(){
-        return "Linear";
+        return "LINEAR";
     }
 }

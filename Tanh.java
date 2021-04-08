@@ -15,6 +15,6 @@ public class Tanh extends ActivationFunction{
 
 
     public String toString(){
-        return "Tanh";
+        return "TANH";
     }
 }
