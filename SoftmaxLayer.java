@@ -18,6 +18,18 @@ public class SoftmaxLayer extends Layer{
 
     }
 
+    public SoftmaxLayer(String layerInfoString){
+        String numUnitsString = layerInfoString.replace("SOFTMAX(", "").replace(")", "");
+
+        this.numUnits = Integer.parseInt(numUnitsString);
+
+        this.inputVector = new float[this.numUnits];
+        this.outputVector = new float[this.numUnits];
+
+        this.dLdX = new float[this.numUnits];
+        this.dLdY = new float[this.numUnits];
+    }
+
 
     public void forwardPass(){
 
@@ -62,6 +74,6 @@ public class SoftmaxLayer extends Layer{
 
 
     public String toString(){
-        return "Softmax()";
+        return "Softmax(" + this.numUnits + ")";
     }
 }

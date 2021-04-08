@@ -137,6 +137,8 @@ public abstract class Layer {
             return new Dense(layerInfoString);
         } else if(layerInfoString.contains("ADD")){
             return new Add(layerInfoString);
+        } else if(layerInfoString.contains("SOFTMAX")){
+            return new SoftmaxLayer(layerInfoString);
         }
 
         return null;
