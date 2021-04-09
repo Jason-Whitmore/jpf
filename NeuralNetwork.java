@@ -37,6 +37,30 @@ public class NeuralNetwork extends Model{
         updateParameters();
     }
 
+
+    public NeuralNetwork(String filePath){
+        String neuralNetworkInfo = Utility.getTextFileContents(filePath);
+
+        //Isolate the layer connection information
+        String layerConnectionInfo = neuralNetworkInfo.substring(0, neuralNetworkInfo.indexOf("END LAYER CONNECTIONS"));
+        layerConnectionInfo = layerConnectionInfo.replace("START LAYER CONNECTIONS", "");
+
+        //Isolate the layer information
+
+        String layerInfo = neuralNetworkInfo.substring(neuralNetworkInfo.indexOf("START ALL LAYER INFO"));
+
+        //Remove the header and footer
+        layerInfo.replace("START ALL LAYER INFO", "");
+        layerInfo.replace("END ALL LAYER INFO", "");
+
+        //Split the strings based on layer
+        String[] layerStrings = layerInfo.split("LAYER START");
+
+        //Construct the layers
+        
+
+    }
+
     private ArrayList<Layer> serializeLayers(){
         //Use depth first traversal to grab all layers
         HashSet<Layer> visited = new HashSet<Layer>();
