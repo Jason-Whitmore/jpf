@@ -50,14 +50,20 @@ public class NeuralNetwork extends Model{
         String layerInfo = neuralNetworkInfo.substring(neuralNetworkInfo.indexOf("START ALL LAYER INFO"));
 
         //Remove the header and footer
-        layerInfo.replace("START ALL LAYER INFO", "");
-        layerInfo.replace("END ALL LAYER INFO", "");
+        layerInfo.replace("START ALL LAYER INFO\n", "");
+        layerInfo.replace("END ALL LAYER INFO\n", "");
 
         //Split the strings based on layer
-        String[] layerStrings = layerInfo.split("LAYER START");
+        String[] layerStrings = layerInfo.split("LAYER START\n");
 
         //Construct the layers
-        
+        for(int i = 0; i < layerStrings.length; i++){
+            //Remove the footer string
+            layerStrings[i] = layerStrings[i].replace("LAYER END\n", "");
+
+            Layer l = Layer.createLayerFromString(layerStrings[i]);
+            this.allLayers.add(l);
+        }
 
     }
 

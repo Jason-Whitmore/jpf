@@ -129,7 +129,7 @@ public abstract class Layer {
     public abstract void backwardPass();
 
 
-    public Layer createLayerFromString(String layerInfoString){
+    public static Layer createLayerFromString(String layerInfoString){
 
         if(layerInfoString.contains("INPUT")){
             return new Input(layerInfoString);
