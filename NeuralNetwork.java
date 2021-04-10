@@ -76,9 +76,13 @@ public class NeuralNetwork extends Model{
         String[] connectionSplit = layerConnectionInfo.split("\n");
 
         for(int i = 0; i < connectionSplit.length; i++){
-            String[] numStrings = connectionSplit[i].split(", ");
+            //Get the "from" index before the arrow
+            int startIndex = Integer.parseInt(connectionSplit[i].substring(0, connectionSplit[i].indexOf(" -> ")));
 
-            int startIndex = Integer.parseInt(numStrings[0].trim());
+            //Isolate the "to" indicies and split
+            String toIndicies = connectionSplit[i].substring(connectionSplit[i].indexOf(" -> ") + 4);
+            String[] numStrings = toIndicies.split(", ");
+
             ArrayList<Integer> row = new ArrayList<Integer>();
 
             for(int j = 0; j < numStrings.length; j++){
