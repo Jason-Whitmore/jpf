@@ -65,6 +65,30 @@ public class NeuralNetwork extends Model{
             this.allLayers.add(l);
         }
 
+
+        //Parse the layer info into an adjacency list representation.
+
+    }
+
+    private ArrayList<ArrayList<Integer>> connectionInfoToAdjList(String layerConnectionInfo){
+        ArrayList<ArrayList<Integer>> adjList = new ArrayList<ArrayList<Integer>>(this.allLayers.size());
+
+        String[] connectionSplit = layerConnectionInfo.split("\n");
+
+        for(int i = 0; i < connectionSplit.length; i++){
+            String[] numStrings = connectionSplit[i].split(", ");
+
+            int startIndex = Integer.parseInt(numStrings[0].trim());
+            ArrayList<Integer> row = new ArrayList<Integer>();
+
+            for(int j = 0; j < numStrings.length; j++){
+                row.add(Integer.parseInt(numStrings[j]));
+            }
+
+            adjList.add(startIndex, row);
+        }
+
+        return adjList;
     }
 
     private ArrayList<Layer> serializeLayers(){
