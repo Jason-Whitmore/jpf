@@ -27,7 +27,7 @@ class Add extends Layer{
         this.dLdX = new float[layerSize];
         this.dLdY = new float[layerSize];
 
-        connectInputLayers();
+        connectInputAndOutputLayers();
     }
 
     /**

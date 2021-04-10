@@ -67,6 +67,22 @@ public class NeuralNetwork extends Model{
 
 
         //Parse the layer info into an adjacency list representation.
+        ArrayList<ArrayList<Integer>> adjList = connectionInfoToAdjList(layerConnectionInfo);
+
+        for(int i = 0; i < adjList.size(); i++){
+            Layer from = this.allLayers.get(i);
+
+            for(int j = 0; j < adjList.get(i).size(); j++){
+                Layer to = this.allLayers.get(j);
+
+                from.getOutputLayers().add(to);
+            }
+        }
+
+        //Connect all the layers input and output layers
+        for(int i = 0; i < this.allLayers.size(); i++){
+            this.allLayers.get(i).connectInputAndOutputLayers();
+        }
 
     }
 

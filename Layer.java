@@ -115,9 +115,13 @@ public abstract class Layer {
         }
     }
 
-    protected void connectInputLayers(){
+    protected void connectInputAndOutputLayers(){
         for(int i = 0; i < inputLayers.size(); i++){
             inputLayers.get(i).getOutputLayers().add(this);
+        }
+
+        for(int i = 0; i < outputLayers.size(); i++){
+            outputLayers.get(i).getInputLayers().add(this);
         }
     }
 
