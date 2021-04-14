@@ -26,3 +26,9 @@ The ArrayList fields can be simply initialized using the basic constructor (or b
 
 
 ## Methods
+
+There are two primary methods that need to be implemented for a Layer class to be functional and can be used with both the fit() and predict() functions of the NeuralNetwork class.
+
+### forwardPass()
+
+The forwardPass() method performs all of the steps used to take in an input vector and produce an output vector. In all layers except for Input layers, the input vector will be populated by using the output vector(s) of previous layers. Once the layer's computations are complete, the result is placed into the output vector of the layer. The process repeats for each layer in the neural network.
