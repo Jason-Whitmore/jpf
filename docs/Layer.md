@@ -48,4 +48,11 @@ The Input layer serves as the starting point of a neural network. Here, the laye
 Expressed with linear algebra, the Input layer is quite simple:
 
 
+### Dense
+
+The Dense layer serves as the standard, yet versatile computational layer. The forwardPass() method multiplies the input vector by a weight matrix, adds a bias term, and then applies a user chosen activation function (typically nonlinear) to produce the output vector. Although the linear algebra operations are quite simple, once these Dense layers are "stacked" together, more complex functions can be approximated. The backwardPass() method calculates the gradient of the loss function with respect to all the parameters (both the weight matrix and the bias vector), and then calculates the gradient of the loss function with respect to the input vector from the previous forwardPass() method call.
+
+Expressed with linear algebra, the Dense layer is:
+
+
 
