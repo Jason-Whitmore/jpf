@@ -37,3 +37,15 @@ The forwardPass() method performs all of the steps used to take in an input vect
 ### backwardPass()
 
 The backwardPass() method performs all of the steps needed to compute the parameter loss gradient for this layer, as well as set up the vector derivatives for preceding layers. This method performs much more mathematically advanced computations, since multivariate calculus must be properly applied to obtain the proper gradients. This backward pass needs to accompolish two things: Find the gradient of the loss function with respect to the layer parameters, and find the gradient of the loss function with respect to the input vector.
+
+
+## Derived classes
+
+### Input
+
+The Input layer serves as the starting point of a neural network. Here, the layer accepts the user provided input vector and simply outputs the same vector to the output/next layers. Due to the simple nature of this layer, there are no layer parameters or gradients. The forwardPass() method simply copies the input vector to the output vector. The backwardPass() method simply returns without actions, since there are no gradients to calculate at this layer.
+
+Expressed with linear algebra, the Input layer is quite simple:
+
+
+
