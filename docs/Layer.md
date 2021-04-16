@@ -62,4 +62,9 @@ The Add layer is a simple multi-input layer that is used to condense multiple in
 Expressed with linear algebra, the Add layer is:
 
 
+### Softmax
+
+The softmax layer is used to convert any input vector into a discrete probability distribution. This layer is a useful output layer for classification tasks. The forwardPass() method takes the input vector an computes the exponential of each element. These elements are then divided by the sum of the elements to form a probability distribution where each element is in the range (0,1) and all element sum to 1. The backwardPass() method only needs to compute the loss with respect to the input vector since there are no parameters. Note: The reason Softmax is a layer instead of an activation function is that activation functions in this library are elementwise, and the softmax function needs an entire vector to produce the output vector.
+
+Expressed with linear algebra, the Softmax Layer is:
 
