@@ -55,4 +55,11 @@ The Dense layer serves as the standard, yet versatile computational layer. The f
 Expressed with linear algebra, the Dense layer is:
 
 
+### Add
+
+The Add layer is a simple multi-input layer that is used to condense multiple input vectors into a single output vector. This is useful in complex Neural Networks such as Resnets, where "skip connections" let data flow past subsequent layers. The forwardPass() method simply performs vector addition on all input vectors to produce the output vector. This simple forward pass requires no parameters. The backwardPass() method is simple since it does not need to calculate the loss with respect to parameters only the loss with respect to the input vector.
+
+Expressed with linear algebra, the Add layer is:
+
+
 
