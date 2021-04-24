@@ -85,7 +85,7 @@ public abstract class ActivationFunction{
         } else if(s.equals("LINEAR")){
             return new Linear();
         } else if(s.equals("SIGMOID")){
-
+            return new Sigmoid();
         }
 
         return null;
