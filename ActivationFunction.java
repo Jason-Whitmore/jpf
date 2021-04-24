@@ -84,6 +84,8 @@ public abstract class ActivationFunction{
             return new LeakyReLU(alpha);
         } else if(s.equals("LINEAR")){
             return new Linear();
+        } else if(s.equals("SIGMOID")){
+
         }
 
         return null;
