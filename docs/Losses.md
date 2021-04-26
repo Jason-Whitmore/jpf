@@ -10,8 +10,15 @@ The loss function interface provides the basic template for implementing loss fu
 
 ### Mean Square Error (MSE)
 
+L(yTrue, yPred) = (yPred - yTrue)^2
+
+The standard loss function for regression tasks. This function is popular because the loss signal becomes very strong as the difference between yPred and yTrue grows larger. Also, this function is twice differentiable.
 
 ### Mean Absolute Error (MAE)
+
+L(yTrue, yPred) = |yPred - yTrue|
+
+Used for regression tasks. Less popular than MSE because the loss signal isn't quite as strong as the difference between yPred and yTrue grows larger. Also, the function is not smooth and twice differentiable like MSE is. Still, the output from this function is much more intuitive to directly understand than MSE is.
 
 ### Binary Cross Entropy
 
