@@ -4,7 +4,13 @@ The loss function interface provides the basic template for implementing loss fu
 
 ## The loss interface
 
+### float[] calculateLossVector(float[] yTrue, float[] yPredicted)
 
+Calculates the loss for each component of the output vector. Typically, this is done elementwise, but isn't required.
+
+### float[] calculateLossVectorGradient(float[] yTrue, float[] yPredicted)
+
+Calculates the gradient of steepest ascent of the loss function for each component of the output vector. In other words, each component is the derivative of the loss function with respect to the output
 
 ## Derived classes
 
