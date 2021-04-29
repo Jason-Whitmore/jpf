@@ -15,6 +15,10 @@ public class CrossEntropy implements Loss{
         }
     }
 
+    private float CELossPrime(float yTrue, float yPredicted){
+        return 0;
+    }
+
     public float[] calculateLossVector(float[] yTrue, float[] yPredicted){
         float[] r = new float[yTrue.length];
 
@@ -23,5 +27,21 @@ public class CrossEntropy implements Loss{
         }
 
         return r;
+    }
+
+    public float[] calculateLossVectorGradient(float[] yTrue, float[] yPredicted){
+        float[] r = new float[yTrue.length];
+
+        for(int i = 0; i < r.length; i++){
+            r[i] = this.CELossPrime(yTrue[i], yPredicted[i]);
+        }
+
+        return r;
+    }
+
+    public float calculateLossScalar(float[] yTrue, float[] yPredicted){
+        float[] lossVector = this.calculateLossVector(yTrue, yPredicted);
+
+        return Utility.mean(lossVector);
     }
 }
