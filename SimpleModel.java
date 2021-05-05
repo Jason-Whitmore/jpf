@@ -16,6 +16,10 @@ public abstract class SimpleModel extends Model{
     protected int numOutputs;
 
 
+    public SimpleModel(){
+        this.super();
+    }
+
     /**
      * @return The length of the input vector.
      */
@@ -33,6 +37,12 @@ public abstract class SimpleModel extends Model{
     public abstract float[] predict(float[] inputVector);
 
 
+    /**
+     * Makes predictions on multiple input vectors.
+     * @param inputVectors The input vectors, where the first index specifies the input vector,
+     * and the second index specifies the component of the input vector.
+     * @return The predicted output vectors, corresponding to the input vectors.
+     */
     public float[][] predict(float[][] inputVectors){
         float[][] outputVectors = new float[inputVectors.length][];
 
@@ -43,7 +53,13 @@ public abstract class SimpleModel extends Model{
         return outputVectors;
     }
 
-
+    /**
+     * Calculates the gradient of the loss function with a given input and output vector.
+     * @param x The input vector.
+     * @param y The target output vector.
+     * @param loss The loss function which is to be minimized during training.
+     * @return The gradient as an ArrayList of matricies of the same shape as the model's parameters.
+     */
     protected abstract ArrayList<float[][]> calculateGradient(float[] x, float[] y, Loss loss);
 
     /**

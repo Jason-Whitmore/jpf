@@ -11,9 +11,15 @@ public abstract class Model{
      */
     protected ArrayList<float[][]> parameters;
 
+    /**
+     * The total number of parameters, represented as floating point numbers, used in the model.
+     */
     protected int parameterCount;
 
 
+    /**
+     * Initializes the parameter and parameter count fields in the abstract class.
+     */
     public Model(){
         this.parameters = new ArrayList<float[][]>();
 
@@ -31,7 +37,7 @@ public abstract class Model{
 
     /**
      * Returns the number of parameters in the model.
-     * Time complexity: O(n) where n is the size of the parameter arraylist
+     * Time complexity: O(n) where n is the size of the parameter arraylist. O(1) on subsequent calls.
      * @return The number of parameters in the model.
      */
     public int getParameterCount(){
