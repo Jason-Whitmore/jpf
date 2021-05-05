@@ -20,14 +20,14 @@ public abstract class SimpleModel extends Model{
      * @return The length of the input vector.
      */
     public int getNumInputs(){
-        return numInputs;
+        return this.numInputs;
     }
 
     /**
      * @return The length of the output vector.
      */
     public int getNumOutputs(){
-        return numOutputs;
+        return this.numOutputs;
     }
 
     public abstract float[] predict(float[] inputVector);

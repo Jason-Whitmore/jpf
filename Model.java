@@ -11,6 +11,15 @@ public abstract class Model{
      */
     protected ArrayList<float[][]> parameters;
 
+    protected int parameterCount;
+
+
+    public Model(){
+        this.parameters = new ArrayList<float[][]>();
+
+        this.parameterCount = -1;
+    }
+
     /**
      * Retrieves the model's current collection of parameters.
      * Time complexity: O(1)
@@ -26,13 +35,21 @@ public abstract class Model{
      * @return The number of parameters in the model.
      */
     public int getParameterCount(){
+
+
+        if(this.parameterCount != -1){
+            return this.parameterCount;
+        }
+
         int count = 0;
         
         for(int i = 0; i < parameters.size(); i++){
             count += parameters.get(i).length * parameters.get(i)[0].length;
         }
 
-        return count;
+        this.parameterCount = count;
+
+        return this.parameterCount;
     }
 
 
