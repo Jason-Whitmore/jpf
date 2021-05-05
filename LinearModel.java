@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 /**
  * Class for the structure and behavior of Linear Models, which inherit from the abstract Model class.
- * This type of model is good for modeling data relationships that fit into the form y = Ax + b
+ * This type of model is good for modeling data relationships that fit into the form f(x) = Wx + b
  */
 public class LinearModel extends SimpleModel{
 
     /**
-     * The transformation, or weight matrix of the model. This is the matrix A in y = Ax + b
+     * The transformation or weight matrix of the model. This is the matrix A in y = Ax + b
      */
     private float[][] transformationMatrix;
 
@@ -51,37 +51,10 @@ public class LinearModel extends SimpleModel{
 
         ArrayList<float[][]> params = Utility.stringToMatrixList(fileContents);
 
-        setParameters(params);
+        this.parameters = params;
         
         numInputs = LinearAlgebra.getNumColumns(transformationMatrix);
         numOutputs = LinearAlgebra.getNumRows(biasVector);
-    }
-
-    /**
-     * Changes the parameters of the LinearModel
-     * @param newParams The new parameters to apply to this model. Must be of size 2 and each matrix must be
-     * compatible with model's input and output counts.
-     */
-    public void setParameters(ArrayList<float[][]> newParams){
-        if(newParams.size() != 2){
-            //TODO: Not correct number of parameter matricies
-        }
-
-        //Validate parameter shapes
-
-        if(LinearAlgebra.getNumRows(newParams.get(0)) != numOutputs || LinearAlgebra.getNumColumns(newParams.get(0)) != numInputs){
-            //TODO: Bad transformation matrix dimensions
-        }
-
-        if(LinearAlgebra.getNumColumns(newParams.get(1)) != 1 || LinearAlgebra.getNumRows(newParams.get(1)) != numOutputs){
-            //TODO: Bad bias matrix dimensions
-        }
-
-        super.setParameters(newParams);
-
-        transformationMatrix = newParams.get(0);
-
-        biasVector = newParams.get(1);
     }
 
     /**

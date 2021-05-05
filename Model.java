@@ -9,17 +9,7 @@ public abstract class Model{
     /**
      * The collection of parameters used by the model for prediction.
      */
-    private ArrayList<float[][]> parameters;
-
-    /**
-     * Sets the model parameters to a new collection of parameters.
-     * Time complexity: O(1)
-     * @param newParameters The new collection of parameters. To avoid issues, it's recommended that
-     * The arraylist size, in addition to the dimensions of each 2d array, match the original parameter set.
-     */
-    public void setParameters(ArrayList<float[][]> newParameters){
-        parameters = newParameters;
-    }
+    protected ArrayList<float[][]> parameters;
 
     /**
      * Retrieves the model's current collection of parameters.
@@ -27,7 +17,7 @@ public abstract class Model{
      * @return The model's current collection of parameters
      */
     public ArrayList<float[][]> getParameters(){
-        return parameters;
+        return this.parameters;
     }
 
     /**
