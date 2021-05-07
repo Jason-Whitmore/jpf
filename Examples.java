@@ -46,7 +46,13 @@ public class Examples{
         System.out.println("Training complete. Loss after training should be greater than loss after training:");
         System.out.println("Loss before training: " + untrainedLoss);
         System.out.println("Loss after training: " + trainedLoss);
+    }
 
+    public static void complexLinear(){
+
+        System.out.println("Starting complex LinearModel example.");
+        System.out.println("Will generate data from a randomized transformation and bias matrix, then train a linear model on it.");
+        System.out.println("After training, the learned parameters will then be compared to the original data generation matricies to determine if training worked.");
         
     }
 
