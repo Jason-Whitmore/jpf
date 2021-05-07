@@ -29,16 +29,12 @@ public class LinearModel extends SimpleModel{
 
         biasVector = new float[numOutputs][1];
 
-        ArrayList<float[][]> params = new ArrayList<float[][]>();
-
-        params.add(transformationMatrix);
-        params.add(biasVector);
+        this.parameters.add(transformationMatrix);
+        this.parameters.add(biasVector);
 
         this.numInputs = numInputs;
-
         this.numOutputs = numOutputs;
 
-        setParameters(params);
     }
 
     /**

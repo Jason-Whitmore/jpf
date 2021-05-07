@@ -5,7 +5,7 @@ public class Examples{
     private static final String OPTION_STRING = "";
 
     
-    private void SimpleLinear(){
+    private static void SimpleLinear(){
         System.out.println("Starting Simple Linear Model example: Fitting model to f(x) = 2x - 1");
 
         //Creating dataset for f(x) = 2x - 1
@@ -36,14 +36,14 @@ public class Examples{
 
         float untrainedLoss = model.calculateLoss(trainingInputs, trainingOutputs, new MSE());
 
-        model.fit(trainingInputs, trainingOutputs, 100, 32, 0.01f, new SGD(0.01f), new MSE());
+        model.fit(trainingInputs, trainingOutputs, 1000, 32, 0.01f, new SGD(0.01f), new MSE());
 
         //Calculate the loss
 
         float trainedLoss = model.calculateLoss(trainingInputs, trainingOutputs, new MSE());
 
         //Print out training loss progress
-        System.out.println("Training complete.");
+        System.out.println("Training complete. Loss after training should be greater than loss after training:");
         System.out.println("Loss before training: " + untrainedLoss);
         System.out.println("Loss after training: " + trainedLoss);
 
@@ -52,9 +52,23 @@ public class Examples{
 
     public static void main(String[] args){
 
-        if(args.length == 0){
+        if(args.length != 1){
             System.out.println(OPTION_STRING);
         }
 
+        runExample(args[0]);
+    }
+
+    public static void runExample(String exampleName){
+        exampleName = exampleName.toLowerCase();
+
+        switch (exampleName) {
+            case "simplelinear":
+                SimpleLinear();
+                break;
+        
+            default:
+                break;
+        }
     }
 }

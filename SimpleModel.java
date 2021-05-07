@@ -17,7 +17,7 @@ public abstract class SimpleModel extends Model{
 
 
     public SimpleModel(){
-        this.super();
+        super();
     }
 
     /**
