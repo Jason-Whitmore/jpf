@@ -1,4 +1,4 @@
-
+import Utility.Initializers;
 
 public class Examples{
 
@@ -53,7 +53,29 @@ public class Examples{
         System.out.println("Starting complex LinearModel example.");
         System.out.println("Will generate data from a randomized transformation and bias matrix, then train a linear model on it.");
         System.out.println("After training, the learned parameters will then be compared to the original data generation matricies to determine if training worked.");
-        
+        System.out.println("To see if model saving/loading works, the LinearModel will be saved to disk, reloaded, and then compared outputs.");
+
+        int numInputs = 3;
+        int numOutputs = 3;
+
+        float[][] transformationMatrix = new float[numOutputs][numInputs];
+        Utility.Initializers.initializeUniform(transformationMatrix, -1f, 1f);
+
+        float[][] biasMatrix = new float[numOutputs][1];
+        Utility.Initializers.initializeUniform(biasMatrix, -1f, 1f);
+
+        //Generate data
+        System.out.println("Generating data...");
+        int numSamples = 1000;
+
+        float[][] trainingInputs = new float[numSamples][];
+        float[][] trainingOutputs = new float[numSamples][];
+
+        for(int i = 0; i < numSamples; i++){
+            float[] x = new float[numInputs];
+            
+        }
+
     }
 
     public static void main(String[] args){
