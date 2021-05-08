@@ -97,7 +97,24 @@ public class Examples{
         System.out.println("Start loss: " + startLoss);
         System.out.println("End loss: " + endLoss);
 
+        //Save model and reload
+        String filePath = "ComplexLinearModel";
+
+        System.out.println("Saving trained model to disk...");
+        model.saveModel(filePath);
+
+        model = null;
+
+        System.out.println("Loading model from disk...");
+        model = new LinearModel(filePath);
+
+        System.out.println("Model loaded. Check loss. Loss from model should mostly match to loaded model:");
+        System.out.println("Loss from trained model: " + endLoss);
+
+        float loadedModelLoss = model.calculateLoss(trainingInputs, trainingOutputs, new MSE());
         
+        System.out.println("Loss from loaded model: " + loadedModelLoss);
+
     }
 
     public static void main(String[] args){
