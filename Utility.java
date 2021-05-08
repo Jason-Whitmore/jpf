@@ -392,69 +392,74 @@ public class Utility{
     }
 
 
-    static class Initializers{
+    /**
+     * Initializes the parameters to a uniform distribution of (min, max)
+     * @param parameters The parameters to initialize
+     * @param min The minimum value an entry can be.
+     * @param max The maximum value an entry can be.
+     */
+    public static void initializeUniform(ArrayList<float[][]> parameters, float min, float max){
 
-        /**
-         * Initializes the parameters to a uniform distribution of (min, max)
-         * @param parameters The parameters to initialize
-         * @param min The minimum value an entry can be.
-         * @param max The maximum value an entry can be.
-         */
-        public static void initializeUniform(ArrayList<float[][]> parameters, float min, float max){
-
-            for(int i = 0; i < parameters.size(); i++){
-                initializeUniform(parameters.get(i), min, max);
-            }
-
-        }
-
-        /**
-         * Initializes the entries in the matrix to a unfirom distribution of (min, max).
-         * @param matrix The matrix to initialize.
-         * @param min The minimum value an entry can be.
-         * @param max The maximum value an entry can be.
-         */
-        public static void initializeUniform(float[][] matrix, float min, float max){
-            for(int r = 0; r < matrix.length; r++){
-                for(int c = 0; c < matrix[r].length; c++){
-                    matrix[r][c] = Utility.getRandomUniform(min, max);
-                }
-            }
-        }
-
-        /**
-         * Initializes the parameters to a samples from a normal distribution
-         * @param parameters The parameters to initialize.
-         * @param mean The mean of the normal distribution.
-         * @param variance The variance of the normal distribution.
-         */
-        public static void initializeNormal(ArrayList<float[][]> parameters, float mean, float variance){
-            Random r = new Random();
-
-            for(int i = 0; i < parameters.size(); i++){
-                initializeNormal(parameters.get(i), mean, variance, r);
-            }
-        }
-
-        /**
-         * Initializes the matrix elements to be sample from a normal distribution.
-         * @param matrix The matrix to initialize.
-         * @param mean The mean of the normal distribution.
-         * @param variance The variance of the normal distribution.
-         * @param randObject The Random object to get the random samples from.
-         */
-        public static void initializeNormal(float[][] matrix, float mean, float variance, Random randObject){
-
-            for(int r = 0; r < matrix.length; r++){
-                for(int c = 0; c < matrix[r].length; c++){
-                    float randomFloat = (float)randObject.nextGaussian();
-
-                    matrix[r][c] = (randomFloat * variance) - mean;
-                }
-            }
+        for(int i = 0; i < parameters.size(); i++){
+            initializeUniform(parameters.get(i), min, max);
         }
 
     }
+
+    /**
+     * Initializes the entries in the matrix to a unfirom distribution of (min, max). TODO: Refactor
+     * @param matrix The matrix to initialize.
+     * @param min The minimum value an entry can be.
+     * @param max The maximum value an entry can be.
+     */
+    public static void initializeUniform(float[][] matrix, float min, float max){
+        for(int r = 0; r < matrix.length; r++){
+            for(int c = 0; c < matrix[r].length; c++){
+                matrix[r][c] = Utility.getRandomUniform(min, max);
+            }
+        }
+    }
+
+
+    //TODO: Docs here
+    public static void initializeUniform(float[] array, float min, float max){
+        for(int i = 0; i < array.length; i++){
+            array[i] = Utility.getRandomUniform(min, max);
+        }
+    }
+
+    /**
+     * Initializes the parameters to a samples from a normal distribution
+     * @param parameters The parameters to initialize.
+     * @param mean The mean of the normal distribution.
+     * @param variance The variance of the normal distribution.
+     */
+    public static void initializeNormal(ArrayList<float[][]> parameters, float mean, float variance){
+        Random r = new Random();
+
+        for(int i = 0; i < parameters.size(); i++){
+            initializeNormal(parameters.get(i), mean, variance, r);
+        }
+    }
+
+    /**
+     * Initializes the matrix elements to be sample from a normal distribution.
+     * @param matrix The matrix to initialize.
+     * @param mean The mean of the normal distribution.
+     * @param variance The variance of the normal distribution.
+     * @param randObject The Random object to get the random samples from.
+     */
+    public static void initializeNormal(float[][] matrix, float mean, float variance, Random randObject){
+
+        for(int r = 0; r < matrix.length; r++){
+            for(int c = 0; c < matrix[r].length; c++){
+                float randomFloat = (float)randObject.nextGaussian();
+
+                matrix[r][c] = (randomFloat * variance) - mean;
+            }
+        }
+    }
+
 
     /**
      * Reads a text file and places all of the contents into a string
@@ -541,7 +546,7 @@ public class Utility{
 
         //try with arraylist as null
         try{
-            Initializers.initializeNormal(null, 0, 0);
+            initializeNormal(null, 0, 0);
         } catch(NullPointerException e){
             worked = true;
         }
@@ -549,7 +554,7 @@ public class Utility{
         //try with negative variance
 
         try{
-            Initializers.initializeNormal(new ArrayList<float[][]>(), 0, -1);
+            initializeNormal(new ArrayList<float[][]>(), 0, -1);
         } catch(Exception e){
 
         }

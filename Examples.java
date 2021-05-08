@@ -1,5 +1,3 @@
-import Utility.Initializers;
-
 public class Examples{
 
     private static final String OPTION_STRING = "";
@@ -59,10 +57,10 @@ public class Examples{
         int numOutputs = 3;
 
         float[][] transformationMatrix = new float[numOutputs][numInputs];
-        Utility.Initializers.initializeUniform(transformationMatrix, -1f, 1f);
+        Utility.initializeUniform(transformationMatrix, -1f, 1f);
 
         float[][] biasMatrix = new float[numOutputs][1];
-        Utility.Initializers.initializeUniform(biasMatrix, -1f, 1f);
+        Utility.initializeUniform(biasMatrix, -1f, 1f);
 
         //Generate data
         System.out.println("Generating data...");
@@ -73,9 +71,33 @@ public class Examples{
 
         for(int i = 0; i < numSamples; i++){
             float[] x = new float[numInputs];
+            Utility.initializeUniform(x, -10f, 10f);
             
+            float[][] postTransformMatrix = LinearAlgebra.matrixMultiply(transformationMatrix, LinearAlgebra.arrayToMatrix(x));
+
+            float[][] postAddMatrix = LinearAlgebra.matrixAdd(postTransformMatrix, biasMatrix);
+
+            float[] y = LinearAlgebra.matrixToArray(postAddMatrix);
+
+            trainingInputs[i] = x;
+            trainingOutputs[i] = y;
         }
 
+        //Create LinearModel and train
+        System.out.println("Creating LinearModel and training...");
+        LinearModel model = new LinearModel(numInputs, numOutputs);
+
+        float startLoss = model.calculateLoss(trainingInputs, trainingOutputs, new MSE());
+
+        model.fit(trainingInputs, trainingOutputs, 1000, 32, 0.1f, new SGD(0.001f), new MSE());
+
+        float endLoss = model.calculateLoss(trainingInputs, trainingOutputs, new MSE());
+
+        System.out.println("Model trained. End loss should be smaller than start loss:");
+        System.out.println("Start loss: " + startLoss);
+        System.out.println("End loss: " + endLoss);
+
+        
     }
 
     public static void main(String[] args){
