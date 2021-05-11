@@ -25,9 +25,9 @@ public class LinearModel extends SimpleModel{
      * @param numOutputs The number of components in the output vector
      */
     public LinearModel(int numInputs, int numOutputs){
-        transformationMatrix = LinearAlgebra.initializeRandomUniformMatrix(numOutputs, numInputs, -1f, 1f);
+        this.transformationMatrix = LinearAlgebra.initializeRandomUniformMatrix(numOutputs, numInputs, -1f, 1f);
 
-        biasVector = new float[numOutputs][1];
+        this.biasVector = new float[numOutputs][1];
 
         this.parameters.add(transformationMatrix);
         this.parameters.add(biasVector);
@@ -48,6 +48,9 @@ public class LinearModel extends SimpleModel{
         ArrayList<float[][]> params = Utility.stringToMatrixList(fileContents);
 
         this.parameters = params;
+
+        this.transformationMatrix = params.get(0);
+        this.biasVector = params.get(1);
         
         numInputs = LinearAlgebra.getNumColumns(transformationMatrix);
         numOutputs = LinearAlgebra.getNumRows(biasVector);

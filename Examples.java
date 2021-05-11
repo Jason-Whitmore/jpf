@@ -112,9 +112,57 @@ public class Examples{
         System.out.println("Loss from trained model: " + endLoss);
 
         float loadedModelLoss = model.calculateLoss(trainingInputs, trainingOutputs, new MSE());
-        
+
         System.out.println("Loss from loaded model: " + loadedModelLoss);
 
+    }
+
+
+    public static void polynomialSinExample(){
+        System.out.println("In this example, a polynomial model will be fit to data produced from the sin(x) function in order to find a fast approximation.");
+
+        //Generate the data
+        System.out.println("Creating the dataset...");
+
+        int numSamples = 1000;
+
+        float[][] trainingInputs = new float[numSamples][];
+        float[][] trainingOutputs = new float[numSamples][];
+
+        for(int i = 0; i < numSamples; i++){
+            float[] x = new float[1];
+
+            x[0] = (float)(Math.random() * 10f);
+
+            float[] y = new float[1];
+
+            y[0] = (float)(Math.sin((double) x[0]));
+
+            trainingInputs[i] = x;
+            trainingOutputs[i] = y;
+        }
+
+        //Create the polynomial model
+        int degree = 3;
+        System.out.println("Creating a polynomial model of degree " + degree);
+
+        PolynomialModel model = new PolynomialModel(1, 1, degree);
+
+        //Before training, evaluate loss
+        float beforeLoss = model.calculateLoss(trainingInputs, trainingOutputs, new MSE());
+
+        //Train the polynomial model
+        System.out.println("Training polynomial model...");
+        model.fit(trainingInputs, trainingOutputs, 100, 32, 0.1f, new RMSProp(), new MSE());
+
+        //Calculate loss after training
+        float afterLoss = model.calculateLoss(trainingInputs, trainingOutputs, new MSE());
+
+        System.out.println("Training complete. Loss from before training should be larger than loss after training:");
+        System.out.println("Loss before training: " + beforeLoss);
+        System.out.println("Loss after training: " + afterLoss);
+
+        
     }
 
     public static void main(String[] args){
@@ -134,6 +182,10 @@ public class Examples{
                 SimpleLinear();
                 break;
         
+            case "complexlinear":
+                complexLinear();
+                break;
+                
             default:
                 break;
         }
