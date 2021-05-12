@@ -143,7 +143,7 @@ public class Examples{
         }
 
         //Create the polynomial model
-        int degree = 3;
+        int degree = 2;
         System.out.println("Creating a polynomial model of degree " + degree);
 
         PolynomialModel model = new PolynomialModel(1, 1, degree);
@@ -153,7 +153,7 @@ public class Examples{
 
         //Train the polynomial model
         System.out.println("Training polynomial model...");
-        model.fit(trainingInputs, trainingOutputs, 100, 32, 0.1f, new RMSProp(), new MSE());
+        model.fit(trainingInputs, trainingOutputs, 1000, 32, 0.1f, new RMSProp(), new MSE());
 
         //Calculate loss after training
         float afterLoss = model.calculateLoss(trainingInputs, trainingOutputs, new MSE());
@@ -162,7 +162,12 @@ public class Examples{
         System.out.println("Loss before training: " + beforeLoss);
         System.out.println("Loss after training: " + afterLoss);
 
-        
+        //Print out the learned equation for approximating sin(x)
+        float a = model.getParameters().get(0)[0][0];
+        float b = model.getParameters().get(0)[0][1];
+        float c = model.getParameters().get(1)[0][0];
+
+        System.out.println("Learned polynomial is: f(x) = " + a + "x^2 + " + b + "x + " + c);
     }
 
     public static void main(String[] args){
@@ -186,6 +191,10 @@ public class Examples{
                 complexLinear();
                 break;
                 
+            case "polynomialsin":
+                polynomialSinExample();
+                break;
+
             default:
                 break;
         }

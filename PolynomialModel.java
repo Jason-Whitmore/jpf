@@ -15,6 +15,8 @@ public class PolynomialModel extends SimpleModel {
 
     
     public PolynomialModel(int numInputs, int numOutputs, int degree){
+        super();
+
         this.numInputs = numInputs;
 
         this.numOutputs = numOutputs;
@@ -23,27 +25,17 @@ public class PolynomialModel extends SimpleModel {
 
         weightMatricies = new ArrayList<float[][]>();
 
-        ArrayList<float[][]> params = new ArrayList<float[][]>();
-
         //Create the polynomial weight matricies and initialize
         for(int i = 0; i < numOutputs; i++){
             weightMatricies.add(new float[numOutputs][degree]);
-            params.add(weightMatricies.get(i));
+            this.parameters.add(weightMatricies.get(i));
         }
-
-
-
 
         this.biasVector = new float[numOutputs][1];
 
-        params.add(this.biasVector);
+        this.parameters.add(this.biasVector);
 
-        setParameters(params);
-
-
-        Utility.Initializers.initializeUniform(getParameters(), -1f, 1f);
-        
-        
+        Utility.initializeUniform(getParameters(), -1f, 1f);        
     }
 
 
@@ -57,7 +49,7 @@ public class PolynomialModel extends SimpleModel {
 
         ArrayList<float[][]> arrays = Utility.stringToMatrixList(contents);
 
-        setParameters(arrays);
+        this.parameters = arrays;
 
         weightMatricies = new ArrayList<float[][]>();
         for(int i = 0; i < arrays.size() - 1; i++){
