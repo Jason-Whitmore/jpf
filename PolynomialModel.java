@@ -26,7 +26,7 @@ public class PolynomialModel extends SimpleModel {
         weightMatricies = new ArrayList<float[][]>();
 
         //Create the polynomial weight matricies and initialize
-        for(int i = 0; i < numOutputs; i++){
+        for(int i = 0; i < numInputs; i++){
             weightMatricies.add(new float[numOutputs][degree]);
             this.parameters.add(weightMatricies.get(i));
         }
@@ -73,8 +73,6 @@ public class PolynomialModel extends SimpleModel {
 
         for(int x = 0; x < inputVector.length; x++){
             float[] powers = calculatePowers(inputVector[x], degree);
-
-
             for(int y = 0; y < numOutputs; y++){
 
                 for(int d = 0; d < powers.length; d++){
