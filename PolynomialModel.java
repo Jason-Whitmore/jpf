@@ -1,17 +1,13 @@
 import java.io.File;
 import java.util.ArrayList;
 
-public class PolynomialModel extends SimpleModel {
+public class PolynomialModel extends SimpleModel{
 
-    int numInputs;
+    private int degree;
 
-    int numOutputs;
+    private ArrayList<float[][]> weightMatricies;
 
-    int degree;
-
-    ArrayList<float[][]> weightMatricies;
-
-    float[][] biasVector;
+    private float[][] biasVector;
 
     
     public PolynomialModel(int numInputs, int numOutputs, int degree){
@@ -35,7 +31,7 @@ public class PolynomialModel extends SimpleModel {
 
         this.parameters.add(this.biasVector);
 
-        Utility.initializeUniform(getParameters(), -1f, 1f);        
+        Utility.initializeUniform(getParameters(), -0.001f, 0.001f);
     }
 
 
@@ -69,10 +65,10 @@ public class PolynomialModel extends SimpleModel {
     public float[] predict(float[] inputVector){
         //TODO: Check input dimensions
 
-        float[] outputVector = new float[numOutputs];
+        float[] outputVector = new float[this.numOutputs];
 
         for(int x = 0; x < inputVector.length; x++){
-            float[] powers = calculatePowers(inputVector[x], degree);
+            float[] powers = this.calculatePowers(inputVector[x], degree);
             for(int y = 0; y < numOutputs; y++){
 
                 for(int d = 0; d < powers.length; d++){
@@ -123,23 +119,6 @@ public class PolynomialModel extends SimpleModel {
         return r;
     }
 
-    /**
-     * Makes multiple predictions.
-     * @param inputVectors The set of input vectors to feed into the model.
-     * @return The predictions corresponding with the input vectors.
-     */
-    public ArrayList<float[]> predict(ArrayList<float[]> inputVectors) {
-        ArrayList<float[]> r = new ArrayList<float[]>();
-
-        for(int i = 0; i < inputVectors.size(); i++){
-            float[] temp = predict(inputVectors.get(i));
-
-            r.add(temp);
-        }
-
-        return r;
-    }
-
     
 
     public ArrayList<float[][]> calculateGradient(float[] x, float[] y, Loss loss){
@@ -148,7 +127,7 @@ public class PolynomialModel extends SimpleModel {
 
         float[] yPred = predict(x);
 
-        float[] error = loss.calculateLossVectorGradient(y, yPred);
+        float[] dLdY = loss.calculateLossVectorGradient(y, yPred);
 
         for(int i = 0; i < x.length; i++){
             float[] powers = calculatePowers(x[i], degree);
@@ -156,12 +135,12 @@ public class PolynomialModel extends SimpleModel {
             for(int j = 0; j < y.length; j++){
 
                 for(int d = 0; d < degree; d++){
-                    grad.get(i)[j][d] = powers[d] * error[j];
+                    grad.get(i)[j][d] = powers[d] * dLdY[j];
                 }
             }
         }
 
-        grad.set(grad.size() - 1, LinearAlgebra.arrayToMatrix(error));
+        grad.set(grad.size() - 1, LinearAlgebra.arrayToMatrix(dLdY));
 
 
         return grad;
