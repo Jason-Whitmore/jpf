@@ -132,7 +132,7 @@ public class Examples{
         for(int i = 0; i < numSamples; i++){
             float[] x = new float[1];
 
-            x[0] = (float)(Math.random() * 10f);
+            x[0] = (float)(Math.random() * 3f);
 
             float[] y = new float[1];
 
@@ -153,7 +153,7 @@ public class Examples{
 
         //Train the polynomial model
         System.out.println("Training polynomial model...");
-        model.fit(trainingInputs, trainingOutputs, 40000, 1, 0.01f, new RMSProp(0.00001f, 0.9f, 0.00001f), new MSE());
+        model.fit(trainingInputs, trainingOutputs, 100000, 32, 0.01f, new RMSProp(), new MSE());
 
         //Calculate loss after training
         float afterLoss = model.calculateLoss(trainingInputs, trainingOutputs, new MSE());
@@ -163,11 +163,19 @@ public class Examples{
         System.out.println("Loss after training: " + afterLoss);
 
         //Print out the learned equation for approximating sin(x)
-        float a = model.getParameters().get(0)[0][0];
-        float b = model.getParameters().get(0)[0][1];
-        float c = model.getParameters().get(1)[0][0];
+        float[] coefficients = new float[degree + 1];
+        for(int i = 0; i < degree; i++){
+            coefficients[i] = model.getParameters().get(0)[0][i];
+        }
 
-        System.out.println("Learned polynomial is: f(x) = " + a + "x^2 + " + b + "x + " + c);
+        coefficients[coefficients.length - 1] = model.getParameters().get(1)[0][0];
+
+        System.out.print("Learned polynomial is: f(x) = ");
+        for(int i = 1; i < coefficients.length; i++){
+            System.out.print(coefficients[i] + "x^" + (i) + " + ");
+        }
+
+        System.out.print(coefficients[coefficients.length - 1] + "\n");
     }
 
     public static void main(String[] args){

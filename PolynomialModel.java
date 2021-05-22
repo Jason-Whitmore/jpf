@@ -22,12 +22,12 @@ public class PolynomialModel extends SimpleModel{
         weightMatricies = new ArrayList<float[][]>();
 
         //Create the polynomial weight matricies and initialize
-        for(int i = 0; i < numInputs; i++){
-            weightMatricies.add(new float[numOutputs][degree]);
-            this.parameters.add(weightMatricies.get(i));
+        for(int i = 0; i < this.numInputs; i++){
+            weightMatricies.add(new float[this.numOutputs][this.degree]);
+            this.parameters.add(this.weightMatricies.get(i));
         }
 
-        this.biasVector = new float[numOutputs][1];
+        this.biasVector = new float[this.numOutputs][1];
 
         this.parameters.add(this.biasVector);
 
@@ -101,36 +101,18 @@ public class PolynomialModel extends SimpleModel{
 
         return r;
     }
-
-    /**
-     * Makes multiple predictions.
-     * @param inputVectors The set of input vectors to feed into the model.
-     * @return The predictions corresponding with the input vectors.
-     */
-    public float[][] predict(float[][] inputVectors){
-        float[][] r = new float[inputVectors.length][numOutputs];
-
-        for(int i = 0; i < r.length; i++){
-            float[] temp = predict(inputVectors[i]);
-
-            r[i] = temp;
-        }
-
-        return r;
-    }
-
     
 
     public ArrayList<float[][]> calculateGradient(float[] x, float[] y, Loss loss){
         ArrayList<float[][]> grad = Utility.cloneArrays(getParameters());
         Utility.clearArrays(grad);
 
-        float[] yPred = predict(x);
+        float[] yPred = this.predict(x);
 
         float[] dLdY = loss.calculateLossVectorGradient(y, yPred);
 
         for(int i = 0; i < x.length; i++){
-            float[] powers = calculatePowers(x[i], degree);
+            float[] powers = this.calculatePowers(x[i], this.degree);
 
             for(int j = 0; j < y.length; j++){
 
@@ -146,17 +128,6 @@ public class PolynomialModel extends SimpleModel{
         return grad;
     }
 
-
-
-    public float calculateLoss(float[][] x, float[][] y, Loss loss){
-        float sum = 0;
-
-        for(int i = 0; i < x.length; i++){
-            sum += calculateLoss(x[i], y[i], loss);
-        }
-
-        return sum / x.length;
-    }
 
     public float calculateLoss(float[] x, float[] y, Loss loss){
         float[] yPred = predict(x);
