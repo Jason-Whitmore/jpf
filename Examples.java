@@ -143,7 +143,7 @@ public class Examples{
         }
 
         //Create the polynomial model
-        int degree = 2;
+        int degree = 1;
         System.out.println("Creating a polynomial model of degree " + degree);
 
         PolynomialModel model = new PolynomialModel(1, 1, degree);

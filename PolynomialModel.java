@@ -12,6 +12,10 @@ public class PolynomialModel extends SimpleModel{
     public PolynomialModel(int numInputs, int numOutputs, int degree){
         super();
 
+        if(degree < 1){
+            System.err.println("Error: Using a polynomial model with a degree of less than 1 may cause issues.");
+        }
+
         this.numInputs = numInputs;
 
         this.numOutputs = numOutputs;
@@ -88,11 +92,12 @@ public class PolynomialModel extends SimpleModel{
     /**
      * Calculates an array of form [x, x^2, ..., x^maxPower]
      * @param x The number to raise to the power of.
-     * @param maxPower The highest exponent in the sequence.
+     * @param maxPower The highest exponent in the sequence. Should be >= 1.
      * @return Returns the power array.
      */
     private float[] calculatePowers(float x, int maxPower){
         float[] r = new float[maxPower];
+
         r[0] = x;
 
         for(int i = 1; i < r.length; i++){
