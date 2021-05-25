@@ -45,6 +45,8 @@ public class LinearModel extends SimpleModel{
         
         String fileContents = Utility.getTextFileContents(filePath);
 
+        fileContents = fileContents.replace("LINEARMODEL\n", "");
+
         ArrayList<float[][]> params = Utility.stringToMatrixList(fileContents);
 
         this.parameters = params;
@@ -139,12 +141,18 @@ public class LinearModel extends SimpleModel{
      * @param filePath The file path to save the model to.
      */
     public void saveModel(String filePath){
+        //Construct the string
+        String contents = Utility.arraysToString(this.getParameters());
 
-        String contents = Utility.arraysToString(getParameters());
+        contents = "LINEARMODEL\n" + contents; 
 
         //write the string to disk
 
-        Utility.writeStringToFile(filePath, contents);
+        boolean success = Utility.writeStringToFile(filePath, contents);
+
+        if(!success){
+            System.err.println("Error: Linear model could not be saved.");
+        }
         
     }
 }

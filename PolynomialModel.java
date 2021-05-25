@@ -37,10 +37,7 @@ public class PolynomialModel extends SimpleModel{
     public PolynomialModel(String filePath){
         //Load file contents
         String contents = Utility.getTextFileContents(filePath);
-
-        if(contents == null){
-            return;
-        }
+        contents = contents.replace("POLYNOMIALMODEL\n", "");
 
         ArrayList<float[][]> arrays = Utility.stringToMatrixList(contents);
 
@@ -58,6 +55,10 @@ public class PolynomialModel extends SimpleModel{
         this.numOutputs = LinearAlgebra.getNumRows(biasVector);
 
         this.degree = LinearAlgebra.getNumColumns(arrays.get(0));
+    }
+
+    public int getDegree(){
+        return this.degree;
     }
 
 
@@ -136,8 +137,9 @@ public class PolynomialModel extends SimpleModel{
 
     
     public void saveModel(String filePath) {
-
+        //create the model string
         String contents = Utility.arraysToString(this.getParameters());
+        contents = "POLYNOMIALMODEL\n" + contents;
 
         boolean success = Utility.writeStringToFile(filePath, contents);
 

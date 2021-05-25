@@ -41,7 +41,7 @@ public class Examples{
         float trainedLoss = model.calculateLoss(trainingInputs, trainingOutputs, new MSE());
 
         //Print out training loss progress
-        System.out.println("Training complete. Loss after training should be greater than loss after training:");
+        System.out.println("Training complete. Loss before training should be greater than loss after training:");
         System.out.println("Loss before training: " + untrainedLoss);
         System.out.println("Loss after training: " + trainedLoss);
     }
