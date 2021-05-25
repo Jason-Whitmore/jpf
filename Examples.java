@@ -153,7 +153,7 @@ public class Examples{
 
         //Train the polynomial model
         System.out.println("Training polynomial model...");
-        model.fit(trainingInputs, trainingOutputs, 100000, 32, 0.01f, new RMSProp(), new MSE());
+        model.fit(trainingInputs, trainingOutputs, 200000, 32, 0.01f, new RMSProp(), new MSE());
 
         //Calculate loss after training
         float afterLoss = model.calculateLoss(trainingInputs, trainingOutputs, new MSE());
@@ -170,12 +170,30 @@ public class Examples{
 
         coefficients[coefficients.length - 1] = model.getParameters().get(1)[0][0];
 
+        //Print function with highest order terms first
         System.out.print("Learned polynomial is: f(x) = ");
-        for(int i = 1; i < coefficients.length; i++){
-            System.out.print(coefficients[i] + "x^" + (i) + " + ");
+        for(int i = coefficients.length - 2; i >= 1; i--){
+            System.out.print(coefficients[i] + "x^" + (i + 1) + " + ");
         }
 
+        System.out.print(coefficients[0] + "x + ");
         System.out.print(coefficients[coefficients.length - 1] + "\n");
+
+        //Test the saving/loading methods of the polynomial model
+        String filePath = "polynomial_model_saved";
+        System.out.println("Now saving the model to file: " + filePath);
+        model.saveModel(filePath);
+
+        System.out.println("Model saved. Now loading the model from file...");
+        model = null;
+        model = new PolynomialModel(filePath);
+
+        //Get the loss on the dataset. Should match old model's loss
+        float loadedModelLoss = model.calculateLoss(trainingInputs, trainingOutputs, new MSE());
+
+        System.out.println("Model loaded. Loss on dataset on loaded model should match the previous model's loss:");
+        System.out.println("Old model loss: " + afterLoss);
+        System.out.println("Loaded model loss: " + loadedModelLoss);
     }
 
     public static void main(String[] args){
