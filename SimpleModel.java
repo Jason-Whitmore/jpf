@@ -29,7 +29,10 @@ public abstract class SimpleModel extends Model{
     }
 
     /**
-     * Basic constructor for the SimpleModel abstract class.
+     * Basic constructor for the SimpleModel abstract class. Calls constructor for Model class
+     * but does not populate the input and output vector size fields. This is useful when
+     * the input and output vector size fields are unknown from constructor parameters,
+     * such as when a model is being created from a file name only.
      */
     public SimpleModel(){
         super();
@@ -146,7 +149,7 @@ public abstract class SimpleModel extends Model{
     /**
      * Calculates the average scalar loss on multiple data samples.
      * @param x The model inputs.
-     * @param y The model ouputs corresponding with inputs
+     * @param y The model ouputs corresponding with inputs.
      * @param loss The loss function to use to calculate the scalar losses.
      * @return The average scalar loss.
      */

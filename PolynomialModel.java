@@ -1,11 +1,30 @@
 import java.util.ArrayList;
 
+/**
+ * Defines the PolynomialModel class, which aims to learn polynomial relationships between data.
+ * Unlike the LinearModel class, the PolynomialModel class allows the user to adjust the complexity/capacity
+ * of the model by using the degree parameter in the constructor.
+ */
 public class PolynomialModel extends SimpleModel{
 
+    /**
+     * The degree of the polynomials. Also known as the maximum exponent
+     * applied to a component of the input vector.
+     */
     private int degree;
 
+    /**
+     * The weight matricies of the model which represent the coefficients
+     * that are multiplied with x^n. Entries are indexed with weightMatricies.get(x)[y][p]
+     * where x is the input vector component index, y is the output vector component index,
+     * and p is the index of the coefficient multiplied by x raised to the (p - 1)th power.
+     */
     private ArrayList<float[][]> weightMatricies;
 
+    /**
+     * The bias vector contains the constants added to the output vector.
+     * This is like the b in y = mx + b.
+     */
     private float[][] biasVector;
 
     
@@ -59,6 +78,10 @@ public class PolynomialModel extends SimpleModel{
 
     }
 
+    /**
+     * @return The degree of the polynomials. Also known as the maximum exponent
+     * applied to an input vector component.
+     */
     public int getDegree(){
         return this.degree;
     }
