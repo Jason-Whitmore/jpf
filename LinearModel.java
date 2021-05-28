@@ -25,16 +25,14 @@ public class LinearModel extends SimpleModel{
      * @param numOutputs The number of components in the output vector
      */
     public LinearModel(int numInputs, int numOutputs){
+        super(numInputs, numOutputs);
+
         this.transformationMatrix = LinearAlgebra.initializeRandomUniformMatrix(numOutputs, numInputs, -1f, 1f);
 
         this.biasVector = new float[numOutputs][1];
 
         this.parameters.add(transformationMatrix);
         this.parameters.add(biasVector);
-
-        this.numInputs = numInputs;
-        this.numOutputs = numOutputs;
-
     }
 
     /**

@@ -1,6 +1,6 @@
 public class Examples{
 
-    private static final String OPTION_STRING = "";
+    private static final String OPTION_STRING = "Arg options: simplelinear, complexlinear, polynomialsin";
 
     
     private static void SimpleLinear(){

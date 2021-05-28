@@ -10,15 +10,11 @@ public class PolynomialModel extends SimpleModel{
 
     
     public PolynomialModel(int numInputs, int numOutputs, int degree){
-        super();
+        super(numInputs, numOutputs);
 
         if(degree < 1){
             System.err.println("Error: Using a polynomial model with a degree of less than 1 may cause issues.");
         }
-
-        this.numInputs = numInputs;
-
-        this.numOutputs = numOutputs;
 
         this.degree = degree;
 
@@ -39,6 +35,7 @@ public class PolynomialModel extends SimpleModel{
 
 
     public PolynomialModel(String filePath){
+        super();
         //Load file contents
         String contents = Utility.getTextFileContents(filePath);
         contents = contents.replace("POLYNOMIALMODEL\n", "");
@@ -59,6 +56,7 @@ public class PolynomialModel extends SimpleModel{
         this.numOutputs = LinearAlgebra.getNumRows(biasVector);
 
         this.degree = LinearAlgebra.getNumColumns(arrays.get(0));
+
     }
 
     public int getDegree(){

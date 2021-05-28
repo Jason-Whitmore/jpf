@@ -15,7 +15,22 @@ public abstract class SimpleModel extends Model{
      */
     protected int numOutputs;
 
+    /**
+     * Constructor for the SimpleModel abstract class. Calls constructor for Model class
+     * and populates the input and output vector size fields.
+     * @param numInputs The number of components in the input vector. Should be >= 1.
+     * @param numOutputs The number of components in the output vector. Should be >= 1.
+     */
+    public SimpleModel(int numInputs, int numOutputs){
+        super();
 
+        this.numInputs = numInputs;
+        this.numOutputs = numOutputs;
+    }
+
+    /**
+     * Basic constructor for the SimpleModel abstract class.
+     */
     public SimpleModel(){
         super();
     }
@@ -34,6 +49,11 @@ public abstract class SimpleModel extends Model{
         return this.numOutputs;
     }
 
+    /**
+     * Makes a prediction on a single input vector.
+     * @param inputVector The vector to use as input for the function.
+     * @return The output vector produced from the model and input vector.
+     */
     public abstract float[] predict(float[] inputVector);
 
 
@@ -110,23 +130,6 @@ public abstract class SimpleModel extends Model{
 
     }
 
-    public void fit(ArrayList<float[]> x, ArrayList<float[]> y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss){
-        float[][] xArray = new float[x.size()][];
-        
-        for(int i = 0; i < x.size(); i++){
-            xArray[i] = x.get(i);
-        }
-
-
-        float[][] yArray = new float[y.size()][];
-
-        for(int i = 0; i < y.size(); i++){
-            yArray[i] = y.get(i);
-        }
-
-        fit(xArray, yArray, epochs, minibatchSize, valueClip, opt, loss);
-    }
-
     /**
      * Calculates scalar loss on one data sample.
      * @param x The model input.
@@ -138,30 +141,6 @@ public abstract class SimpleModel extends Model{
 
         float[] yPred = predict(x);
         return loss.calculateLossScalar(y, yPred);
-    }
-
-    /**
-     * Calculates the average scalar loss on multiple data samples.
-     * @param x The model inputs.
-     * @param y The model ouputs corresponding with inputs
-     * @param loss The loss function to use to calculate the scalar losses.
-     * @return The average scalar loss.
-     */
-    public float calculateLoss(ArrayList<float[]> x, ArrayList<float[]> y, Loss loss){
-        float[][] xArray = new float[x.size()][];
-
-        for(int i = 0; i < x.size(); i++){
-            xArray[i] = x.get(i);
-        }
-
-
-        float[][] yArray = new float[y.size()][];
-
-        for(int i = 0; i < y.size(); i++){
-            yArray[i] = y.get(i);
-        }
-
-        return calculateLoss(xArray, yArray, loss);
     }
     
     /**
