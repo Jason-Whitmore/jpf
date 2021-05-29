@@ -28,6 +28,14 @@ public class PolynomialModel extends SimpleModel{
     private float[][] biasVector;
 
     
+    /**
+     * Creates a PolynomialModel with user defined input/output sizes and degree.
+     * @param numInputs The size of the input vector.
+     * @param numOutputs The size of the output vector.
+     * @param degree The maximum power applied to an input vector component.
+     * A larger degree increases the capacity of the model, but can lead to overfitting.
+     * degree should be greater than or equal to 1
+     */
     public PolynomialModel(int numInputs, int numOutputs, int degree){
         super(numInputs, numOutputs);
 
@@ -49,10 +57,13 @@ public class PolynomialModel extends SimpleModel{
 
         this.parameters.add(this.biasVector);
 
-        Utility.initializeUniform(getParameters(), -0.001f, 0.001f);
+        Utility.initializeUniform(getParameters(), -0.01f, 0.01f);
     }
 
-
+    /**
+     * Creates a PolynomialModel from a file saved to disk.
+     * @param filePath The filepath to the file generated from the saveModel() method
+     */
     public PolynomialModel(String filePath){
         super();
         //Load file contents
