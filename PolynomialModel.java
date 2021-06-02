@@ -98,8 +98,9 @@ public class PolynomialModel extends SimpleModel{
     }
 
 
+
     public float[] predict(float[] inputVector){
-        //TODO: Check input dimensions
+        //TODO: Check input vector size
 
         float[] outputVector = new float[this.numOutputs];
 
