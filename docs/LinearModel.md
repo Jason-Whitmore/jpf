@@ -8,13 +8,13 @@ The LinearModel can learn simple linear relationships between training inputs an
 
 Mathematically, a LinearModel instance can be described using linear algebra:
 
-[Insert image here]
+![LinearModel equation 1](linearmodel_equation1.png)
 
 where all entries in the weight matrix A, and bias vector b are learnable parameters.
 
 Additionally, each component of the output vector can be described as:
 
-[Insert other image here]
+![LinearModel equation 2](linearmodel_equation2.png)
 
 where theta_i,j and b_i are learnable parameters. 
 
