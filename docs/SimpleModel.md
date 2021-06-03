@@ -14,7 +14,7 @@ In order to create a derived class, a user must implement the abstract methods i
 
 ## Derived classes
 
-There are currently two derived classes of SimpleModel: LinearModel and PolynomialModel.
+There are currently two derived classes of SimpleModel: [LinearModel](LinearModel.md) and PolynomialModel.
 
 
 ### Polynomial Model
