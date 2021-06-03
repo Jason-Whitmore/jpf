@@ -2,17 +2,19 @@
 
 The SimpleModel abstract class defines the template for parameterized functions that have exactly one input and one output vector.
 
-## Notable features
+## Features
 
-The SimpleModel abstract class was designed to provide features common to single input/output vector parameterized functions. The abstract class provides the fields and methods to access and modify the parameters.
+The SimpleModel abstract class was designed to provide features common to single input/output vector parameterized functions. Mathematically, SimpleModels can be expressed as:
+
+![SimpleModel equation](images/simplemodel_equation.png)
+
+The abstract class provides the fields and methods to access and modify the parameters as well as training and prediction.
 
 In order to create a derived class, a user must implement the abstract methods in addition to a constructor. Namely, the fit() and predict() methods.
 
 ## Derived classes
 
-### Linear Model
-
-
+There are currently two derived classes of SimpleModel: LinearModel and PolynomialModel.
 
 
 ### Polynomial Model
