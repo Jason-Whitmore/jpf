@@ -14,16 +14,5 @@ In order to create a derived class, a user must implement the abstract methods i
 
 ## Derived classes
 
-There are currently two derived classes of SimpleModel: [LinearModel](LinearModel.md) and PolynomialModel.
+There are currently two derived classes of SimpleModel: [LinearModel](LinearModel.md) and [PolynomialModel](PolynomialModel.md).
 
-
-### Polynomial Model
-
-For more complicated functions, the PolynomialModel class can model nonlinear functions using polynomials for approximation. Expressed mathematically, a component of the output vector is:
-
-
-Where theta represents the parameters of the function.
-
-Unlike the LinearModel class, the PolynomialModel class allows the user to determine the number of parameters and capacity of the model by adjusting the degree variable in the constructor. A high degree may fit the training data better, but also risks overfitting the dataset.
-
-Even as model complexity increases with the degree of the polynomial, an advantage to using a PolynomialModel to a neural network is that polynomials are much easier to visualize. One only needs to train the model, print out the parameters, and then plot the function with the parameters as coefficients.
