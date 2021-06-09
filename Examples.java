@@ -204,7 +204,42 @@ public class Examples{
         System.out.println("A test/train ratio should be close to 1 with lower degree models, and should increase as overfitting becomes apparent.\n");
 
         System.out.println("Generating data...");
-        
+        int trainingDataSize = 100;
+        float[][] trainingInputs = new float[trainingDataSize][1];
+        float[][] trainingOutputs = new float[trainingDataSize][1];
+
+        int testDataSize = 100;
+        float[][] testingInputs = new float[trainingDataSize][1];
+        float[][] testingOutputs = new float[trainingDataSize][1];
+
+        for(int i = 0; i < trainingDataSize; i++){
+            float x = Utility.getRandomUniform(0f, 1f);
+            float y = Utility.getRandomUniform(0f, 1f);
+
+            trainingInputs[i][0] = x;
+            trainingOutputs[i][0] = y;
+        }
+
+        for(int i = 0; i < testDataSize; i++){
+            float x = Utility.getRandomUniform(0f, 1f);
+            float y = Utility.getRandomUniform(0f, 1f);
+
+            testingInputs[i][0] = x;
+            testingOutputs[i][0] = y;
+        }
+
+        System.out.println("Data generated. Now training polynomial models.");
+
+        for(int degree = 1; degree < 10; degree++){
+            PolynomialModel model = new PolynomialModel(1,1, degree);
+
+            model.fit(trainingInputs, trainingOutputs, 100, 32, 0.1f, new RMSProp(0.001f, 0.9f, 0.001f), new MSE());
+
+            float trainingLoss = model.calculateLoss(trainingInputs, trainingOutputs, new MSE());
+            float testingLoss = model.calculateLoss(testingInputs, testingOutputs, new MSE());
+
+            System.out.println("Degree: " + degree + ", test/train loss ratio: " + (testingLoss / trainingLoss));
+        }
     }
 
     public static void main(String[] args){
