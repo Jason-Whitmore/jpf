@@ -118,7 +118,7 @@ public class Examples{
     }
 
 
-    public static void polynomialSinExample(){
+    public static void polynomialSin(){
         System.out.println("In this example, a polynomial model will be fit to data produced from the sin(x) function in order to find a fast approximation.");
 
         //Generate the data
@@ -196,6 +196,17 @@ public class Examples{
         System.out.println("Loaded model loss: " + loadedModelLoss);
     }
 
+
+    public void polynomialOverfit(){
+        System.out.println("In this example, polynomial models will be fit on randomly generated data.");
+        System.out.println("As higher degree polynomial models are trained, test loss should be much higher than training loss as a result of overfitting.");
+        System.out.println("Test and train loss can be expressed as the fraction (test/train).");
+        System.out.println("A test/train ratio should be close to 1 with lower degree models, and should increase as overfitting becomes apparent.\n");
+
+        System.out.println("Generating data...");
+        
+    }
+
     public static void main(String[] args){
 
         if(args.length != 1){
@@ -218,7 +229,7 @@ public class Examples{
                 break;
                 
             case "polynomialsin":
-                polynomialSinExample();
+                polynomialSin();
                 break;
 
             default:
