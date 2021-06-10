@@ -42,6 +42,35 @@ Loss after training: 0.60140973
 
 ### complexlinear
 
+The complexlinear example demonstrates training a LinearModel on a randomly generated linear function which takes an input vector of length 3
+and outputs a vector of length 3. The randomly generated linear function is simply a randomized transformation matrix and bias vector.
+The input and output vectors from this linear function are then used as training data for a LinearModel. Since the training data is from a
+linear function, the trained LinearModel should be nearly identical to the original linear function. Loss from before training should be much greater
+than the loss after training. Additionally, this example demonstrates the ability to save a LinearModel to disk (in this case, as "ComplexLinearModel")
+and load it back into memory. After loading the LinearModel back into memory, the loss will be evaluated again to see if the saving and loading process
+worked correctly. Both the before and after save/loading loss should be the same.
+
+Program output:
+
+```
+Starting complex LinearModel example.
+Will generate data from a randomized transformation and bias matrix, then train a linear model on it.
+After training, the learned parameters will then be compared to the original data generation matricies to determine if training worked.
+To see if model saving/loading works, the LinearModel will be saved to disk, reloaded, and then compared outputs.
+Generating data...
+Creating LinearModel and training...
+Model trained. End loss should be smaller than start loss:
+Start loss: 42.89671
+End loss: 7.126446E-11
+Saving trained model to disk...
+Loading model from disk...
+Model loaded. Check loss. Loss from model should mostly match to loaded model:
+Loss from trained model: 7.126446E-11
+Loss from loaded model: 7.126446E-11
+
+
+```
+
 
 ## PolynomialModel
 
