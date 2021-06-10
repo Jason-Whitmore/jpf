@@ -197,32 +197,32 @@ public class Examples{
     }
 
 
-    public void polynomialOverfit(){
+    public static void polynomialOverfit(){
         System.out.println("In this example, polynomial models will be fit on randomly generated data.");
         System.out.println("As higher degree polynomial models are trained, test loss should be much higher than training loss as a result of overfitting.");
         System.out.println("Test and train loss can be expressed as the fraction (test/train).");
         System.out.println("A test/train ratio should be close to 1 with lower degree models, and should increase as overfitting becomes apparent.\n");
 
         System.out.println("Generating data...");
-        int trainingDataSize = 100;
+        int trainingDataSize = 10;
         float[][] trainingInputs = new float[trainingDataSize][1];
         float[][] trainingOutputs = new float[trainingDataSize][1];
 
-        int testDataSize = 100;
+        int testDataSize = 10;
         float[][] testingInputs = new float[trainingDataSize][1];
         float[][] testingOutputs = new float[trainingDataSize][1];
 
         for(int i = 0; i < trainingDataSize; i++){
-            float x = Utility.getRandomUniform(0f, 1f);
-            float y = Utility.getRandomUniform(0f, 1f);
+            float x = Utility.getRandomUniform(0f, 5f);
+            float y = x * x;
 
             trainingInputs[i][0] = x;
             trainingOutputs[i][0] = y;
         }
 
         for(int i = 0; i < testDataSize; i++){
-            float x = Utility.getRandomUniform(0f, 1f);
-            float y = Utility.getRandomUniform(0f, 1f);
+            float x = Utility.getRandomUniform(0f, 5f);
+            float y = x * x;
 
             testingInputs[i][0] = x;
             testingOutputs[i][0] = y;
@@ -230,10 +230,10 @@ public class Examples{
 
         System.out.println("Data generated. Now training polynomial models.");
 
-        for(int degree = 1; degree < 10; degree++){
+        for(int degree = 1; degree <= 10; degree++){
             PolynomialModel model = new PolynomialModel(1,1, degree);
 
-            model.fit(trainingInputs, trainingOutputs, 100, 32, 0.1f, new RMSProp(0.001f, 0.9f, 0.001f), new MSE());
+            model.fit(trainingInputs, trainingOutputs, 1000000, 20, 0.1f, new RMSProp(0.0001f, 0.9f, 0.001f), new MSE());
 
             float trainingLoss = model.calculateLoss(trainingInputs, trainingOutputs, new MSE());
             float testingLoss = model.calculateLoss(testingInputs, testingOutputs, new MSE());
@@ -265,6 +265,10 @@ public class Examples{
                 
             case "polynomialsin":
                 polynomialSin();
+                break;
+
+            case "polynomialoverfit":
+                polynomialOverfit();
                 break;
 
             default:
