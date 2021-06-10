@@ -3,7 +3,7 @@ public class Examples{
     private static final String OPTION_STRING = "Arg options: simplelinear, complexlinear, polynomialsin";
 
     
-    private static void SimpleLinear(){
+    private static void simpleLinear(){
         System.out.println("Starting Simple Linear Model example: Fitting model to f(x) = 2x - 1");
 
         //Creating dataset for f(x) = 2x - 1
@@ -256,7 +256,7 @@ public class Examples{
 
         switch (exampleName) {
             case "simplelinear":
-                SimpleLinear();
+                simpleLinear();
                 break;
         
             case "complexlinear":
