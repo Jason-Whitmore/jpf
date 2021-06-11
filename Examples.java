@@ -124,7 +124,7 @@ public class Examples{
         //Generate the data
         System.out.println("Creating the dataset...");
 
-        int numSamples = 1000;
+        int numSamples = 1024;
 
         float[][] trainingInputs = new float[numSamples][];
         float[][] trainingOutputs = new float[numSamples][];
@@ -143,7 +143,7 @@ public class Examples{
         }
 
         //Create the polynomial model
-        int degree = 1;
+        int degree = 2;
         System.out.println("Creating a polynomial model of degree " + degree);
 
         PolynomialModel model = new PolynomialModel(1, 1, degree);
@@ -153,7 +153,7 @@ public class Examples{
 
         //Train the polynomial model
         System.out.println("Training polynomial model...");
-        model.fit(trainingInputs, trainingOutputs, 200000, 32, 0.01f, new RMSProp(), new MSE());
+        model.fit(trainingInputs, trainingOutputs, 10000, 1, 0.1f, new RMSProp(0.001f, 0.9f, 0.0001f), new MSE());
 
         //Calculate loss after training
         float afterLoss = model.calculateLoss(trainingInputs, trainingOutputs, new MSE());

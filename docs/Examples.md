@@ -78,5 +78,48 @@ Loss from loaded model: 7.126446E-11
 
 ### polynomialsin
 
+The polynomialsin example demonstrates the creation, training, evaluation, saving, and loading abilities of the PolynomialModel.
+
+The primary task of this example is to find a polynomial of degree 2 which most closely represents the sin(x) function where x is in (0, 3).
+A polynomial approximation of the sin(x) function is desirable since computers can't calculate sin(x) directly and other approximation techniques
+such as tables take up memory and are crude. Polynomial functions work well with computers since they only require basic mathematical operations
+to compute, like addition and multiplication. A polynomial approxmiation of degree 2 would be quite fast since there are fewer additions and
+multiplications to perform to get the approximated output. Of course, a higher degree represents an accuracy-speed tradeoff.
+
+This example also saves the PolynomialModel to disk and then loads it back into memory to test saving and loading functionality. As with the
+complexlinear example, the losses will be compared before and after training/loading.
+
+Program output:
+
+
+```
+In this example, a polynomial model will be fit to data produced from the sin(x) function in order to find a fast approximation.
+Creating the dataset...
+Creating a polynomial model of degree 2
+Training polynomial model...
+Training complete. Loss from before training should be larger than loss after training:
+Loss before training: 0.53037345
+Loss after training: 0.0062198346
+Learned polynomial is: f(x) = -0.3570667x^2 + 1.1878308x + -0.017842926
+Now saving the model to file: polynomial_model_saved
+Model saved. Now loading the model from file...
+Model loaded. Loss on dataset on loaded model should match the previous model's loss:
+Old model loss: 0.0062198346
+Loaded model loss: 0.0062198346
+
+```
+
+As seen in the output, the learned polynomial is about f(x) = -0.357x^2 + 1.188x + -0.018
+
+This polynomial can be plotted alongside sin(x):
+
+
+![sin(x) approximation](images/sin_approximation.png)
+
+where the red line is sin(x) and the blue line is the learned polynomial.
+
+Of course, this approximation isn't perfect and could likely be improved with hyperparameter tuning.
+
+
 
 ### polynomialoverfit
