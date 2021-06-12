@@ -123,3 +123,32 @@ Of course, this approximation isn't perfect and could likely be improved with hy
 
 
 ### polynomialoverfit
+
+The polynomialoverfit example demonstrates how a large parameter count can lead to overfitting, where the model "memorizes" the training data
+rather than generalize it. Unlike the LinearModel, the PolynomialModel allows the user to adjust how many parameters are in the model through
+the degree parameter in the constructor.
+
+In order to demonstrate the overfitting phenomena, a small dataset of 10 samples with be created with the function f(x) = x^2, with x in (-5, 5).
+Polynomial models with increasing degrees will be created and trained on this dataset. A separate test dataset, with 100 samples
+from the same function, will be used to evaluate how much the model is overfitting. The general idea is that if the model is overfitting, the data
+from the training dataset will be memorized rather than the original training function f(x) = x^2. In this scenario, we should expect the loss on
+the testing dataset to be much higher than the training dataset loss. We can use the ratio (test/train loss) to measure overfitting.
+
+In summary, as the degree (and parameter count) increase, the test/train loss ratio should also increase as overfitting becomes apparent.
+
+Program output:
+
+```
+In this example, polynomial models will be fit on randomly generated data.
+As higher degree polynomial models are trained, test loss should be much higher than training loss as a result of overfitting.
+Test and train loss can be expressed as the ratio (test/train loss).
+A test/train ratio should be close to 1 with lower degree models, and should increase as overfitting becomes apparent.
+
+Generating data...
+Data generated. Now training polynomial models.
+Degree: 1, test/train loss ratio: 1.7038438
+Degree: 4, test/train loss ratio: 1.0255042
+Degree: 7, test/train loss ratio: 3.775513
+Degree: 10, test/train loss ratio: 5.111687
+Degree: 13, test/train loss ratio: 12.862402
+```
