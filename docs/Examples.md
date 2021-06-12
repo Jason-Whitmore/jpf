@@ -152,3 +152,9 @@ Degree: 7, test/train loss ratio: 3.775513
 Degree: 10, test/train loss ratio: 5.111687
 Degree: 13, test/train loss ratio: 12.862402
 ```
+
+
+## NeuralNetwork
+
+## quadraticexample
+

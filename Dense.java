@@ -12,30 +12,30 @@ public class Dense extends Layer {
 
 
     //for backward prop purposes
-    private float[][] wxPlusBias;
+    private float[][] sum;
 
     public Dense(int numUnits, ActivationFunction f, Layer inputLayer){
         super();
 
-        activationFunction = f;
+        this.activationFunction = f;
 
-        inputLayers.add(inputLayer);
-        setInputLayers(inputLayers);
+        this.inputLayers.add(inputLayer);
+        this.setInputLayers(inputLayers);
 
         //connect input layer's output to this this layer
-        connectInputAndOutputLayers();
+        this.connectInputAndOutputLayers();
 
         int inputLayerOutputSize = inputLayer.getOutputVector().length;
 
-        inputVector = new float[inputLayerOutputSize];
-        outputVector = new float[numUnits];
+        this.inputVector = new float[inputLayerOutputSize];
+        this.outputVector = new float[numUnits];
 
 
 
-        weightMatrix = new float[numUnits][inputLayerOutputSize];
-        Utility.Initializers.initializeUniform(weightMatrix, -0.1f, 0.1f);
+        this.weightMatrix = new float[numUnits][inputLayerOutputSize];
+        Utility.initializeUniform(weightMatrix, -0.1f, 0.1f);
 
-        biasMatrix = new float[numUnits][1];
+        this.biasMatrix = new float[numUnits][1];
 
         ArrayList<float[][]> params = new ArrayList<float[][]>(2);
         params.add(weightMatrix);
@@ -44,12 +44,12 @@ public class Dense extends Layer {
         setParameters(params);
 
         //set up gradients
-        gradient = Utility.cloneArrays(getParameters());
+        this.gradient = Utility.cloneArrays(getParameters());
         Utility.clearArrays(gradient);
 
         //Set up backprop arrays
-        dLdX = new float[inputLayerOutputSize];
-        dLdY = new float[numUnits];
+        this.dLdX = new float[inputLayerOutputSize];
+        this.dLdY = new float[numUnits];
     }
 
 
@@ -102,13 +102,10 @@ public class Dense extends Layer {
         float[][] wx = LinearAlgebra.matrixMultiply(weightMatrix, LinearAlgebra.arrayToMatrix(inputVector));
 
         //add bias
-        wxPlusBias = LinearAlgebra.matrixAdd(wx, biasMatrix);
+        sum = LinearAlgebra.matrixAdd(wx, biasMatrix);
 
         //use as input to activation function.
-
-        outputVector = activationFunction.f(LinearAlgebra.matrixToArray(wxPlusBias));
-
-        //distribute the outputvector to the next layers
+        outputVector = activationFunction.f(LinearAlgebra.matrixToArray(sum));
     }
 
     public void backwardPass(){
@@ -118,7 +115,7 @@ public class Dense extends Layer {
         
 
         //Determine the error vector of this layer's output wrt the sum
-        float[] dLdS = LinearAlgebra.elementwiseMultiply(dLdY, activationFunction.fPrime(LinearAlgebra.matrixToArray(wxPlusBias)));
+        float[] dLdS = LinearAlgebra.elementwiseMultiply(dLdY, activationFunction.fPrime(LinearAlgebra.matrixToArray(sum)));
 
 
         //In a dense layer, the bias gradient is just the error vector

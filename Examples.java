@@ -242,10 +242,16 @@ public class Examples{
         }
     }
 
+
+    public static void nnquadratic(){
+        
+    }
+
     public static void main(String[] args){
 
         if(args.length != 1){
             System.out.println(OPTION_STRING);
+            System.exit(0);
         }
 
         runExample(args[0]);
