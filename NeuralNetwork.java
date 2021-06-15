@@ -1,10 +1,7 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Stack;
-
-import jdk.jshell.execution.Util;
 
 
 public class NeuralNetwork extends Model{
@@ -16,6 +13,8 @@ public class NeuralNetwork extends Model{
     private ArrayList<Layer> allLayers;
 
     public NeuralNetwork(ArrayList<Input> inputLayers, ArrayList<Layer> outputLayers){
+        super();
+
         this.inputLayers = inputLayers;
         this.outputLayers = outputLayers;
 
@@ -26,6 +25,7 @@ public class NeuralNetwork extends Model{
 
 
     public NeuralNetwork(Input inputLayer, Layer outputLayer){
+        super();
         
         this.inputLayers = new ArrayList<Input>(1);
         this.inputLayers.add(inputLayer);
@@ -39,6 +39,7 @@ public class NeuralNetwork extends Model{
 
 
     public NeuralNetwork(String filePath){
+        super();
         String neuralNetworkInfo = Utility.getTextFileContents(filePath);
 
         //Isolate the layer connection information
@@ -146,17 +147,20 @@ public class NeuralNetwork extends Model{
 
 
     private void updateParameters(){
+
+        //Serialize the layers before updating the parameters, if needed
         if(allLayers == null){
-            allLayers = serializeLayers();
+            allLayers = this.serializeLayers();
         }
 
-        ArrayList<float[][]> params = new ArrayList<float[][]>();
+        //Clear the current parameter list
+        this.parameters.clear();
 
+        //For each layer, add layer parameters to model parameter list
         for(int i = 0; i < allLayers.size(); i++){
-            params.addAll(allLayers.get(i).getParameters());
+            this.parameters.addAll(allLayers.get(i).getParameters());
         }
 
-        setParameters(params);
     }
 
     /**
@@ -263,8 +267,6 @@ public class NeuralNetwork extends Model{
         for(int i = 0; i < this.outputLayers.size(); i++){
             y[i] = new float[this.outputLayers.get(i).getOutputVector().length];
         }
-
-        ArrayList<float[]> outputVectors = new ArrayList<float[]>(outputLayers.size());
 
         Stack<Layer> stack = new Stack<Layer>();
 

@@ -10,20 +10,24 @@ public abstract class Layer {
     protected float[] inputVector;
 
 
-
-
     protected ArrayList<Layer> outputLayers;
 
     protected float[] outputVector;
 
-    
-    //Fields for storing information for backpropagation
 
+    /**
+     * The gradient of the loss function wrt the layer's parameters.
+     */
     protected ArrayList<float[][]> gradient;
 
-    //Gradient of the loss function wrt this layer's output
+    /**
+     * Gradient of the loss function wrt this layer's output vector
+     */
     protected float[] dLdY;
 
+    /**
+     * Gradient of the loss function wrt this layer's input vector
+     */
     protected float[] dLdX;
 
     public Layer(){
@@ -39,27 +43,18 @@ public abstract class Layer {
     }
 
 
-    public void setParameters(ArrayList<float[][]> params){
-        parameters = params;
-    }
 
 
     public ArrayList<Layer> getInputLayers(){
         return inputLayers;
     }
 
-    public void setInputLayers(ArrayList<Layer> layers){
-        inputLayers = layers;
-    }
 
 
     public float[] getInputVector(){
         return inputVector;
     }
 
-    public void setInputVector(float[] newInputVector){
-        inputVector = newInputVector;
-    }
 
 
 
@@ -68,19 +63,11 @@ public abstract class Layer {
         return outputLayers;
     }
 
-    public void setOutputLayers(ArrayList<Layer> layers){
-        outputLayers = layers;
-    }
-
 
 
 
     public float[] getOutputVector(){
         return outputVector;
-    }
-
-    public void setOutputVector(float[] newOutputVector){
-        outputVector = newOutputVector;
     }
 
 
@@ -93,24 +80,33 @@ public abstract class Layer {
         return dLdY;
     }
 
-    public void setdLdY(float[] newDerivative){
-        dLdY = newDerivative;
-    }
 
     public float[] getdLdX(){
         return dLdX;
     }
 
-    public void setdLdX(float[] newDerivative){
-        dLdX = newDerivative;
-    }
-
+    /**
+     * Populates the dLdY vector with the sum of dLdX vector from this layer's output layers
+     */
     protected void initializedLdY(){
-        Utility.clearArray(dLdY);
+        Utility.clearArray(this.dLdY);
 
         for(int i = 0; i < getOutputLayers().size(); i++){
             for(int j = 0; j < dLdY.length; j++){
                 dLdY[j] += getOutputLayers().get(i).getdLdX()[j];
+            }
+        }
+    }
+
+    /**
+     * Populates the input vector so the forward pass can be performed.
+     */
+    public void initializeInputVector(){
+        Utility.clearArray(this.inputVector);
+
+        for(int i = 0; i < inputLayers.size(); i++){
+            for(int j = 0; j < this.inputVector.length; j++){
+                this.inputVector[j] += inputLayers.get(i).outputVector[j];
             }
         }
     }
@@ -125,7 +121,29 @@ public abstract class Layer {
         }
     }
 
-    
+    public void clearBackpropArrays(){
+        if(this.dLdX != null){
+            Utility.clearArray(this.dLdX);
+        }
+        
+        if(this.dLdY != null){
+            Utility.clearArray(this.dLdY);
+        }
+
+        if(this.gradient != null){
+            Utility.clearArrays(this.gradient);
+        }
+    }
+
+    public void clearForwardPassArrays(){
+        if(this.inputVector != null){
+            Utility.clearArray(this.inputVector);
+        }
+
+        if(this.outputVector != null){
+            Utility.clearArray(this.outputVector);
+        }
+    }
 
     
     public abstract void forwardPass();

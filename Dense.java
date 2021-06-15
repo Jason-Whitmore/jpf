@@ -20,9 +20,8 @@ public class Dense extends Layer {
         this.activationFunction = f;
 
         this.inputLayers.add(inputLayer);
-        this.setInputLayers(inputLayers);
 
-        //connect input layer's output to this this layer
+        //connect input layer's output to this layer
         this.connectInputAndOutputLayers();
 
         int inputLayerOutputSize = inputLayer.getOutputVector().length;
@@ -37,11 +36,9 @@ public class Dense extends Layer {
 
         this.biasMatrix = new float[numUnits][1];
 
-        ArrayList<float[][]> params = new ArrayList<float[][]>(2);
-        params.add(weightMatrix);
-        params.add(biasMatrix);
-
-        setParameters(params);
+        //Add matricies to parameter list
+        this.parameters.add(weightMatrix);
+        this.parameters.add(biasMatrix);
 
         //set up gradients
         this.gradient = Utility.cloneArrays(getParameters());
@@ -62,7 +59,7 @@ public class Dense extends Layer {
         super();
 
         String paramString = layerInfoString.substring(layerInfoString.indexOf("[\n"), layerInfoString.indexOf("]\n") + 2);
-        this.setParameters(Utility.stringToMatrixList(paramString));
+        this.parameters = Utility.stringToMatrixList(paramString);
 
         //From the parsed parameters, get the layer size and the input vector size
         int numUnits = this.biasMatrix.length;
@@ -98,7 +95,6 @@ public class Dense extends Layer {
         Utility.copyArrayContents(getInputLayers().get(0).getOutputVector(), getInputVector());
 
         //Do matrix multiplication on the input vector: Wx
-
         float[][] wx = LinearAlgebra.matrixMultiply(weightMatrix, LinearAlgebra.arrayToMatrix(inputVector));
 
         //add bias
