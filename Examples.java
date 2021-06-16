@@ -1,6 +1,8 @@
 public class Examples{
 
-    private static final String OPTION_STRING = "Arg options: simplelinear, complexlinear, polynomialsin, polynomialoverfit";
+    private static final String OPTION_STRING = "Arg options:\n" + 
+                                                "LinearModel: simplelinear, complexlinear\n" + 
+                                                "PolynomialModel: polynomialsin, polynomialoverfit";
 
     
     private static void simpleLinear(){
@@ -278,6 +280,8 @@ public class Examples{
                 break;
 
             default:
+                System.out.println("Example string not recognized.");
+                System.out.println(Examples.OPTION_STRING);
                 break;
         }
     }

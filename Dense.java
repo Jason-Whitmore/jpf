@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-//import java.util.Arrays;
-
 public class Dense extends Layer {
 
     private ActivationFunction activationFunction;
@@ -108,11 +105,8 @@ public class Dense extends Layer {
         //Determine the error vector from the next layers
         initializedLdY();
 
-        
-
         //Determine the error vector of this layer's output wrt the sum
         float[] dLdS = LinearAlgebra.elementwiseMultiply(dLdY, activationFunction.fPrime(LinearAlgebra.matrixToArray(sum)));
-
 
         //In a dense layer, the bias gradient is just the error vector
         float[] biasGradient = dLdS.clone();
@@ -139,7 +133,6 @@ public class Dense extends Layer {
             for(int j = 0; j < outputVector.length; j++){
                 getdLdX()[i] += weightMatrix[j][i] * dLdS[j];
             }
-            
         }
     }
 
