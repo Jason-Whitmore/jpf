@@ -49,29 +49,18 @@ public abstract class Layer {
         return inputLayers;
     }
 
-
-
     public float[] getInputVector(){
         return inputVector;
     }
-
-
-
-
 
     public ArrayList<Layer> getOutputLayers(){
         return outputLayers;
     }
 
-
-
-
     public float[] getOutputVector(){
         return outputVector;
     }
 
-
-    
     public ArrayList<float[][]> getGradient(){
         return gradient;
     }
@@ -99,16 +88,16 @@ public abstract class Layer {
     }
 
     /**
-     * Populates the input vector so the forward pass can be performed.
+     * Populates the input vector by copying the output vector contents of the previous layer
+     * into the input vector of this layer. Should only be used for Layers that only have 1
+     * input layer.
      */
-    public void initializeInputVector(){
-        Utility.clearArray(this.inputVector);
-
-        for(int i = 0; i < inputLayers.size(); i++){
-            for(int j = 0; j < this.inputVector.length; j++){
-                this.inputVector[j] += inputLayers.get(i).outputVector[j];
-            }
+    protected void initializeInputVectorCopy(){
+        
+        if(inputLayers.size() == 1){
+            Utility.copyArrayContents(inputLayers.get(0).outputVector, this.inputVector);
         }
+
     }
 
     protected void connectInputAndOutputLayers(){
@@ -145,9 +134,16 @@ public abstract class Layer {
         }
     }
 
-    
+    /**
+     * Performs the forward pass, which is used to make predictions and set up arrays for a possible
+     * backpropagation pass.
+     * 
+     * When implementing this method, the layer should "pull" the input vector from the layer's input layers,
+     * perform some computation, then place the result in the layer's output vector.
+     */
     public abstract void forwardPass();
 
+    
     public abstract void backwardPass();
 
 

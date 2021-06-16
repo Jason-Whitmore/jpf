@@ -92,7 +92,7 @@ public class Dense extends Layer {
     public void forwardPass(){
 
         //Bring over the previous layer's output into this layer's input vector
-        Utility.copyArrayContents(getInputLayers().get(0).getOutputVector(), getInputVector());
+        this.initializeInputVectorCopy();
 
         //Do matrix multiplication on the input vector: Wx
         float[][] wx = LinearAlgebra.matrixMultiply(weightMatrix, LinearAlgebra.arrayToMatrix(inputVector));
