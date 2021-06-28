@@ -1,33 +1,64 @@
+
+/**
+ * Class that defines the Dense layer that makes up much of a typical neural network.
+ */
 public class Dense extends Layer {
 
+    /**
+     * The activation function of the layer, which may provide nonlinearities
+     * that improve the capacity of the layer and model.
+     */
     private ActivationFunction activationFunction;
 
+    /**
+     * The weight, or kernel matrix, which is multiplied with the input vector.
+     * These parameters are used to determine how much influence the inputs have
+     * on the layer's output.
+     */
     private float[][] weightMatrix;
 
+    /**
+     * The biasMatrix is a representation of a bias vector which influence the
+     * layer's outputs without using the layer's inputs.
+     */
     private float[][] biasMatrix;
 
+    /**
+     * The sum matrix is a representation of the sum vector which is expressed as
+     * Wx + b where W is the weight matrix, x is the input vector, and b is the bias
+     * vector. This matrix is used for both the forward and backward passes.
+     */
+    private float[][] sumMatrix;
 
-
-    //for backward prop purposes
-    private float[][] sum;
-
+    /**
+     * The standard Dense layer constructor with user specified properties.
+     * 
+     * @param numUnits The number of units or nodes in the layer. Should be >= 1.
+     * 
+     * @param f The activation function that will be applied to the layer sum.
+     * A nonlinear activation function increases the capacity of the layer and model.
+     * 
+     * @param inputLayer The input layer which connects to this layer. Outputs
+     * from the input layer become inputs to this layer.
+     */
     public Dense(int numUnits, ActivationFunction f, Layer inputLayer){
         super();
 
+        //Initialize the activation function and input layer
         this.activationFunction = f;
-
         this.inputLayers.add(inputLayer);
 
-        //connect input layer's output to this layer
+        //Connect the input layer with this layer
         this.connectInputAndOutputLayers();
 
+        //Determine the size of the input vector by looking at the input layer's output vector.
         int inputLayerOutputSize = inputLayer.getOutputVector().length;
 
+        //Initialize the input and output vectors with correct lengths.
         this.inputVector = new float[inputLayerOutputSize];
         this.outputVector = new float[numUnits];
 
-
-
+        //Initialize the weight and bias parameter matricies. Randomize the weight matrix entries.
         this.weightMatrix = new float[numUnits][inputLayerOutputSize];
         Utility.initializeUniform(weightMatrix, -0.1f, 0.1f);
 
@@ -37,7 +68,7 @@ public class Dense extends Layer {
         this.parameters.add(weightMatrix);
         this.parameters.add(biasMatrix);
 
-        //set up gradients
+        //Set up gradients
         this.gradient = Utility.cloneArrays(getParameters());
         Utility.clearArrays(gradient);
 
@@ -77,6 +108,13 @@ public class Dense extends Layer {
         this.initializeActivationFunctionFromString(layerInfoString);
     }
 
+    /**
+     * Initializes the activation function from the layer info string from saving the model to disk.
+     * 
+     * @param layerInfoString The layer info string read from disk. This layer info string should 
+     * only be the text from saving the layer, not the entire model. Check the toString() method
+     * for specific syntax.
+     */
     private void initializeActivationFunctionFromString(String layerInfoString){
         String headerInfo = layerInfoString.substring(0, layerInfoString.indexOf(")") + 1);
         headerInfo.replace("(", "");
@@ -95,48 +133,53 @@ public class Dense extends Layer {
         float[][] wx = LinearAlgebra.matrixMultiply(weightMatrix, LinearAlgebra.arrayToMatrix(inputVector));
 
         //add bias
-        sum = LinearAlgebra.matrixAdd(wx, biasMatrix);
+        this.sumMatrix = LinearAlgebra.matrixAdd(wx, biasMatrix);
 
         //use as input to activation function.
-        outputVector = activationFunction.f(LinearAlgebra.matrixToArray(sum));
+        this.outputVector = activationFunction.f(LinearAlgebra.matrixToArray(sumMatrix));
     }
 
     public void backwardPass(){
         //Determine the error vector from the next layers
-        initializedLdY();
+        this.initializedLdY();
 
-        //Determine the error vector of this layer's output wrt the sum
-        float[] dLdS = LinearAlgebra.elementwiseMultiply(dLdY, activationFunction.fPrime(LinearAlgebra.matrixToArray(sum)));
+        //Determine the dLdS vector by applying the chain rule: dLdS = dLdY * dYdS
+        float[] dLdS = LinearAlgebra.elementwiseMultiply(this.dLdY, activationFunction.fPrime(LinearAlgebra.matrixToArray(this.sumMatrix)));
 
-        //In a dense layer, the bias gradient is just the error vector
+        //In a dense layer, the bias gradient is just the dLdS vector.
         float[] biasGradient = dLdS.clone();
-        gradient.set(1, LinearAlgebra.arrayToMatrix(biasGradient));
+        this.gradient.set(1, LinearAlgebra.arrayToMatrix(biasGradient));
 
 
-        //The weight gradient is just the error multiplied by the input vector component
+        //Determine the weight gradient, dLdW by applying the chain rule: dLdW = dLdS * dSdW
         float[][] weightGradient = new float[weightMatrix.length][weightMatrix[0].length];
-
-        float[] inputVector = getInputVector();
 
         for(int r = 0; r < weightMatrix.length; r++){
             for(int c = 0; c < weightMatrix[0].length; c++){
-                weightGradient[r][c] = dLdS[r] * inputVector[c];
+                /**
+                 * Note: dSdW is just the components of the input vector since the input vector multiplied
+                 * by the weight matrix influences the sum (multiplication rule).
+                 */
+                weightGradient[r][c] = dLdS[r] * this.inputVector[c];
             }
         }
 
-        gradient.set(0, weightGradient);
+        this.gradient.set(0, weightGradient);
 
 
-        //determine dLdX
-
-        for(int i = 0; i < inputVector.length; i++){
-            for(int j = 0; j < outputVector.length; j++){
-                getdLdX()[i] += weightMatrix[j][i] * dLdS[j];
+        //Finally, populate dLdX for the input layer's backprop step using the chain and addition rules: dLdX = dLdS * dSdX
+        for(int i = 0; i < this.inputVector.length; i++){
+            for(int j = 0; j < this.outputVector.length; j++){
+                //dLdX is the weight matrix because of the multiplication rule.
+                this.dLdX[i] += weightMatrix[j][i] * dLdS[j];
             }
         }
     }
 
-
+    /**
+     * Converts the Dense layer into a text format that can be written to disk. The resulting string contains
+     * all of the information needed to reconstruct the layer and it's parameters.
+     */
     public String toString(){
         StringBuilder sb = new StringBuilder();
 

@@ -143,7 +143,13 @@ public abstract class Layer {
      */
     public abstract void forwardPass();
 
-    
+    /**
+     * Performs the backward pass, which is used to calculate the gradient of the loss function with
+     * respect to the layer parameters for the last input calculated using forwardPass().
+     * 
+     * When implementing this method, the layer should first initialize the dLdY vector from the layer's
+     * output layers, populate the gradient list, then populate the dLdX vector.
+     */
     public abstract void backwardPass();
 
 
