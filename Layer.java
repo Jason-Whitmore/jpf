@@ -1,17 +1,37 @@
 import java.util.ArrayList;
 
+/**
+ * Defines the abstract Layer class which provides the basic functionality
+ * and interface for all concrete derived classes that are used in the
+ * NeuralNetwork class.
+ */
 public abstract class Layer {
 
+    /**
+     * The parameters of the layer represented as an ArrayList of float matricies.
+     */
     protected ArrayList<float[][]> parameters;
 
-
+    /**
+     * The input layers that connect with this layer. Outputs of these layers
+     * are the inputs of this layer.
+     */
     protected ArrayList<Layer> inputLayers;
 
+    /**
+     * The input vector for this layer, represented as an array of floating points.
+     */
     protected float[] inputVector;
 
-
+    /**
+     * The output layers that connect with this layer. The output of this layer
+     * become inputs to these layers.
+     */
     protected ArrayList<Layer> outputLayers;
 
+    /**
+     * The output vector for this layer, represented as an array of floating points.
+     */
     protected float[] outputVector;
 
 
@@ -30,6 +50,8 @@ public abstract class Layer {
      */
     protected float[] dLdX;
 
+
+    
     public Layer(){
         parameters = new ArrayList<float[][]>();
         inputLayers = new ArrayList<Layer>();

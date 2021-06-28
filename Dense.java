@@ -188,7 +188,7 @@ public class Dense extends Layer {
         //Provide basic constructor information
         sb.append("DENSE(" + layerSize + ", " + activationFunction.toString() + ")\n");
 
-        //Provide weight information:
+        //Provide parameter information
         sb.append(Utility.arraysToString(getParameters()));
 
         return sb.toString();
