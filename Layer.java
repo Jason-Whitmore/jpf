@@ -51,11 +51,14 @@ public abstract class Layer {
     protected float[] dLdX;
 
 
-    
+    /**
+     * Basic constructor that initializes the lists of the method. Other fields are not initialized
+     * because they need more information, such as the number of units in the layer.
+     */
     public Layer(){
-        parameters = new ArrayList<float[][]>();
-        inputLayers = new ArrayList<Layer>();
-        outputLayers = new ArrayList<Layer>();
+        this.parameters = new ArrayList<float[][]>();
+        this.inputLayers = new ArrayList<Layer>();
+        this.outputLayers = new ArrayList<Layer>();
     }
 
     //getters and setters for class fields
@@ -63,9 +66,6 @@ public abstract class Layer {
     public ArrayList<float[][]> getParameters(){
         return parameters;
     }
-
-
-
 
     public ArrayList<Layer> getInputLayers(){
         return inputLayers;
@@ -116,22 +116,29 @@ public abstract class Layer {
      */
     protected void initializeInputVectorCopy(){
         
-        if(inputLayers.size() == 1){
-            Utility.copyArrayContents(inputLayers.get(0).outputVector, this.inputVector);
+        if(this.inputLayers.size() == 1){
+            Utility.copyArrayContents(this.inputLayers.get(0).outputVector, this.inputVector);
         }
 
     }
 
+    /**
+     * Connects this layer to the input and output layers so that the forward and backward pass
+     * methods can work properly.
+     */
     protected void connectInputAndOutputLayers(){
-        for(int i = 0; i < inputLayers.size(); i++){
-            inputLayers.get(i).getOutputLayers().add(this);
+        for(int i = 0; i < this.inputLayers.size(); i++){
+            this.inputLayers.get(i).getOutputLayers().add(this);
         }
 
-        for(int i = 0; i < outputLayers.size(); i++){
-            outputLayers.get(i).getInputLayers().add(this);
+        for(int i = 0; i < this.outputLayers.size(); i++){
+            this.outputLayers.get(i).getInputLayers().add(this);
         }
     }
 
+    /**
+     * Clears the backpropagation arrays so that they can be used to find new gradients.
+     */
     public void clearBackpropArrays(){
         if(this.dLdX != null){
             Utility.clearArray(this.dLdX);
@@ -146,6 +153,9 @@ public abstract class Layer {
         }
     }
 
+    /**
+     * Clears the forward pass arrays so that they can be used for predictions and backpropagation.
+     */
     public void clearForwardPassArrays(){
         if(this.inputVector != null){
             Utility.clearArray(this.inputVector);
@@ -175,6 +185,16 @@ public abstract class Layer {
     public abstract void backwardPass();
 
 
+    /**
+     * Creates a Layer solely from the layerInfoString that is produced from a layer's toString method.
+     * When creating new layers, the if/else chain should be expanded to include a way to construct the
+     * new layer.
+     * 
+     * @param layerInfoString The string produced from a layer's toString method and read from a model's
+     * saved-to-disk form.
+     * 
+     * @return The constructed layer with the correct parameters and properties. Returns null if unsuccessful.
+     */
     public static Layer createLayerFromString(String layerInfoString){
 
         if(layerInfoString.contains("INPUT")){
