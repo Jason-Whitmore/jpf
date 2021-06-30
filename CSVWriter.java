@@ -7,9 +7,10 @@ import java.io.IOException;
 public class CSVWriter {
 
     /**
-     * 
+     * The buffer used to store the string data before it is written to disk.
+     * More optimized than simple concatenation.
      */
-    private String dataString;
+    private StringBuffer buffer;
 
     /**
      * The filepath where the csv file will be written to
@@ -31,7 +32,7 @@ public class CSVWriter {
 
         this.numCols = columnHeaders.length;
 
-        this.dataString = "";
+        this.buffer = new StringBuffer();
 
         addRow(columnHeaders);
     }
@@ -43,10 +44,10 @@ public class CSVWriter {
      */
     public void addRow(String[] newRow){
         for(int i = 0; i < newRow.length - 1; i++){
-            dataString += newRow[i] + ", ";
+            this.buffer.append(newRow[i] + ", ");
         }
 
-        dataString += newRow[newRow.length - 1] + "\n";
+        this.buffer.append(newRow[newRow.length - 1] + "\n");
     }
 
     /**
@@ -57,7 +58,7 @@ public class CSVWriter {
 
         try{
             FileWriter writer = new FileWriter(this.filePath);
-            writer.write(this.dataString);
+            writer.write(this.buffer.toString());
             writer.close();
         } catch(IOException exception){
             System.err.println("IO exception occured in writeToFile().");
