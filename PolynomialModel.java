@@ -155,13 +155,14 @@ public class PolynomialModel extends SimpleModel{
             for(int j = 0; j < y.length; j++){
 
                 for(int d = 0; d < degree; d++){
+                    //Using the chain rule:
                     grad.get(i)[j][d] = powers[d] * dLdY[j];
                 }
             }
         }
 
+        
         grad.set(grad.size() - 1, LinearAlgebra.arrayToMatrix(dLdY));
-
 
         return grad;
     }

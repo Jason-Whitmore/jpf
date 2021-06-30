@@ -1,33 +1,45 @@
 import java.util.ArrayList;
 
+/**
+ * Defines the Add layer class, which is a concrete class derived from the Layer abstract class.
+ * This layer is used to combine the output vector of several layers into a single output vector.
+ */
+public class Add extends Layer{
 
-class Add extends Layer{
+    /**
+     * The number of units in the layer, which should be the
+     * same size as all of the input layer's output vector.
+     */
+    private int numUnits;
 
-    private int layerSize;
-
-
+    /**
+     * The main constructor for the Add layer, which allows output vectors from multiple layers to be combined
+     * into a single vector by performing elementwise addition. This layer contains no parameters.
+     * @param inputLayers The list of layer's whose output vectors will be added together to create this layer's output vector.
+     *  All of the output vectors for these layers must be of the same size.
+     */
     public Add(ArrayList<Layer> inputLayers){
         super();
 
         //Confirm that the size of all input and output layers have vectors of equal length
-        layerSize = inputLayers.get(0).getOutputVector().length;
+        this.numUnits = inputLayers.get(0).getOutputVector().length;
 
         for(int i = 1; i < inputLayers.size(); i++){
-            if(inputLayers.get(i).getOutputVector().length != layerSize){
-                //TODO: Fatal error here
+            if(inputLayers.get(i).getOutputVector().length != numUnits){
+                //TODO: error here
             }
         }
 
 
         this.inputLayers = inputLayers;
 
-        this.inputVector = new float[layerSize];
-        this.outputVector = new float[layerSize];
+        this.inputVector = new float[this.numUnits];
+        this.outputVector = new float[this.numUnits];
 
-        this.dLdX = new float[layerSize];
-        this.dLdY = new float[layerSize];
+        this.dLdX = new float[this.numUnits];
+        this.dLdY = new float[this.numUnits];
 
-        connectInputAndOutputLayers();
+        this.connectInputAndOutputLayers();
     }
 
     /**
@@ -39,29 +51,26 @@ class Add extends Layer{
 
         String layerSizeString = layerInfoString.replace("ADD(", "").replace(")", "");
 
-        int layerSize = Integer.parseInt(layerSizeString);
+        this.numUnits = Integer.parseInt(layerSizeString);
 
-        this.inputVector = new float[layerSize];
-        this.outputVector = new float[layerSize];
+        this.inputVector = new float[this.numUnits];
+        this.outputVector = new float[this.numUnits];
 
-        this.dLdX = new float[layerSize];
-        this.dLdY = new float[layerSize];
+        this.dLdX = new float[this.numUnits];
+        this.dLdY = new float[this.numUnits];
 
     }
 
 
     public void forwardPass(){
-        Utility.clearArray(this.inputVector);
-        Utility.clearArray(this.outputVector);
+        this.clearForwardPassArrays();
 
         for(int j = 0; j < inputLayers.size(); j++){
-            for(int i = 0; i < layerSize; i++){
+            for(int i = 0; i < numUnits; i++){
                 this.inputVector[i] += inputLayers.get(j).getOutputVector()[i];
                 this.outputVector[i] += this.inputVector[i];
             }
         }
-
-        
     }
 
 
@@ -74,6 +83,6 @@ class Add extends Layer{
     }
 
     public String toString(){
-        return "ADD(" + this.layerSize + ")";
+        return "ADD(" + this.numUnits + ")";
     }
 }

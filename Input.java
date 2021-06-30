@@ -36,19 +36,13 @@ public class Input extends Layer{
 
 
     public void forwardPass(){
-        //copy data directly from input vector to output vector
+        //Since this layer only serves as a placeholder for the model's input vectors, the data simply needs to be copied over to the output.
         Utility.copyArrayContents(this.inputVector, this.outputVector);
-
-        for(int i = 0; i < this.outputLayers.size(); i++){
-            float[] nextInputVector = this.outputLayers.get(i).getInputVector();
-
-            Utility.copyArrayContents(this.outputVector, nextInputVector);
-        }
     }
 
 
     public void backwardPass(){
-        //No work required since there is no parameters
+        //No work required since there is no parameters or computations done.
         return;
     }
 
