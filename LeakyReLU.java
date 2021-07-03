@@ -18,6 +18,11 @@ public class LeakyReLU extends ActivationFunction{
         this.alpha = alpha;
     }
 
+    /**
+     * The main activation function. LeakyReLU outputs numbers in range (-inf, inf) for alpha < 0.
+     * @param x The input number.
+     * @return The output number.
+     */
     public float f(float x){
         if(x > 0){
             return x;
