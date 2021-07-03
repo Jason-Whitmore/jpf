@@ -32,13 +32,13 @@ public class RMSProp implements Optimizer{
      * Default constructor for the RMSProp optimizer. Sets the learning rate to 0.0001, rho to 0.9, epsilon to 0.000001.
      */
     public RMSProp(){
-        setLearningRate(0.0001f);
+        this.setLearningRate(0.0001f);
 
-        setRho(0.9f);
+        this.setRho(0.9f);
 
-        setEpsilon(0.000001f);
+        this.setEpsilon(0.000001f);
 
-        gradSquare = null;
+        this.gradSquare = null;
     }
 
     /**
@@ -48,13 +48,13 @@ public class RMSProp implements Optimizer{
      * @param epsilon Small constant used to avoid divide by zero errors. Should be greater than 0.
      */
     public RMSProp(float learningRate, float rho, float epsilon){
-        setLearningRate(learningRate);
+        this.setLearningRate(learningRate);
 
-        setRho(rho);
+        this.setRho(rho);
 
-        setEpsilon(epsilon);
+        this.setEpsilon(epsilon);
 
-        gradSquare = null;
+        this.gradSquare = null;
     }
 
     /**
@@ -69,7 +69,7 @@ public class RMSProp implements Optimizer{
      * @param newLr The new learning rate to set this optimizer to.
      */
     public void setLearningRate(float newLr){
-        learningRate = newLr;
+        this.learningRate = newLr;
     }
 
 
@@ -88,7 +88,7 @@ public class RMSProp implements Optimizer{
      */
     public void setRho(float newRho){
         if(newRho < 0 || newRho > 1){
-            rho = 0.9f;
+            this.rho = 0.9f;
         }
         this.rho = newRho;
     }
@@ -106,10 +106,10 @@ public class RMSProp implements Optimizer{
      */
     public void setEpsilon(float eps){
         if(eps < 0){
-            epsilon = 0;
+            this.epsilon = 0;
         }
 
-        epsilon = eps;
+        this.epsilon = eps;
     }
 
 
@@ -124,7 +124,7 @@ public class RMSProp implements Optimizer{
         if(gradSquare == null){
             ArrayList<float[][]> newState = Utility.cloneArrays(rawGradient);
             Utility.clearArrays(newState);
-            gradSquare = newState;
+            this.gradSquare = newState;
         }
 
 
@@ -133,9 +133,8 @@ public class RMSProp implements Optimizer{
         for(int i = 0; i < gradSquare.size(); i++){
             for(int r = 0; r < gradSquare.get(i).length; r++){
                 for(int c = 0; c < gradSquare.get(i)[r].length; c++){
-
                     //maintain exponentially decaying average
-                    gradSquare.get(i)[r][c] = (rho * gradSquare.get(i)[r][c]) + ((1 - rho) * ((float)Math.pow(rawGradient.get(i)[r][c], 2)));
+                    this.gradSquare.get(i)[r][c] = (rho * gradSquare.get(i)[r][c]) + ((1 - rho) * ((float)Math.pow(rawGradient.get(i)[r][c], 2)));
                 }
             }
         }
@@ -160,6 +159,6 @@ public class RMSProp implements Optimizer{
      * Resets the optimizer internal memory. Useful when retraining a model on new data.
      */
     public void resetState(){
-        gradSquare = null;
+        this.gradSquare = null;
     }
 }

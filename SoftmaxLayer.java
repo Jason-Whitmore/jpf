@@ -1,33 +1,43 @@
-
-
-
+/**
+ * Class that defines the SoftmaxLayer class which is derived from the Layer abstract class.
+ * This layer is used when the output needs to be a discrete probability distribution.
+ */
 public class SoftmaxLayer extends Layer{
 
-    private int numUnits;
-
+    /**
+     * Basic constructor for the SoftmaxLayer, which output a discrete probability distribution.
+     * @param inputLayer The layer whose output vector is the input vector for this layer.
+     * It is highly recommended that the input layer be a Dense layer with a linear activation function.
+     */
     public SoftmaxLayer(Layer inputLayer){
         super();
 
-        this.numUnits = inputLayer.outputVector.length;
+        int numUnits = inputLayer.outputVector.length;
 
-        this.inputVector = new float[this.numUnits];
-        this.outputVector = new float[this.numUnits];
+        this.inputVector = new float[numUnits];
+        this.outputVector = new float[numUnits];
 
-        this.dLdX = new float[this.numUnits];
-        this.dLdY = new float[this.numUnits];
+        this.dLdX = new float[numUnits];
+        this.dLdY = new float[numUnits];
 
     }
 
+    /**
+     * Constructs a SoftmaxLayer from a string output by this layer's toString() method.
+     * Example: SOFTMAX(5) is a softmax layer of size 5.
+     * @param layerInfoString
+     */
     public SoftmaxLayer(String layerInfoString){
+        super();
+
         String numUnitsString = layerInfoString.replace("SOFTMAX(", "").replace(")", "");
+        int numUnits = Integer.parseInt(numUnitsString);
 
-        this.numUnits = Integer.parseInt(numUnitsString);
+        this.inputVector = new float[numUnits];
+        this.outputVector = new float[numUnits];
 
-        this.inputVector = new float[this.numUnits];
-        this.outputVector = new float[this.numUnits];
-
-        this.dLdX = new float[this.numUnits];
-        this.dLdY = new float[this.numUnits];
+        this.dLdX = new float[numUnits];
+        this.dLdY = new float[numUnits];
     }
 
 
@@ -74,6 +84,7 @@ public class SoftmaxLayer extends Layer{
 
 
     public String toString(){
-        return "Softmax(" + this.numUnits + ")";
+        int numUnits = this.outputVector.length;
+        return "Softmax(" + numUnits + ")";
     }
 }

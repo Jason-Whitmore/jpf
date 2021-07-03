@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 /**
  * Defines abstract class for simple models which have one input vector and one output vector.
+ * Derived from the Model abstract class.
  */
 public abstract class SimpleModel extends Model{
 

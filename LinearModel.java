@@ -1,5 +1,3 @@
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -14,9 +12,9 @@ public class LinearModel extends SimpleModel{
     private float[][] transformationMatrix;
 
     /**
-     * The bias vector of the model. This is the vector b in y = Ax + b
+     * The bias vector of the model represented as a 1 column matrix. This is the vector b in y = Ax + b
      */
-    private float[][] biasVector;
+    private float[][] biasMatrix;
 
     
     /**
@@ -29,10 +27,10 @@ public class LinearModel extends SimpleModel{
 
         this.transformationMatrix = LinearAlgebra.initializeRandomUniformMatrix(numOutputs, numInputs, -1f, 1f);
 
-        this.biasVector = new float[numOutputs][1];
+        this.biasMatrix = new float[numOutputs][1];
 
         this.parameters.add(transformationMatrix);
-        this.parameters.add(biasVector);
+        this.parameters.add(biasMatrix);
     }
 
     /**
@@ -50,10 +48,10 @@ public class LinearModel extends SimpleModel{
         this.parameters = params;
 
         this.transformationMatrix = params.get(0);
-        this.biasVector = params.get(1);
+        this.biasMatrix = params.get(1);
         
         numInputs = LinearAlgebra.getNumColumns(transformationMatrix);
-        numOutputs = LinearAlgebra.getNumRows(biasVector);
+        numOutputs = LinearAlgebra.getNumRows(biasMatrix);
     }
 
     /**
@@ -122,7 +120,7 @@ public class LinearModel extends SimpleModel{
         LinearAlgebra.matrixMultiply(transformationMatrix, matrixB, resultMatrix);
 
         //Add the bias
-        LinearAlgebra.matrixAdd(resultMatrix, biasVector, resultMatrix);
+        LinearAlgebra.matrixAdd(resultMatrix, biasMatrix, resultMatrix);
 
         //Turn back into a vector
         for(int i = 0; i < result.length; i++){

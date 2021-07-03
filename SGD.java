@@ -17,7 +17,7 @@ public class SGD implements Optimizer{
      * Default constructor for SGD. Sets a learning rate of 0.0001.
      */
     public SGD(){
-        learningRate = 0.0001f;
+        this.learningRate = 0.0001f;
     }
 
     /**
@@ -36,7 +36,6 @@ public class SGD implements Optimizer{
      * @param rawGradient A raw, unprocessed gradient of the model's parameters evaluated at a data point.
      * @return The processed gradient, ready to be applied to the model.
      */
-    @Override
     public ArrayList<float[][]> processGradient(ArrayList<float[][]> rawGradient){
         Utility.scaleGradient(rawGradient, this.learningRate);
 
