@@ -260,6 +260,7 @@ public class Examples{
     }
 
     public static void runExample(String exampleName){
+
         exampleName = exampleName.toLowerCase();
 
         switch (exampleName) {

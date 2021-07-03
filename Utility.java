@@ -524,51 +524,50 @@ public class Utility{
             destination[i] = source[i];
         }
     }
-
-    public static void passedTest(boolean worked){
-        if(worked){
-            System.out.println("Passed.");
-        } else {
-            System.out.println("Failed.");
-        }
-    }
-
-    public static void unitTests(){
-        //Testing initializers
-        unitTestsInitializers();
-    }
-
-    public static void unitTestsInitializers(){
-
-        boolean worked = false;
-        System.out.println("Testing initializeNormal(ArrayList<float[][]>, mean, variance)");
-
-        //try with arraylist as null
-        try{
-            initializeNormal(null, 0, 0);
-        } catch(NullPointerException e){
-            worked = true;
-        }
-
-        //try with negative variance
-
-        try{
-            initializeNormal(new ArrayList<float[][]>(), 0, -1);
-        } catch(Exception e){
-
-        }
-
-
-
-        
-
-        passedTest(worked);
-
-
-        worked = false;
-        System.out.println("Testing initializeNormal");
-        
-    }
     
+    /**
+     * Throws an AssertionError when the any of the objects are null, else does nothing.
+     * Should be used to check one or several objects where a null is a fatal error to the program (cannot recover).
+     * @param objects The objects to check if null.
+     */
+    public static void checkNotNull(Object... objects){
+        if(objects == null || objects.length == 0){
+            return;
+        }
 
+        for(int i = 0; i < objects.length; i++){
+            if(objects[i] == null){
+                throw new AssertionError("Object is null where it should not be at position " + i);
+            }
+        }
+    }
+
+    /**
+     * Throws an assertion error if the 2d array is ragged (some arrays are of different sizes), else does nothing.
+     * Should be used if a ragged 2d array would cause a fatal error (can't recover program)
+     * @param array The 2d array to check if ragged. Presumed to not be null.
+     */
+    public static void checkMatrixRectangle(float[][] array){
+        int length = array[0].length;
+
+        for(int i = 1; i < array.length; i++){
+            if(array[i].length != length){
+                throw new AssertionError("Matrix is not a rectangle where it should be.");
+            }
+        }
+    }
+
+    /**
+     * Checks to see if the arrays are of the same length.
+     * Will also check if they are null.
+     * @param a The first array.
+     * @param b The second array.
+     */
+    public static void checkArrayLengthsEqual(float[] a, float[] b){
+        Utility.checkNotNull(a, b);
+
+        if(a.length != b.length){
+            throw new AssertionError("Input arrays are not of the same length but should be.");
+        }
+    }
 }
