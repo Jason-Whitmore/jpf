@@ -6,8 +6,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import jdk.jshell.execution.Util;
-
 /**
  * Class for assorted static functions that may be useful elsewhere in the project or for the user.
  */
@@ -21,6 +19,14 @@ public class Utility{
      */
     public static ArrayList<ArrayList<Integer>> getMinibatchIndicies(int n, int minibatchSize){
 
+        if(n < 1){
+            throw new AssertionError("n (number of indicies) needs to be >= 1");
+        }
+
+        if(minibatchSize < 1){
+            throw new AssertionError("Minibatch size needs to be >= 1");
+        }
+
         //get the indicies
         ArrayList<Integer> indicies = new ArrayList<Integer>(n);
 
@@ -32,7 +38,6 @@ public class Utility{
         Collections.shuffle(indicies);
 
         //Separate the indicies into minibatches
-
         ArrayList<ArrayList<Integer>> r = new ArrayList<ArrayList<Integer>>();
 
         ArrayList<Integer> minibatchIndicies = new ArrayList<Integer>();
@@ -61,6 +66,12 @@ public class Utility{
      * @param max The maximum value an element can be.
      */
     public static void clip(float[] array, float min, float max){
+        Utility.checkNotNull((Object)array);
+
+        if(max < min){
+            throw new AssertionError("max parameter is less than min parameter.");
+        }
+
         for(int i = 0; i < array.length; i++){
             if(array[i] < min){
                 array[i] = min;
@@ -77,7 +88,14 @@ public class Utility{
      * @param max The maximum value an element can be.
      */
     public static void clip(float[][] array, float min, float max){
+        Utility.checkNotNull((Object)array);
+
+        if(max < min){
+            throw new AssertionError("max parameter is less than min parameter.");
+        }
+
         for(int i = 0; i < array.length; i++){
+            Utility.checkNotNull((Object)(array[i]));
             clip(array[i], min, max);
         }
     }
@@ -89,13 +107,26 @@ public class Utility{
      * @param max The maximum value an element can be.
      */
     public static void clip(ArrayList<float[][]> arrays, float min, float max){
+        Utility.checkNotNull(arrays);
+
+        if(max < min){
+            throw new AssertionError("max parameter is less than min parameter.");
+        }
+
         for(int i = 0; i < arrays.size(); i++){
+            Utility.checkNotNull((Object)(arrays.get(i)));
             clip(arrays.get(i), min, max);
         }
     }
 
-
+    /**
+     * Computes the sum of the provided data.
+     * @param a The input data to sum.
+     * @return The sum.
+     */
     public static float sum(float[] a){
+        Utility.checkNotNull(a);
+
         float sum = 0;
         
         for(int i = 0; i < a.length; i++){
@@ -105,17 +136,27 @@ public class Utility{
         return sum;
     }
 
+    /**
+     * Computes the mean value of the provided data.
+     * @param a The input data to find the mean value of.
+     * @return The mean value.
+     */
     public static float mean(float[] a){
+        Utility.checkNotNull(a);
+
         return sum(a) / a.length;
     }
+
 
     /**
      * Sets all the elements of the array to zero.
      * @param a The array to modify.
      */
     public static void clearArray(float[] a){
+        Utility.checkNotNull((Object)a);
+
         for(int i = 0; i < a.length; i++){
-            a[i] = 0;
+            a[i] = 0f;
         }
     }
 
@@ -124,15 +165,23 @@ public class Utility{
      * @param a The 2d array to modify.
      */
     public static void clearArray(float[][] a){
+        Utility.checkNotNull((Object)a);
+
         for(int i = 0; i < a.length; i++){
+            Utility.checkNotNull((Object)(a[i]));
             clearArray(a[i]);
         }
     }
 
+    /**
+     * Clears all entries in the arrays.
+     * @param arrays The list of arrays to clear.
+     */
     public static void clearArrays(ArrayList<float[][]> arrays){
-        //TODO: Check for null
+        Utility.checkNotNull((Object)arrays);
 
         for(int i = 0; i < arrays.size(); i++){
+            Utility.checkNotNull((Object)(arrays.get(i)));
             clearArray(arrays.get(i));
         }
     }
@@ -143,6 +192,8 @@ public class Utility{
      * @param scalar The scaling factor
      */
     public static void scaleArray(float[] a, float scalar){
+        Utility.checkNotNull((Object)a);
+
         for(int i = 0; i < a.length; i++){
             a[i] *= scalar;
         }
@@ -154,6 +205,8 @@ public class Utility{
      * @param scalar The scaling factor
      */
     public static void scaleArray(float[][] a, float scalar){
+        Utility.checkNotNull((Object)a);
+
         for(int i = 0; i < a.length; i++){
             scaleArray(a[i], scalar);
         }
@@ -165,19 +218,20 @@ public class Utility{
      * @return A new ArrayList of 2d arrays identical in contents to the input.
      */
     public static ArrayList<float[][]> cloneArrays(ArrayList<float[][]> arrays){
-        if(arrays == null){
-            return null;
-        }
+        Utility.checkNotNull(arrays);
 
         ArrayList<float[][]> ret = new ArrayList<float[][]>(arrays.size());
 
         for(int i = 0; i < arrays.size(); i++){
+            Utility.checkNotNull((Object)(arrays.get(i)));
+
             int numRows = arrays.get(i).length;
             int numCols = arrays.get(i)[0].length;
 
             ret.add(new float[numRows][numCols]);
 
             for(int r = 0; r < numRows; r++){
+                Utility.checkNotNull(arrays.get(i)[r]);
                 for(int c = 0; c < numCols; c++){
                     ret.get(i)[r][c] = arrays.get(i)[r][c];
                 }
@@ -189,13 +243,17 @@ public class Utility{
     }
 
     /**
-     * Adds one scaled 2d array to another. Used to apply a gradient to a model's parameters
+     * Adds one scaled 2d array to another. Used to apply a gradient to a model's parameters.
      * @param dest The first 2d array, which is also where the result is stored.
      * @param b The second 2d array, which is scaled.
      * @param scalar The scalar to multiply the b array by.
      */
     public static void addArray(float[][] dest, float[][] b, float scalar){
+        Utility.checkNotNull(dest, b);
+
         for(int r = 0; r < dest.length; r++){
+            Utility.checkArrayLengthsEqual(dest[r], b[r]);
+
             for(int c = 0; c < dest[r].length; c++){
                 dest[r][c] = dest[r][c] + (b[r][c] * scalar);
             }
@@ -210,6 +268,7 @@ public class Utility{
      */
     public static void addList(ArrayList<float[][]> list, ArrayList<float[][]> newList, float scalar){
         Utility.checkNotNull(list, newList);
+        Utility.checkListDimensionsEqual(list, newList);
 
         for(int i = 0; i < list.size(); i++){
             addArray(list.get(i), newList.get(i), scalar);
@@ -225,6 +284,8 @@ public class Utility{
         Utility.checkNotNull(list);
 
         for(int i = 0; i < list.size(); i++){
+            Utility.checkNotNull((Object)(list.get(i)));
+
             scaleArray(list.get(i), scalar);
         }
     }
