@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import jdk.jshell.execution.Util;
+
 /**
  * Class for assorted static functions that may be useful elsewhere in the project or for the user.
  */
@@ -303,6 +305,8 @@ public class Utility{
      * @return True on success, false on failure.
      */
     public static boolean writeStringToFile(String filePath, String contents){
+        Utility.checkNotNull(filePath, contents);
+
         try{
             FileWriter f = new FileWriter(filePath);
             f.write(contents);
@@ -325,6 +329,7 @@ public class Utility{
      * @return The allocated and initialized array.
      */
     public static float[] stringToArray(String s){
+        Utility.checkNotNull(s);
         return LinearAlgebra.stringToArray(s);
     }
 
@@ -341,6 +346,7 @@ public class Utility{
      * @return The newly allocated matrix from string data.
      */
     public static float[][] stringToMatrix(String s){
+        Utility.checkNotNull(s);
         return LinearAlgebra.stringToMatrix(s);
     }
 
@@ -363,41 +369,40 @@ public class Utility{
      * @return The initialized arraylist of matricies
      */
     public static ArrayList<float[][]> stringToMatrixList(String s){
+        Utility.checkNotNull(s);
         return LinearAlgebra.stringToMatrixList(s);
     }
 
 
     /**
-     * Gets a random sample from a uniform distribution.
+     * Gets a random sample from a uniform distribution in [lowerBound, upperBound)
      * @param lowerBound The smallest value that can be returned.
-     * @param upperBound The largest value that can be returned.
+     * @param upperBound The exclsuive upper boundary for values that can be returned.
      * @return The random sample.
      */
     public static float getRandomUniform(float lowerBound, float upperBound){
-        float upper;
-        float lower;
-
-        if(upperBound > lowerBound){
-            upper = upperBound;
-            lower = lowerBound;
-        } else {
-            upper = lowerBound;
-            lower = upperBound;
+        if(upperBound < lowerBound){
+            throw new AssertionError("upperBound is lower than lowerBound");
         }
 
-        float delta = upper - lower;
+        float delta = upperBound - lowerBound;
 
-        return lower + delta * ((float)Math.random());
+        return lowerBound + delta * ((float)Math.random());
     }
 
 
     /**
-     * Initializes the parameters to a uniform distribution of (min, max)
+     * Initializes the parameters to a uniform distribution of [min, max)
      * @param parameters The parameters to initialize
      * @param min The minimum value an entry can be.
      * @param max The maximum value an entry can be.
      */
     public static void initializeUniform(ArrayList<float[][]> parameters, float min, float max){
+        Utility.checkNotNull(parameters);
+
+        if(max < min){
+            throw new AssertionError("max parameter is smaller than the min parameter.");
+        }
 
         for(int i = 0; i < parameters.size(); i++){
             initializeUniform(parameters.get(i), min, max);
@@ -406,22 +411,37 @@ public class Utility{
     }
 
     /**
-     * Initializes the entries in the matrix to a unfirom distribution of (min, max). TODO: Refactor
+     * Initializes the entries in the matrix to a unifrom distribution of [min, max).
      * @param matrix The matrix to initialize.
      * @param min The minimum value an entry can be.
      * @param max The maximum value an entry can be.
      */
     public static void initializeUniform(float[][] matrix, float min, float max){
+        Utility.checkNotNull((Object)matrix);
+
+        if(max < min){
+            throw new AssertionError("max parameter is smaller than the min parameter.");
+        }
+
         for(int r = 0; r < matrix.length; r++){
-            for(int c = 0; c < matrix[r].length; c++){
-                matrix[r][c] = Utility.getRandomUniform(min, max);
-            }
+            Utility.initializeUniform(matrix[r], min, max);
         }
     }
 
 
-    //TODO: Docs here
+    /**
+     * Initializes entries in the array to a uniform distribution of [min, max).
+     * @param array The array to initialize.
+     * @param min The minimum value an entry can be.
+     * @param max The maximum value an entry can be.
+     */
     public static void initializeUniform(float[] array, float min, float max){
+        Utility.checkNotNull(array);
+
+        if(max < min){
+            throw new AssertionError("max parameter is smaller than the min parameter.");
+        }
+
         for(int i = 0; i < array.length; i++){
             array[i] = Utility.getRandomUniform(min, max);
         }
@@ -434,6 +454,12 @@ public class Utility{
      * @param variance The variance of the normal distribution.
      */
     public static void initializeNormal(ArrayList<float[][]> parameters, float mean, float variance){
+        Utility.checkNotNull(parameters);
+
+        if(variance < 0){
+            throw new AssertionError("variance parameter is less than zero when it should be >= 0");
+        }
+
         Random r = new Random();
 
         for(int i = 0; i < parameters.size(); i++){
@@ -449,6 +475,11 @@ public class Utility{
      * @param randObject The Random object to get the random samples from.
      */
     public static void initializeNormal(float[][] matrix, float mean, float variance, Random randObject){
+        Utility.checkNotNull(matrix, randObject);
+
+        if(variance < 0){
+            throw new AssertionError("variance parameter is less than zero when it should be >= 0");
+        }
 
         for(int r = 0; r < matrix.length; r++){
             for(int c = 0; c < matrix[r].length; c++){
@@ -467,6 +498,7 @@ public class Utility{
      * unable to be read.
      */
     public static String getTextFileContents(String filePath){
+        Utility.checkNotNull(filePath);
 
         try{
             BufferedReader br = new BufferedReader(new FileReader(filePath));
@@ -492,9 +524,21 @@ public class Utility{
     }
 
 
-
+    /**
+     * Reads a .csv file and places the contents into a 2d String array.
+     * @param filePath A valid filepath to a .csv file.
+     * @param lineDelimiter The character(s) that define where a line ends. Typically a newline (\n) character.
+     * @param elementDelimiter The character(s) that define where a element within a line end. Typically a comma (,).
+     * @return The 2nd String array, or null on error.
+     */
     public String[][] readFromCSV(String filePath, String lineDelimiter, String elementDelimiter){
+        Utility.checkNotNull(filePath, lineDelimiter, elementDelimiter);
+
         String fileContents = getTextFileContents(filePath);
+        
+        if(fileContents == null){
+            return null;
+        }
 
         String[] lines = fileContents.split(lineDelimiter);
 
@@ -509,7 +553,15 @@ public class Utility{
         return r;
     }
 
+    /**
+     * Reads a CSV file with a newline character for line delimiter and a comma character for element delimiter
+     * and places the contents into a 2d String array.
+     * @param filepath The filepath of the csv file. Should be a valid path.
+     * @return The 2d String array with the .csv contents, or null if error.
+     */
     public String[][] readFromCSV(String filepath){
+        Utility.checkNotNull(filepath);
+
         return readFromCSV(filepath, "\n", ",");
     }
 
@@ -520,6 +572,8 @@ public class Utility{
      * @param destination The array to copy contents from.
      */
     public static void copyArrayContents(float[] source, float[] destination){
+        Utility.checkArrayLengthsEqual(source, destination);
+
         for(int i = 0; i < source.length; i++){
             destination[i] = source[i];
         }
