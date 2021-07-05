@@ -420,7 +420,7 @@ public class NeuralNetwork extends Model{
 
 
                     //add gradient to minibatch pool
-                    Utility.addGradient(minibatchGradient, rawGradient, 1.0f / indicies.get(mb).size());
+                    Utility.addList(minibatchGradient, rawGradient, 1.0f / indicies.get(mb).size());
                 }
 
                 //clip the gradient if applicable
@@ -431,7 +431,7 @@ public class NeuralNetwork extends Model{
                 minibatchGradient = opt.processGradient(minibatchGradient);
 
                 //minibatch processed. Add to Network's parameters
-                Utility.addGradient(getParameters(), minibatchGradient, -1f);
+                Utility.addList(getParameters(), minibatchGradient, -1f);
 
             }
         }

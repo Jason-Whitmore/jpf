@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import jdk.jshell.execution.Util;
@@ -202,25 +203,29 @@ public class Utility{
     }
 
     /**
-     * Adds the one scaled gradient to another gradient.
-     * @param gradient The gradient to add to. This is the destination gradient.
-     * @param newGradient The scaled gradient to add to the first parameter.
-     * @param scalar The scalar to multiply newGradient by.
+     * Adds the one scaled list to another list.
+     * @param list The list to add to. This is the destination list.
+     * @param newList The scaled list to add to the first parameter.
+     * @param scalar The scalar to multiply newList by.
      */
-    public static void addGradient(ArrayList<float[][]> gradient, ArrayList<float[][]> newGradient, float scalar){
-        for(int i = 0; i < gradient.size(); i++){
-            addArray(gradient.get(i), newGradient.get(i), scalar);
+    public static void addList(ArrayList<float[][]> list, ArrayList<float[][]> newList, float scalar){
+        Utility.checkNotNull(list, newList);
+
+        for(int i = 0; i < list.size(); i++){
+            addArray(list.get(i), newList.get(i), scalar);
         }
     }
 
     /**
-     * Scales the gradient by a given factor.
-     * @param gradient The gradient to scale.
-     * @param scalar The factor to scale the gradient by.
+     * Scales the list elements by a given factor.
+     * @param list The list to scale.
+     * @param scalar The factor to scale the list elements by by.
      */
-    public static void scaleGradient(ArrayList<float[][]> gradient, float scalar){
-        for(int i = 0; i < gradient.size(); i++){
-            scaleArray(gradient.get(i), scalar);
+    public static void scaleList(ArrayList<float[][]> list, float scalar){
+        Utility.checkNotNull(list);
+
+        for(int i = 0; i < list.size(); i++){
+            scaleArray(list.get(i), scalar);
         }
     }
 
@@ -230,6 +235,8 @@ public class Utility{
      * @return The formatted string
      */
     public static String arrayToString(float[] array){
+        Utility.checkNotNull((Object)array);
+
         if(array.length == 0){
             return "[]";
         }
@@ -255,6 +262,8 @@ public class Utility{
      * @return The formatted string.
      */
     public static String arrayToString(float[][] array){
+        Utility.checkNotNull((Object)array);
+
         StringBuilder sb = new StringBuilder();
 
         sb.append("[");
@@ -278,6 +287,7 @@ public class Utility{
      * @return The formatted string.
      */
     public static String arraysToString(ArrayList<float[][]> arrays){
+        Utility.checkNotNull(arrays);
 
         if(arrays.size() == 0){
             return "[]";
@@ -285,7 +295,6 @@ public class Utility{
         StringBuilder sb = new StringBuilder();
 
         sb.append("[\n");
-        //sb.append(arrayToString(arrays.get(0)));
 
         for(int i = 0; i < arrays.size() - 1; i++){
             sb.append(arrayToString(arrays.get(i)));
@@ -302,7 +311,7 @@ public class Utility{
      * Writes the contents to the filepath.
      * @param filePath The filepath to write to.
      * @param contents The text file contents that will be placed at the filepath.
-     * @return True on success, false on failure.
+     * @return True on success, false on failure and prints error message to standard error.
      */
     public static boolean writeStringToFile(String filePath, String contents){
         Utility.checkNotNull(filePath, contents);
@@ -313,6 +322,7 @@ public class Utility{
             f.close();
 
         } catch(Exception e){
+            System.err.println(e.getMessage());
             return false;
         }
 
@@ -607,6 +617,38 @@ public class Utility{
         for(int i = 1; i < array.length; i++){
             if(array[i].length != length){
                 throw new AssertionError("Matrix is not a rectangle where it should be.");
+            }
+        }
+    }
+
+    /**
+     * Checks to see if both list's 2d arrays are both not null and are of equal dimensions.
+     * Throws an AssertionError if an issue is present.
+     * @param listA The first list.
+     * @param listB The second list.
+     */
+    public static void checkListDimensionsEqual(List<float[][]> listA, List<float[][]> listB){
+        Utility.checkNotNull(listA, listB);
+
+        if(listA.size() != listB.size()){
+            throw new AssertionError("List sizes are not equal.");
+        }
+
+        for(int i = 0; i < listA.size(); i++){
+            Utility.checkNotNull((Object)(listA.get(i)));
+            Utility.checkNotNull((Object)(listB.get(i)));
+
+            if(listA.get(i).length != listB.get(i).length){
+                throw new AssertionError("Rows of matrix in list do not match.");
+            }
+
+            for(int j = 0; j < listA.get(i).length; i++){
+                Utility.checkNotNull((Object)(listA.get(i)[j]));
+                Utility.checkNotNull((Object)(listB.get(i)[j]));
+
+                if(listA.get(i)[j].length != listB.get(i)[j].length){
+                    throw new AssertionError("Columns of matrix in list do not match.");
+                }
             }
         }
     }

@@ -37,7 +37,7 @@ public class SGD implements Optimizer{
      * @return The processed gradient, ready to be applied to the model.
      */
     public ArrayList<float[][]> processGradient(ArrayList<float[][]> rawGradient){
-        Utility.scaleGradient(rawGradient, this.learningRate);
+        Utility.scaleList(rawGradient, this.learningRate);
 
         return rawGradient;
     }

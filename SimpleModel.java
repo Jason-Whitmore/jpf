@@ -121,13 +121,13 @@ public abstract class SimpleModel extends Model{
                     }
 
                     //add it to the minibatch pool
-                    Utility.addGradient(minibatchGradient, rawGradient, 1.0f / indicies.get(mb).size());
+                    Utility.addList(minibatchGradient, rawGradient, 1.0f / indicies.get(mb).size());
                 }
 
                 minibatchGradient = opt.processGradient(minibatchGradient);
 
                 //minibatch gradient is calculated. Add to the model's parameters
-                Utility.addGradient(getParameters(), minibatchGradient, -1f);
+                Utility.addList(getParameters(), minibatchGradient, -1f);
             }
 
         }
