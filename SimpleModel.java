@@ -68,6 +68,16 @@ public abstract class SimpleModel extends Model{
      * @return The predicted output vectors, corresponding to the input vectors.
      */
     public float[][] predict(float[][] inputVectors){
+        //Check parameters
+        Utility.checkNotNull((Object)inputVectors);
+        Utility.checkMatrixRectangle(inputVectors);
+        Utility.checkArrayNotEmpty(inputVectors);
+
+        if(inputVectors[0].length != this.numInputs){
+            throw new AssertionError("Predict input vector length does not match model input length");
+        }
+
+        //Make predictions
         float[][] outputVectors = new float[inputVectors.length][];
 
         for(int i = 0; i < outputVectors.length; i++){
@@ -98,6 +108,7 @@ public abstract class SimpleModel extends Model{
      * @param Loss The loss function used to make the model more accurate to the training dataset.
      */
     public void fit(float[][] x, float[][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss){
+        //TODO: Check parameters
 
         for(int e = 0; e < epochs; e++){
             //calculate minibatch indicies
@@ -142,6 +153,7 @@ public abstract class SimpleModel extends Model{
      * @return The scalar loss
      */
     public float calculateLoss(float[] x, float[] y, Loss loss){
+        //TODO: check parameters
 
         float[] yPred = predict(x);
         return loss.calculateLossScalar(y, yPred);
@@ -155,6 +167,8 @@ public abstract class SimpleModel extends Model{
      * @return The average scalar loss.
      */
     public float calculateLoss(float[][] x, float[][] y, Loss loss){
+        //TODO: Check parameters
+
         float sum = 0;
 
         for(int i = 0; i < x.length; i++){

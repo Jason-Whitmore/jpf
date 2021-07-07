@@ -670,15 +670,40 @@ public class Utility{
     /**
      * Throws an assertion error if the 2d array is ragged (some arrays are of different sizes), else does nothing.
      * Should be used if a ragged 2d array would cause a fatal error (can't recover program)
-     * @param array The 2d array to check if ragged. Presumed to not be null.
+     * @param matrix The 2d array to check if ragged. Presumed to not be null.
      */
-    public static void checkMatrixRectangle(float[][] array){
-        int length = array[0].length;
+    public static void checkMatrixRectangle(float[][] matrix){
+        int length = matrix[0].length;
 
-        for(int i = 1; i < array.length; i++){
-            if(array[i].length != length){
+        for(int i = 1; i < matrix.length; i++){
+            if(matrix[i].length != length){
                 throw new AssertionError("Matrix is not a rectangle where it should be.");
             }
+        }
+    }
+
+    /**
+     * Throws an assertion error if the input array is empty or has empty elements
+     * where the length is equal to 0.
+     * @param array The 2d array to check for being empty or having empty elements.
+     */
+    public static void checkArrayNotEmpty(float[][] array){
+        if(array.length == 0){
+            throw new AssertionError("2d array is of length 0.");
+        }
+
+        for(int i = 0; i < array.length; i++){
+            Utility.checkArrayNotEmpty(array[i]);
+        }
+    }
+
+    /**
+     * Checks the input array to see if it empty (length of 0). If so, throws an assertion error.
+     * @param array The array to check if empty.
+     */
+    public static void checkArrayNotEmpty(float[] array){
+        if(array.length == 0){
+            throw new AssertionError("2d array is of length 0.");
         }
     }
 
