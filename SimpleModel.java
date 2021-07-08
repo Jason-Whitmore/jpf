@@ -83,10 +83,7 @@ public abstract class SimpleModel extends Model{
         Utility.checkNotNull((Object)inputVectors);
         Utility.checkMatrixRectangle(inputVectors);
         Utility.checkArrayNotEmpty(inputVectors);
-
-        if(inputVectors[0].length != this.numInputs){
-            throw new AssertionError("Predict input vector length does not match model input length");
-        }
+        Utility.checkEqual(inputVectors[0].length, this.numInputs);
 
         //Make predictions
         float[][] outputVectors = new float[inputVectors.length][];
@@ -113,9 +110,7 @@ public abstract class SimpleModel extends Model{
         for(int i = 0; i < inputVectors.size(); i++){
             //Check to see if this input vector is not null and matches the model's input vector size
             Utility.checkNotNull((Object)inputVectors.get(i));
-            if(inputVectors.get(i).length != this.numInputs){
-                throw new AssertionError("Input vector length does not match model's input vector length.");
-            }
+            Utility.checkEqual(inputVectors.get(i).length, this.numInputs);
 
             r.add(this.predict(inputVectors.get(i)));
         }
@@ -201,13 +196,8 @@ public abstract class SimpleModel extends Model{
         Utility.checkArrayLengthsEqual(x, y);
         
         //Check x and y to see if the number of columns match the model's input and output sizes.
-        if(x[0].length != this.numInputs){
-            throw new AssertionError("Input vector length incorrect for model input.");
-        }
-
-        if(y[0].length != this.numOutputs){
-            throw new AssertionError("Output vector length incorrect for model output.");
-        }
+        Utility.checkEqual(x[0].length, this.numInputs);
+        Utility.checkEqual(y[0].length, this.numOutputs);
 
         //Check the rest of the parameters
         if(epochs <= 0){
@@ -234,15 +224,10 @@ public abstract class SimpleModel extends Model{
     public float calculateLoss(float[] x, float[] y, Loss loss){
         Utility.checkNotNull((Object)x, (Object)y, loss);
 
-        if(x.length != this.numInputs){
-            throw new AssertionError("Input vector length incorrect for model input.");
-        }
+        Utility.checkEqual(x.length, this.numInputs);
+        Utility.checkEqual(y.length, this.numOutputs);
 
-        if(y.length != this.numOutputs){
-            throw new AssertionError("Output vector length incorrect for model output.");
-        }
-
-        float[] yPred = predict(x);
+        float[] yPred = this.predict(x);
         return loss.calculateLossScalar(y, yPred);
     }
     
