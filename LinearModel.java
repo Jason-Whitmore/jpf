@@ -109,6 +109,11 @@ public class LinearModel extends SimpleModel{
      * @return The output or prediction vector
      */
     public float[] predict(float[] inputVector){
+        //Check parameters
+        Utility.checkNotNull((Object)inputVector);
+        Utility.checkEqual(inputVector.length, this.numInputs);
+
+        
         float[] result = new float[numOutputs];
         float[][] resultMatrix = new float[numOutputs][1];
 
