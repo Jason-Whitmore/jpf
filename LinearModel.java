@@ -23,14 +23,15 @@ public class LinearModel extends SimpleModel{
      * @param numOutputs The number of components in the output vector
      */
     public LinearModel(int numInputs, int numOutputs){
+        //Invalid parameters already checked in the super constructor.
         super(numInputs, numOutputs);
 
         this.transformationMatrix = LinearAlgebra.initializeRandomUniformMatrix(numOutputs, numInputs, -1f, 1f);
 
         this.biasMatrix = new float[numOutputs][1];
 
-        this.parameters.add(transformationMatrix);
-        this.parameters.add(biasMatrix);
+        this.parameters.add(this.transformationMatrix);
+        this.parameters.add(this.biasMatrix);
     }
 
     /**
@@ -50,8 +51,16 @@ public class LinearModel extends SimpleModel{
         this.transformationMatrix = params.get(0);
         this.biasMatrix = params.get(1);
         
-        numInputs = LinearAlgebra.getNumColumns(transformationMatrix);
-        numOutputs = LinearAlgebra.getNumRows(biasMatrix);
+        this.numInputs = LinearAlgebra.getNumColumns(transformationMatrix);
+        this.numOutputs = LinearAlgebra.getNumRows(biasMatrix);
+
+        //Check if the num input/output fields are not valid
+        if(this.numInputs <= 0){
+            throw new AssertionError("Size of input vector for model is invalid.");
+        }
+        if(this.numOutputs <= 0){
+            throw new AssertionError("Size of output vector for model is invalid.");
+        }
     }
 
     /**
@@ -87,20 +96,7 @@ public class LinearModel extends SimpleModel{
     }
 
 
-    /**
-     * Makes predictions on multiple input vectors
-     * @param inputVectors The set of input vectors to make predictions on
-     * @return An ArrayList of prediction/output vectors associated with the ArrayList of input vectors
-     */
-    public ArrayList<float[]> predict(ArrayList<float[]> inputVectors){
-        ArrayList<float[]> r = new ArrayList<float[]>();
-
-        for(int i = 0; i < inputVectors.size(); i++){
-            r.add(predict(inputVectors.get(i)));
-        }
-
-        return r;
-    }
+    
 
     /**
      * Makes a prediction from an input vector

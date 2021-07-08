@@ -18,7 +18,7 @@ public abstract class SimpleModel extends Model{
 
     /**
      * Constructor for the SimpleModel abstract class. Calls constructor for Model class
-     * and populates the input and output vector size fields.
+     * and populates the input and output vector size fields. Also checks for invalid parameters.
      * @param numInputs The number of components in the input vector. Should be >= 1.
      * @param numOutputs The number of components in the output vector. Should be >= 1.
      */
@@ -96,6 +96,31 @@ public abstract class SimpleModel extends Model{
         }
 
         return outputVectors;
+    }
+
+    /**
+     * Makes predictions on multiple input vectors
+     * @param inputVectors The set of input vectors to make predictions on
+     * @return An ArrayList of prediction/output vectors associated with the ArrayList of input vectors
+     */
+    public ArrayList<float[]> predict(ArrayList<float[]> inputVectors){
+        //Check parameter
+        Utility.checkNotNull(inputVectors);
+
+
+        ArrayList<float[]> r = new ArrayList<float[]>();
+
+        for(int i = 0; i < inputVectors.size(); i++){
+            //Check to see if this input vector is not null and matches the model's input vector size
+            Utility.checkNotNull((Object)inputVectors.get(i));
+            if(inputVectors.get(i).length != this.numInputs){
+                throw new AssertionError("Input vector length does not match model's input vector length.");
+            }
+
+            r.add(this.predict(inputVectors.get(i)));
+        }
+
+        return r;
     }
 
     /**
