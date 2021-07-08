@@ -54,13 +54,7 @@ public class LinearModel extends SimpleModel{
         this.numInputs = LinearAlgebra.getNumColumns(transformationMatrix);
         this.numOutputs = LinearAlgebra.getNumRows(biasMatrix);
 
-        //Check if the num input/output fields are not valid
-        if(this.numInputs <= 0){
-            throw new AssertionError("Size of input vector for model is invalid.");
-        }
-        if(this.numOutputs <= 0){
-            throw new AssertionError("Size of output vector for model is invalid.");
-        }
+        this.checkInputOutputSize(this.numInputs, this.numOutputs);
     }
 
     /**
@@ -72,9 +66,7 @@ public class LinearModel extends SimpleModel{
      */
     protected ArrayList<float[][]> calculateGradient(float[] inputVector, float[] outputVector, Loss loss){
         //Check parameters
-        Utility.checkNotNull((Object)inputVector, (Object)outputVector, loss);
-        Utility.checkEqual(inputVector.length, this.numInputs);
-        Utility.checkEqual(outputVector.length, this.numOutputs);
+        this.checkInputOutputVectorsAndLoss(inputVector, outputVector, loss);
 
         ArrayList<float[][]> gradient = new ArrayList<float[][]>(2);
 
@@ -113,7 +105,7 @@ public class LinearModel extends SimpleModel{
         Utility.checkNotNull((Object)inputVector);
         Utility.checkEqual(inputVector.length, this.numInputs);
 
-        
+
         float[] result = new float[numOutputs];
         float[][] resultMatrix = new float[numOutputs][1];
 

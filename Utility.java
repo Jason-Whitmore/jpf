@@ -748,9 +748,7 @@ public class Utility{
     public static void checkArrayLengthsEqual(float[] a, float[] b){
         Utility.checkNotNull(a, b);
 
-        if(a.length != b.length){
-            throw new AssertionError("Input arrays are not of the same length but should be.");
-        }
+        Utility.checkEqual(a.length, b.length);
     }
 
     /**
@@ -762,9 +760,7 @@ public class Utility{
     public static void checkArrayLengthsEqual(float[][] a, float[][] b){
         Utility.checkNotNull((Object)a, (Object)b);
 
-        if(a.length != b.length){
-            throw new AssertionError("Input arrays are not of the same length but should be.");
-        }
+        Utility.checkEqual(a.length, b.length);
     }
 
     /**

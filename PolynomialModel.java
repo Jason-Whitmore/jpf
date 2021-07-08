@@ -39,10 +39,7 @@ public class PolynomialModel extends SimpleModel{
     public PolynomialModel(int numInputs, int numOutputs, int degree){
         super(numInputs, numOutputs);
 
-        if(degree < 1){
-            System.err.println("Error: Using a polynomial model with a degree of less than 1 may cause issues.");
-        }
-
+        this.checkDegree(degree);
         this.degree = degree;
 
         weightMatricies = new ArrayList<float[][]>();
@@ -87,6 +84,8 @@ public class PolynomialModel extends SimpleModel{
 
         this.degree = LinearAlgebra.getNumColumns(arrays.get(0));
 
+        this.checkDegree(this.degree);
+        this.checkInputOutputSize(this.numInputs, this.numOutputs);
     }
 
     /**
@@ -100,7 +99,9 @@ public class PolynomialModel extends SimpleModel{
 
 
     public float[] predict(float[] inputVector){
-        //TODO: Check input vector size
+        //Check parameters
+        Utility.checkNotNull((Object)inputVector);
+        Utility.checkEqual(inputVector.length, this.numInputs);
 
         float[] outputVector = new float[this.numOutputs];
 
@@ -141,18 +142,21 @@ public class PolynomialModel extends SimpleModel{
     }
     
 
-    public ArrayList<float[][]> calculateGradient(float[] x, float[] y, Loss loss){
+    public ArrayList<float[][]> calculateGradient(float[] inputVector, float[] outputVector, Loss loss){
+        //Check parameters
+        this.checkInputOutputVectorsAndLoss(inputVector, outputVector, loss);
+
         ArrayList<float[][]> grad = Utility.cloneArrays(getParameters());
         Utility.clearArrays(grad);
 
-        float[] yPred = this.predict(x);
+        float[] yPred = this.predict(inputVector);
 
-        float[] dLdY = loss.calculateLossVectorGradient(y, yPred);
+        float[] dLdY = loss.calculateLossVectorGradient(outputVector, yPred);
 
-        for(int i = 0; i < x.length; i++){
-            float[] powers = this.calculatePowers(x[i], this.degree);
+        for(int i = 0; i < inputVector.length; i++){
+            float[] powers = this.calculatePowers(inputVector[i], this.degree);
 
-            for(int j = 0; j < y.length; j++){
+            for(int j = 0; j < outputVector.length; j++){
 
                 for(int d = 0; d < degree; d++){
                     //Using the chain rule:
@@ -168,10 +172,13 @@ public class PolynomialModel extends SimpleModel{
     }
 
 
-    public float calculateLoss(float[] x, float[] y, Loss loss){
-        float[] yPred = predict(x);
+    public float calculateLoss(float[] inputVector, float[] outputVector, Loss loss){
+        //Check parameters
+        this.checkInputOutputVectorsAndLoss(inputVector, outputVector, loss);
 
-        return loss.calculateLossScalar(y, yPred);
+        float[] yPred = predict(inputVector);
+
+        return loss.calculateLossScalar(outputVector, yPred);
     }
 
     
@@ -184,6 +191,16 @@ public class PolynomialModel extends SimpleModel{
 
         if(!success){
             System.err.println("Error: Polynomial model could not be saved.");
+        }
+    }
+
+    /**
+     * Checks the degree parameter to see if it is valid. Must be >= 1.
+     * Throws an assertion error if invalid
+     */
+    private void checkDegree(int degree){
+        if(degree < 1){
+            throw new AssertionError("degree parameter must be >= 1.");
         }
     }
     

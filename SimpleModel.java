@@ -25,16 +25,7 @@ public abstract class SimpleModel extends Model{
     public SimpleModel(int numInputs, int numOutputs){
         super();
 
-        //Check parameters
-        if(numInputs <= 0){
-            throw new AssertionError("Number of inputs to model should be greater than 0");
-        }
-
-        if(numOutputs <= 0){
-            throw new AssertionError("Number of outputs to model should be greater than 0");
-        }
-
-        
+        this.checkInputOutputSize(numInputs, numOutputs);
 
         this.numInputs = numInputs;
         this.numOutputs = numOutputs;
@@ -251,5 +242,34 @@ public abstract class SimpleModel extends Model{
         }
 
         return sum / x.length;
+    }
+
+    /**
+     * Checks the parameters to see if they are valid, if not, throws an assertion error.
+     * @param numInputs The number of inputs in the model.
+     * @param numOutputs The number of outputs in the model.
+     */
+    protected void checkInputOutputSize(int numInputs, int numOutputs){
+        //Check parameters
+        if(numInputs <= 0){
+            throw new AssertionError("Number of inputs to model should be greater than 0");
+        }
+
+        if(numOutputs <= 0){
+            throw new AssertionError("Number of outputs to model should be greater than 0");
+        }
+    }
+
+    /**
+     * Checks an input vector, output vector, and a loss function for validity.
+     * If not valid, throws an assertion error.
+     * @param x The input vector.
+     * @param y The output vector.
+     * @param loss The loss function.
+     */
+    public void checkInputOutputVectorsAndLoss(float[] x, float[] y, Loss loss){
+        Utility.checkNotNull((Object)x, (Object)y, loss);
+        Utility.checkEqual(x.length, this.numInputs);
+        Utility.checkEqual(y.length, this.numOutputs);
     }
 }
