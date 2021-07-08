@@ -108,7 +108,7 @@ public abstract class SimpleModel extends Model{
      * @param Loss The loss function used to make the model more accurate to the training dataset.
      */
     public void fit(float[][] x, float[][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss){
-        //TODO: Check parameters
+        this.fitParameterCheck(x, y, epochs, minibatchSize, valueClip, opt, loss);
 
         for(int e = 0; e < epochs; e++){
             //calculate minibatch indicies
@@ -146,6 +146,30 @@ public abstract class SimpleModel extends Model{
     }
 
     /**
+     * Checks the parameters for the fit function for validity. This is a separate method to avoid wasting space in an already long function.
+     * 
+     * @param x The training inputs
+     * @param y The training outputs
+     * @param epochs The number of epochs to train for. Should be > 0.
+     * @param minibatchSize The number of training examples used in a parameter update. Should be > 0, but less than number of examples.
+     * @param valueClip The maximum absolute value a gradient component can be. Should be > 0
+     * @param opt The optimizer used for training.
+     * @param loss The loss function to minimize during training.
+     */
+    private void fitParameterCheck(float[][] x, float[][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss){
+        Utility.checkNotNull(x, y, opt, loss);
+        Utility.checkArrayNotEmpty(x);
+        Utility.checkArrayNotEmpty(y);
+        Utility.checkMatrixRectangle(x);
+        Utility.checkMatrixRectangle(y);
+        Utility.checkArrayLengthsEqual(x, y);
+        
+        //Check x and y to see if the number of columns match the model's input and output sizes.
+        
+    }
+
+
+    /**
      * Calculates scalar loss on one data sample.
      * @param x The model input.
      * @param y The model output.
@@ -153,7 +177,15 @@ public abstract class SimpleModel extends Model{
      * @return The scalar loss
      */
     public float calculateLoss(float[] x, float[] y, Loss loss){
-        //TODO: check parameters
+        Utility.checkNotNull((Object)x, (Object)y, loss);
+
+        if(x.length != this.numInputs){
+            throw new AssertionError("Input vector length incorrect for model input.");
+        }
+
+        if(y.length != this.numOutputs){
+            throw new AssertionError("Output vector length incorrect for model output.");
+        }
 
         float[] yPred = predict(x);
         return loss.calculateLossScalar(y, yPred);
@@ -167,7 +199,10 @@ public abstract class SimpleModel extends Model{
      * @return The average scalar loss.
      */
     public float calculateLoss(float[][] x, float[][] y, Loss loss){
-        //TODO: Check parameters
+        Utility.checkNotNull((Object)x, (Object)y, loss);
+        Utility.checkMatrixRectangle(x);
+        Utility.checkMatrixRectangle(y);
+        Utility.checkArrayLengthsEqual(x, y);
 
         float sum = 0;
 

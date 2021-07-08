@@ -752,4 +752,18 @@ public class Utility{
             throw new AssertionError("Input arrays are not of the same length but should be.");
         }
     }
+
+    /**
+     * Checks to see if the 2d arrays are of the same length (same number of rows).
+     * Will also check if they are null.
+     * @param a The first array.
+     * @param b The second array.
+     */
+    public static void checkArrayLengthsEqual(float[][] a, float[][] b){
+        Utility.checkNotNull((Object)a, (Object)b);
+
+        if(a.length != b.length){
+            throw new AssertionError("Input arrays are not of the same length but should be.");
+        }
+    }
 }
