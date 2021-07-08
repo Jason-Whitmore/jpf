@@ -25,6 +25,17 @@ public abstract class SimpleModel extends Model{
     public SimpleModel(int numInputs, int numOutputs){
         super();
 
+        //Check parameters
+        if(numInputs <= 0){
+            throw new AssertionError("Number of inputs to model should be greater than 0");
+        }
+
+        if(numOutputs <= 0){
+            throw new AssertionError("Number of outputs to model should be greater than 0");
+        }
+
+        
+
         this.numInputs = numInputs;
         this.numOutputs = numOutputs;
     }
@@ -165,7 +176,26 @@ public abstract class SimpleModel extends Model{
         Utility.checkArrayLengthsEqual(x, y);
         
         //Check x and y to see if the number of columns match the model's input and output sizes.
-        
+        if(x[0].length != this.numInputs){
+            throw new AssertionError("Input vector length incorrect for model input.");
+        }
+
+        if(y[0].length != this.numOutputs){
+            throw new AssertionError("Output vector length incorrect for model output.");
+        }
+
+        //Check the rest of the parameters
+        if(epochs <= 0){
+            throw new AssertionError("Number of epochs should be greater than 0");
+        }
+
+        if(minibatchSize <= 0){
+            throw new AssertionError("Minibatch size should be greater than 0");
+        }
+
+        if(valueClip <= 0f){
+            throw new AssertionError("Gradient value clip should be greater than 0");
+        }
     }
 
 
