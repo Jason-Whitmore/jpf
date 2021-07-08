@@ -766,4 +766,15 @@ public class Utility{
             throw new AssertionError("Input arrays are not of the same length but should be.");
         }
     }
+
+    /**
+     * Checks to see if both parameters are equal. If not, an assertion error is thrown.
+     * @param a The first parameter to check.
+     * @param b The second parameter to check.
+     */
+    public static void checkEqual(int a, int b){
+        if(a != b){
+            throw new AssertionError("Parameters are not equal when they should be.");
+        }
+    }
 }

@@ -71,6 +71,11 @@ public class LinearModel extends SimpleModel{
      * @return The gradient as an ArrayList of matricies. These are in the same order as getParameters (transformation, bias)
      */
     protected ArrayList<float[][]> calculateGradient(float[] inputVector, float[] outputVector, Loss loss){
+        //Check parameters
+        Utility.checkNotNull((Object)inputVector, (Object)outputVector, loss);
+        Utility.checkEqual(inputVector.length, this.numInputs);
+        Utility.checkEqual(outputVector.length, this.numOutputs);
+
         ArrayList<float[][]> gradient = new ArrayList<float[][]>(2);
 
         float[] yPredicted = this.predict(inputVector);
@@ -139,7 +144,6 @@ public class LinearModel extends SimpleModel{
         contents = "LINEARMODEL\n" + contents; 
 
         //write the string to disk
-
         boolean success = Utility.writeStringToFile(filePath, contents);
 
         if(!success){
