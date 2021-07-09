@@ -773,4 +773,15 @@ public class Utility{
             throw new AssertionError("Parameters are not equal when they should be.");
         }
     }
+
+    /**
+     * Checks the input float to make sure it is real (not infinity or NaN).
+     * If it's not real, throws an assertion error
+     * @param x The input float to check
+     */
+    public static void checkReal(float x){
+        if(!Float.isFinite(x)){
+            throw new AssertionError("Floating point number is not finite (either NaN, -inf, or inf)");
+        }
+    }
 }

@@ -171,16 +171,6 @@ public class PolynomialModel extends SimpleModel{
         return grad;
     }
 
-
-    public float calculateLoss(float[] inputVector, float[] outputVector, Loss loss){
-        //Check parameters
-        this.checkInputOutputVectorsAndLoss(inputVector, outputVector, loss);
-
-        float[] yPred = predict(inputVector);
-
-        return loss.calculateLossScalar(outputVector, yPred);
-    }
-
     
     public void saveModel(String filePath) {
         //create the model string
@@ -203,5 +193,4 @@ public class PolynomialModel extends SimpleModel{
             throw new AssertionError("degree parameter must be >= 1.");
         }
     }
-    
 }

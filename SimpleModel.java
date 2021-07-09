@@ -207,19 +207,18 @@ public abstract class SimpleModel extends Model{
 
     /**
      * Calculates scalar loss on one data sample.
-     * @param x The model input.
-     * @param y The model output.
+     * @param inputVector The model input.
+     * @param outputVector The model output.
      * @param loss The loss function to use to calculate the scalar loss.
      * @return The scalar loss
      */
-    public float calculateLoss(float[] x, float[] y, Loss loss){
-        Utility.checkNotNull((Object)x, (Object)y, loss);
+    public float calculateLoss(float[] inputVector, float[] outputVector, Loss loss){
+        Utility.checkNotNull((Object)inputVector, (Object)outputVector, loss);
+        Utility.checkEqual(inputVector.length, this.numInputs);
+        Utility.checkEqual(outputVector.length, this.numOutputs);
 
-        Utility.checkEqual(x.length, this.numInputs);
-        Utility.checkEqual(y.length, this.numOutputs);
-
-        float[] yPred = this.predict(x);
-        return loss.calculateLossScalar(y, yPred);
+        float[] yPred = this.predict(inputVector);
+        return loss.calculateLossScalar(outputVector, yPred);
     }
     
     /**

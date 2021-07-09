@@ -26,8 +26,12 @@ public abstract class ActivationFunction{
      * @param dest The vector to place the results.
      */
     public void f(float[] x, float[] dest){
+        //Check parameters
+        Utility.checkNotNull((Object)x, (Object)dest);
+        Utility.checkArrayLengthsEqual(x, dest);
+
         for(int i = 0; i < x.length; i++){
-            dest[i] = f(x[i]);
+            dest[i] = this.f(x[i]);
         }
     }
 
@@ -37,9 +41,12 @@ public abstract class ActivationFunction{
      * @return A newly allocated vector of the x vector after applying the activation function.
      */
     public float[] f(float[] x){
+        //Check parameter
+        Utility.checkNotNull((Object)x);
+
         float[] r = new float[x.length];
 
-        f(x, r);
+        this.f(x, r);
 
         return r;
     }
@@ -51,8 +58,12 @@ public abstract class ActivationFunction{
      * @param dest The vector where the derivatives will be placed.
      */
     public void fPrime(float[] x, float[] dest){
+        //Check parameters
+        Utility.checkNotNull((Object)x, (Object)dest);
+        Utility.checkArrayLengthsEqual(x, dest);
+
         for(int i = 0; i < x.length; i++){
-            dest[i] = fPrime(x[i]);
+            dest[i] = this.fPrime(x[i]);
         }
     }
 
@@ -62,9 +73,12 @@ public abstract class ActivationFunction{
      * @return A newly allocated vector of the derivative calculated at each component of the x vector.
      */
     public float[] fPrime(float[] x){
+        //Check parameter
+        Utility.checkNotNull((Object)x);
+
         float[] r = new float[x.length];
 
-        fPrime(x, r);
+        this.fPrime(x, r);
 
         return r;
     }
@@ -76,6 +90,9 @@ public abstract class ActivationFunction{
      * @return The activation function object described in the input string.
      */
     public static ActivationFunction constructFromString(String s){
+        //Check parameter
+        Utility.checkNotNull(s);
+
         if(s.equals("TANH")){
             return new Tanh();
         } else if(s.contains("LEAKYRELU")){

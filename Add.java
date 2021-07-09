@@ -21,16 +21,22 @@ public class Add extends Layer{
     public Add(ArrayList<Layer> inputLayers){
         super();
 
+        //Check parameter
+        Utility.checkNotNull(inputLayers);
+        if(inputLayers.size() <= 0){
+            throw new AssertionError("inputLayers list is empty.");
+        }
+
         //Confirm that the size of all input and output layers have vectors of equal length
+        Utility.checkNotNull(inputLayers.get(0), inputLayers.get(0).outputVector);
         this.numUnits = inputLayers.get(0).getOutputVector().length;
 
         for(int i = 1; i < inputLayers.size(); i++){
-            if(inputLayers.get(i).getOutputVector().length != numUnits){
-                //TODO: error here
-            }
+            Utility.checkNotNull(inputLayers.get(i), inputLayers.get(i).outputVector);
+            Utility.checkEqual(this.numUnits, inputLayers.get(i).outputVector.length);
         }
 
-
+        //Initialize the fields.
         this.inputLayers = inputLayers;
 
         this.inputVector = new float[this.numUnits];
@@ -52,6 +58,11 @@ public class Add extends Layer{
         String layerSizeString = layerInfoString.replace("ADD(", "").replace(")", "");
 
         this.numUnits = Integer.parseInt(layerSizeString);
+
+        //Check to see if numunits makes sense
+        if(this.numUnits <= 0){
+            throw new AssertionError("numUnits should be >= 1");
+        }
 
         this.inputVector = new float[this.numUnits];
         this.outputVector = new float[this.numUnits];
