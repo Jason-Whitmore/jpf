@@ -779,9 +779,17 @@ public class Utility{
      * If it's not real, throws an assertion error
      * @param x The input float to check
      */
-    public static void checkReal(float x){
-        if(!Float.isFinite(x)){
-            throw new AssertionError("Floating point number is not finite (either NaN, -inf, or inf)");
+    public static void checkReal(float... x){
+        if(x == null || x.length == 0){
+            return;
+        }
+
+        for(int i = 0; i < x.length; i++){
+            if(!Float.isFinite(x[i])){
+                throw new AssertionError("Floating point number is not finite (either NaN, -inf, or inf)");
+            }
         }
     }
+
+    
 }

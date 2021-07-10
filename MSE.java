@@ -11,9 +11,13 @@ public class MSE implements Loss{
      * @return The loss calculation for each component in the output vector
      */
     public float[] calculateLossVector(float[] yTrue, float[] yPredicted){
+        Utility.checkArrayLengthsEqual(yTrue, yPredicted);
+
         float[] r = new float[yTrue.length];
 
         for(int i = 0; i < r.length; i++){
+            Utility.checkReal(yPredicted[i], yTrue[i]);
+            
             float difference = yTrue[i] - yPredicted[i];
 
             r[i] = difference * difference;
@@ -29,9 +33,14 @@ public class MSE implements Loss{
      * @return The gradient vector for each component in the output vector.
      */
     public float[] calculateLossVectorGradient(float[] yTrue, float[] yPredicted){
+        Utility.checkArrayLengthsEqual(yTrue, yPredicted);
+
+
         float[] r = new float[yTrue.length];
 
         for(int i = 0; i < r.length; i++){
+            Utility.checkReal(yPredicted[i], yTrue[i]);
+
             float difference = yPredicted[i] - yTrue[i];
 
             r[i] = 2 * difference;
@@ -47,7 +56,7 @@ public class MSE implements Loss{
      * @return The scalar loss.
      */
     public float calculateLossScalar(float[] yTrue, float[] yPredicted){
-        //TODO: Enforce array sizes
+        Utility.checkArrayLengthsEqual(yTrue, yPredicted);
 
         float[] lossVector = calculateLossVector(yTrue, yPredicted);
 

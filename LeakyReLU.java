@@ -15,6 +15,8 @@ public class LeakyReLU extends ActivationFunction{
      * A selection of 0 turns this function into the normal ReLU function.
      */
     public LeakyReLU(float alpha){
+        Utility.checkReal(alpha);
+
         this.alpha = alpha;
     }
 
@@ -24,6 +26,8 @@ public class LeakyReLU extends ActivationFunction{
      * @return The output number.
      */
     public float f(float x){
+        Utility.checkReal(x);
+
         if(x > 0){
             return x;
         } else {
@@ -32,6 +36,8 @@ public class LeakyReLU extends ActivationFunction{
     }
 
     public float fPrime(float x){
+        Utility.checkReal(x);
+
         if(x > 0){
             return 1;
         } else {

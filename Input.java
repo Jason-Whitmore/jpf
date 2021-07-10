@@ -13,6 +13,11 @@ public class Input extends Layer{
     public Input(int inputVectorSize){
         super();
 
+        //Check units
+        if(inputVectorSize <= 0){
+            throw new AssertionError("inputVectorSize should be >= 1");
+        }
+
         this.inputVector = new float[inputVectorSize];
         this.outputVector = new float[inputVectorSize];
     }
@@ -27,10 +32,14 @@ public class Input extends Layer{
 
         String layerSizeString = layerInfoString.replace("INPUT(", "").replace(")", "");
 
-        int layerSize = Integer.parseInt(layerSizeString);
+        int numUnits = Integer.parseInt(layerSizeString);
 
-        this.inputVector = new float[layerSize];
-        this.outputVector = new float[layerSize];
+        if(numUnits <= 0){
+            throw new AssertionError("numUnits should be >= 1");
+        }
+
+        this.inputVector = new float[numUnits];
+        this.outputVector = new float[numUnits];
     }
 
 

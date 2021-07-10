@@ -196,6 +196,7 @@ public abstract class Layer {
      * @return The constructed layer with the correct parameters and properties. Returns null if unsuccessful.
      */
     public static Layer createLayerFromString(String layerInfoString){
+        Utility.checkNotNull(layerInfoString);
 
         if(layerInfoString.contains("INPUT")){
             return new Input(layerInfoString);

@@ -69,6 +69,10 @@ public class RMSProp implements Optimizer{
      * @param newLr The new learning rate to set this optimizer to.
      */
     public void setLearningRate(float newLr){
+        if(newLr <= 0){
+            throw new AssertionError("newLR should be > 0");
+        }
+
         this.learningRate = newLr;
     }
 
@@ -87,8 +91,8 @@ public class RMSProp implements Optimizer{
      * where 0 is instant decay, and 1 is no decay. Recommended as 0.9
      */
     public void setRho(float newRho){
-        if(newRho < 0 || newRho > 1){
-            this.rho = 0.9f;
+        if(newRho < 0 || newRho >= 1){
+            throw new AssertionError("newRho should be in range [0, 1)");
         }
         this.rho = newRho;
     }
@@ -102,11 +106,11 @@ public class RMSProp implements Optimizer{
 
     /**
      * Sets the epsilon value used to prevent divide by zero errors.
-     * @param eps The new epsilon value. Should be >= 0, which is enforced by max(0, eps)
+     * @param eps The new epsilon value. Should be > 0.
      */
     public void setEpsilon(float eps){
-        if(eps < 0){
-            this.epsilon = 0;
+        if(eps <= 0){
+            throw new AssertionError("eps should be > 0");
         }
 
         this.epsilon = eps;
@@ -119,6 +123,8 @@ public class RMSProp implements Optimizer{
      * @return The processed model with the applied per-parameter adaptive learning rate.
      */
     public ArrayList<float[][]> processGradient(ArrayList<float[][]> rawGradient){
+        //Check parameters
+        Utility.checkNotNull(rawGradient);
 
         //Create internal state if it isn't already there.
         if(gradSquare == null){

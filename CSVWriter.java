@@ -28,13 +28,36 @@ public class CSVWriter {
      * @param columnHeaders The names for each of the columns which will show up as the first row in the csv file.
      */
     public CSVWriter(String filePath, String[] columnHeaders){
+        //Check parameters
+        Utility.checkNotNull(filePath, (Object)columnHeaders);
+
+        for(int i = 0; i < columnHeaders.length; i++){
+            Utility.checkNotNull(columnHeaders[i]);
+        }
+
+        //Populate the fields.
         this.filePath = filePath;
 
         this.numCols = columnHeaders.length;
 
         this.buffer = new StringBuffer();
 
-        addRow(columnHeaders);
+        this.addRow(columnHeaders);
+    }
+
+
+    /**
+     * @return The number of columns in the .csv file writer
+     */
+    public int getNumCols(){
+        return this.numCols;
+    }
+
+    /**
+     * @return The filepath that the .csv files are being written to
+     */
+    public String getFilePath(){
+        return this.filePath;
     }
 
     /**
@@ -43,10 +66,19 @@ public class CSVWriter {
      * used to create the CSVWriter object.
      */
     public void addRow(String[] newRow){
+        //Check parameter
+        Utility.checkNotNull((Object)newRow);
+        Utility.checkEqual(this.numCols, newRow.length);
+
         for(int i = 0; i < newRow.length - 1; i++){
+            //Check to see if element in array is not null
+            Utility.checkNotNull(newRow[i]);
+
             this.buffer.append(newRow[i] + ", ");
         }
 
+        //Check last element for not being null
+        Utility.checkNotNull(newRow[newRow.length - 1]);
         this.buffer.append(newRow[newRow.length - 1] + "\n");
     }
 
@@ -66,6 +98,5 @@ public class CSVWriter {
         }
 
     }
-
 
 }

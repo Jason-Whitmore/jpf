@@ -43,6 +43,12 @@ public class Dense extends Layer {
      */
     public Dense(int numUnits, ActivationFunction f, Layer inputLayer){
         super();
+        //Check parameters
+        Utility.checkNotNull(f, inputLayer);
+
+        if(numUnits <= 0){
+            throw new AssertionError("numUnits must be >= 1");
+        }
 
         //Initialize the activation function and input layer
         this.activationFunction = f;
@@ -85,12 +91,18 @@ public class Dense extends Layer {
      */
     public Dense(String layerInfoString){
         super();
+        //Check param string
+        Utility.checkNotNull(layerInfoString);
 
         String paramString = layerInfoString.substring(layerInfoString.indexOf("[\n"), layerInfoString.indexOf("]\n") + 2);
         this.parameters = Utility.stringToMatrixList(paramString);
 
         //From the parsed parameters, get the layer size and the input vector size
         int numUnits = this.biasMatrix.length;
+        if(numUnits <= 0){
+            throw new AssertionError("numUnits must be >= 1");
+        }
+
         int inputSize = this.weightMatrix[0].length;
 
         //Allocate and initialize vectors
