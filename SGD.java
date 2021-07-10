@@ -26,6 +26,12 @@ public class SGD implements Optimizer{
      * Smaller values converge slowly, but with more stability.
      */
     public SGD(float learningRate){
+        //Check parameter
+        Utility.checkReal(learningRate);
+        if(learningRate <= 0){
+            throw new AssertionError("Learning rate should be > 0");
+        }
+
         this.learningRate = learningRate;
     }
 
@@ -37,6 +43,9 @@ public class SGD implements Optimizer{
      * @return The processed gradient, ready to be applied to the model.
      */
     public ArrayList<float[][]> processGradient(ArrayList<float[][]> rawGradient){
+        //Check parameter
+        Utility.checkNotNull(rawGradient);
+        
         Utility.scaleList(rawGradient, this.learningRate);
 
         return rawGradient;

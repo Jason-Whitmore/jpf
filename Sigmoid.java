@@ -18,12 +18,17 @@ public class Sigmoid extends ActivationFunction{
      * @return The output number.
      */
     public float f(float x){
+        //Check parameter
+        Utility.checkReal(x);
+
         float xExp = (float)(Math.exp((double)x));
 
         return xExp / (xExp + 1);
     }
 
     public float fPrime(float x){
+        Utility.checkReal(x);
+        
         return f(x) * (1 - f(x));
     }
 }

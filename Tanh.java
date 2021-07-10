@@ -10,10 +10,14 @@ public class Tanh extends ActivationFunction{
      * @return The output number.
      */
     public float f(float x){
+        Utility.checkReal(x);
+
         return (float)Math.tanh(x);
     }
 
     public float fPrime(float x){
+        Utility.checkReal(x);
+        
         float t = (float)Math.tanh(x);
 
         return 1 - (t * t);

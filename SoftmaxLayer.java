@@ -11,6 +11,7 @@ public class SoftmaxLayer extends Layer{
      */
     public SoftmaxLayer(Layer inputLayer){
         super();
+        Utility.checkNotNull(inputLayer);
 
         int numUnits = inputLayer.outputVector.length;
 
@@ -29,9 +30,14 @@ public class SoftmaxLayer extends Layer{
      */
     public SoftmaxLayer(String layerInfoString){
         super();
+        Utility.checkNotNull(layerInfoString);
 
         String numUnitsString = layerInfoString.replace("SOFTMAX(", "").replace(")", "");
         int numUnits = Integer.parseInt(numUnitsString);
+
+        if(numUnits <= 0){
+            throw new AssertionError("numUnits should be >= 0");
+        }
 
         this.inputVector = new float[numUnits];
         this.outputVector = new float[numUnits];
