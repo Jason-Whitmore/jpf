@@ -16,6 +16,10 @@ public class LinearAlgebra{
      * @return The randomized matrix.
      */
     public static float[][] initializeRandomUniformMatrix(int numRows, int numColumns, float lowerBound, float upperBound){
+        //Check params
+        Utility.checkGreaterThanZero(numRows, numColumns);
+        Utility.checkReal(lowerBound, upperBound);
+
         float[][] ret = new float[numRows][numColumns];
 
         for(int r = 0; r < numRows; r++){
@@ -51,12 +55,16 @@ public class LinearAlgebra{
     }
 
     /**
-     * Initializes a matrix from the input data
-     * @param data The matrix data as an arraylist of arraylists
+     * Initializes a non ragged matrix from the input data
+     * @param data The matrix data as an arraylist of arraylists. Should be non ragged
      * @return The allocated and initialized matrix.
      */
     public static float[][] initializeFromArrayList(ArrayList<ArrayList<Float>> data){
-        //TODO: Check for bad ArrayList
+        Utility.checkNotNull(data);
+
+        if(LinearAlgebra.isRagged(data)){
+            throw new AssertionError("data list is ragged.");
+        }
 
         int numRows = data.size();
         int numCols = data.get(0).size();
@@ -81,6 +89,7 @@ public class LinearAlgebra{
      * @return The allocated and initialized array.
      */
     public static float[] stringToArray(String s){
+        Utility.checkNotNull(s);
 
         s = s.replace("[", "");
         s = s.replace("]", "");
@@ -111,6 +120,7 @@ public class LinearAlgebra{
      * @return The newly allocated matrix from string data.
      */
     public static float[][] stringToMatrix(String s){
+        Utility.checkNotNull(s);
 
         s = s.trim();
 
@@ -147,6 +157,7 @@ public class LinearAlgebra{
      * @return The initialized arraylist of matricies
      */
     public static ArrayList<float[][]> stringToMatrixList(String s){
+        Utility.checkNotNull(s);
 
         //remove the opening and closing brackets
         s = s.substring(1);
@@ -173,6 +184,8 @@ public class LinearAlgebra{
      * @return The number of columns.
      */
     public static int getNumColumns(float[][] matrix){
+        Utility.checkNotNull((Object)matrix);
+
         return matrix[0].length;
     }
 
@@ -182,6 +195,8 @@ public class LinearAlgebra{
      * @return The number of rows.
      */
     public static int getNumRows(float[][] matrix){
+        Utility.checkNotNull((Object)matrix);
+
         return matrix.length;
     }
 
@@ -191,7 +206,9 @@ public class LinearAlgebra{
      * @param t The matrix to place the result in.
      */
     public static void transpose(float[][] a, float[][] t){
-        //TODO: Enforce dimensions
+        Utility.checkNotNull((Object)a, (Object)t);
+        Utility.checkEqual(LinearAlgebra.getNumColumns(a), LinearAlgebra.getNumRows(t));
+        Utility.checkEqual(LinearAlgebra.getNumColumns(t), LinearAlgebra.getNumRows(a));
 
         for(int r = 0; r < getNumRows(a); r++){
             for(int c = 0; c < getNumColumns(a); c++){
@@ -206,7 +223,7 @@ public class LinearAlgebra{
      * @return The newly allocated transposed matrix.
      */
     public static float[][] transpose(float[][] a){
-        float[][] t = new float[getNumColumns(a)][getNumRows(a)];
+        float[][] t = new float[LinearAlgebra.getNumColumns(a)][LinearAlgebra.getNumRows(a)];
 
         transpose(a, t);
         return t;
@@ -220,6 +237,7 @@ public class LinearAlgebra{
      */
     public static void matrixMultiply(float[][] a, float[][] b, float[][] result){
         //TODO: First, check the parameters for dimension issues
+        Utility.checkNotNull((Object)a, (Object)b, (Object)result);
 
 
         for(int r = 0; r < getNumRows(result); r++){

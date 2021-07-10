@@ -775,9 +775,9 @@ public class Utility{
     }
 
     /**
-     * Checks the input float to make sure it is real (not infinity or NaN).
+     * Checks the input floats to make sure it is real (not infinity or NaN).
      * If it's not real, throws an assertion error
-     * @param x The input float to check
+     * @param x The input floats to check
      */
     public static void checkReal(float... x){
         if(x == null || x.length == 0){
@@ -791,5 +791,19 @@ public class Utility{
         }
     }
 
-    
+    /**
+     * Checks to see if input integers are greater than 0. Throws assertion error if <= 0
+     * @param a The input integers
+     */
+    public static void checkGreaterThanZero(int... a){
+        if(a == null || a.length == 0){
+            return;
+        }
+
+        for(int i = 0; i < a.length; i++){
+            if(a[i] <= 0){
+                throw new AssertionError("Number should be > 0");
+            }
+        }
+    }
 }
