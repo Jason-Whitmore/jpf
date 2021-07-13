@@ -683,6 +683,40 @@ public class Utility{
     }
 
     /**
+     * Throws an assertion error if any of the matrix parameters are not a rectangle (all arrays must be the same size)
+     * @param matrix The matrix parameters to check for
+     */
+    public static void checkMatrixRectange(float[][]... matrix){
+        if(matrix == null || matrix.length == 0){
+            return;
+        }
+
+        for(int i = 0; i < matrix.length; i++){
+            Utility.checkNotNull((Object)matrix[i]);
+            Utility.checkMatrixRectangle(matrix[i]);
+        }
+    }
+
+
+    public static void checkMatrixDimensionsEqual(float[][]... matrix){
+        if(matrix == null || matrix.length == 0){
+            return;
+        }
+
+        int rows = LinearAlgebra.getNumRows(matrix[0]);
+        int cols = LinearAlgebra.getNumColumns(matrix[0]);
+
+        for(int i = 1; i < matrix.length; i++){
+            int r = LinearAlgebra.getNumRows(matrix[i]);
+            int c = LinearAlgebra.getNumColumns(matrix[i]);
+
+            Utility.checkEqual(r, rows);
+            Utility.checkEqual(c, cols);
+        }
+    }
+
+
+    /**
      * Throws an assertion error if the input array is empty or has empty elements
      * where the length is equal to 0.
      * @param array The 2d array to check for being empty or having empty elements.

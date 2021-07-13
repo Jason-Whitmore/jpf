@@ -236,10 +236,8 @@ public class LinearAlgebra{
      * @param result The resulting matrix where a * b will be placed.
      */
     public static void matrixMultiply(float[][] a, float[][] b, float[][] result){
-        //TODO: First, check the parameters for dimension issues
-        Utility.checkNotNull((Object)a, (Object)b, (Object)result);
-
-
+        LinearAlgebra.matrixMultiplyParamCheck(a, b, result);
+        
         for(int r = 0; r < getNumRows(result); r++){
             for(int c = 0; c < getNumColumns(result); c++){
                 float sum = 0;
@@ -254,15 +252,50 @@ public class LinearAlgebra{
     }
 
     /**
+     * Checks the parameters for the static void matrix multiplication for correctness.
+     * @param a The first matrix in a * b
+     * @param b The second matrix in a * b
+     * @param result The result matrix to place results into
+     */
+    private static void matrixMultiplyParamCheck(float[][] a, float[][] b, float[][] result){
+        Utility.checkNotNull((Object)a, (Object)b, (Object)result);
+        Utility.checkMatrixRectange(a, b, result);
+
+        int aRows = LinearAlgebra.getNumRows(a);
+        int aCols = LinearAlgebra.getNumColumns(a);
+
+        int bRows = LinearAlgebra.getNumRows(a);
+        int bCols = LinearAlgebra.getNumColumns(b);
+
+        int resultRows = LinearAlgebra.getNumRows(result);
+        int resultCols = LinearAlgebra.getNumColumns(result);
+
+        //Check if a * b is possible
+        Utility.checkEqual(aCols, bRows);
+
+        //Check that result dimensions are correct
+        Utility.checkEqual(aRows, resultRows);
+        Utility.checkEqual(bCols, resultCols);
+    }
+
+    /**
      * Performs matrix multiplication. Matrix dimensions should be valid.
      * @param a The first matrix.
      * @param b The second matrix.
      * @return The newly allocated result matrix a * b
      */
     public static float[][] matrixMultiply(float[][] a, float[][] b){
+        //Check parameters
+        Utility.checkNotNull((Object)a, (Object)b);
+        Utility.checkMatrixRectange(a, b);
+
+        int aCols = LinearAlgebra.getNumColumns(a);
+        int bRows = LinearAlgebra.getNumRows(b);
+        Utility.checkEqual(aCols, bRows);
+
         float[][] r = new float[getNumRows(a)][getNumColumns(b)];
 
-        matrixMultiply(a, b, r);
+        LinearAlgebra.matrixMultiply(a, b, r);
 
         return r;
     }
@@ -275,15 +308,16 @@ public class LinearAlgebra{
      * @param result The matrix to place a + b into.
      */
     public static void matrixAdd(float[][] a, float[][] b, float[][] result){
-        //TODO: check for parameter dimension issues
+        //Check parameters
+        Utility.checkNotNull((Object)a, (Object)b, (Object)result);
+        Utility.checkMatrixRectange(a, b, result);
+        Utility.checkMatrixDimensionsEqual(a, b, result);
 
-
-        for(int r = 0; r < a.length; r++){
-            for(int c = 0; c < a[0].length; c++){
+        for(int r = 0; r < LinearAlgebra.getNumRows(a); r++){
+            for(int c = 0; c < LinearAlgebra.getNumColumns(a); c++){
                 result[r][c] = a[r][c] + b[r][c];
             }
         }
-
     }
 
     /**
@@ -294,6 +328,11 @@ public class LinearAlgebra{
      * @return The newly allocated result of a + b
      */
     public static float[][] matrixAdd(float[][] a, float[][] b){
+        //Check parameters
+        Utility.checkNotNull((Object)a, (Object)b);
+        Utility.checkMatrixRectange(a, b);
+        Utility.checkMatrixDimensionsEqual(a, b);
+
         float[][] r = new float[getNumRows(a)][getNumColumns(a)];
 
         matrixAdd(a, b, r);
@@ -310,7 +349,10 @@ public class LinearAlgebra{
      * @param result The matrix where the elementwise multiplication result will be placed.
      */
     public static void elementwiseMultiply(float[][] a, float[][] b, float[][] result){
-        //TODO: check for dimension issues
+        //Check parameters
+        Utility.checkNotNull((Object)a, (Object)b, (Object) result);
+        Utility.checkMatrixRectange(a, b, result);
+        Utility.checkMatrixDimensionsEqual(a, b, result);
 
         for(int r = 0; r < a.length; r++){
             for(int c = 0; c < a.length; c++){
@@ -328,11 +370,14 @@ public class LinearAlgebra{
      * @return The newly allocated result of the elementwise matrix multiplication.
      */
     public static float[][] elementwiseMultiply(float[][] a, float[][] b){
-        //TODO: check for dimension issues
+        //Check parameters
+        Utility.checkNotNull((Object)a, (Object)b);
+        Utility.checkMatrixRectange(a, b);
+        Utility.checkMatrixDimensionsEqual(a, b);
 
-        float[][] r = new float[getNumRows(a)][getNumColumns(a)];
+        float[][] r = new float[LinearAlgebra.getNumRows(a)][LinearAlgebra.getNumColumns(a)];
 
-        elementwiseMultiply(a, b, r);
+        LinearAlgebra.elementwiseMultiply(a, b, r);
 
         return r;
     }
@@ -345,8 +390,10 @@ public class LinearAlgebra{
      * @param result The array where the result is placed.
      */
     public static void elementwiseMultiply(float[] a, float[] b, float[] result){
-        //TODO: check for dimension issues
-
+        //Check parameters
+        Utility.checkNotNull((Object)a, (Object)b, (Object) result);
+        Utility.checkArrayLengthsEqual(a, b);
+        Utility.checkArrayLengthsEqual(a, result);
 
         for(int i = 0; i < a.length; i++){
             result[i] = a[i] * b[i];
@@ -361,8 +408,9 @@ public class LinearAlgebra{
      * @return The newly allocated result array.
      */
     public static float[] elementwiseMultiply(float[] a, float[] b){
-        //TODO: check for dimension issues
-
+        //Check parameters
+        Utility.checkNotNull((Object)a, (Object)b);
+        Utility.checkArrayLengthsEqual(a, b);
         
         float[] r = new float[a.length];
 
@@ -378,6 +426,9 @@ public class LinearAlgebra{
      * @return The newly allocated matrix conversion of the array.
      */
     public static float[][] arrayToMatrix(float[] array){
+        //Check parameter
+        Utility.checkNotNull((Object)array);
+
         float[][] r = new float[array.length][1];
 
         for(int i = 0; i < array.length; i++){
@@ -394,6 +445,11 @@ public class LinearAlgebra{
      * @return The newly allocated array conversion.
      */
     public static float[] matrixToArray(float[][] matrix){
+        //Check parameter
+        Utility.checkNotNull((Object)matrix);
+        Utility.checkMatrixRectangle(matrix);
+        Utility.checkEqual(LinearAlgebra.getNumColumns(matrix), 1);
+
         float[] r = new float[matrix.length];
 
         for(int i = 0; i < r.length; i++){
