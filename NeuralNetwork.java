@@ -3,7 +3,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Stack;
 
-
+/**
+ * Defines the NeuralNetwork class, which allows users to construct Neural Networks of various
+ * complexity. Includes functionality to create, fit, predict, and evaluate loss.
+ */
 public class NeuralNetwork extends Model{
 
     private ArrayList<Input> inputLayers;
@@ -18,8 +21,8 @@ public class NeuralNetwork extends Model{
         this.inputLayers = inputLayers;
         this.outputLayers = outputLayers;
 
-        allLayers = serializeLayers();
-        updateParameters();
+        allLayers = this.serializeLayers();
+        this.updateParameters();
     }
 
 
@@ -33,8 +36,8 @@ public class NeuralNetwork extends Model{
         this.outputLayers = new ArrayList<Layer>(1);
         this.outputLayers.add(outputLayer);
 
-        allLayers = serializeLayers();
-        updateParameters();
+        this.allLayers = serializeLayers();
+        this.updateParameters();
     }
 
 
@@ -112,6 +115,11 @@ public class NeuralNetwork extends Model{
         return adjList;
     }
 
+    /**
+     * Performs a depth first search of all the layers in order to serialize them so that the entire model
+     * can be saved more easily.
+     * @return The serialized list of layers.
+     */
     private ArrayList<Layer> serializeLayers(){
         //Use depth first traversal to grab all layers
         HashSet<Layer> visited = new HashSet<Layer>();
@@ -145,7 +153,10 @@ public class NeuralNetwork extends Model{
         return r;
     }
 
-
+    /**
+     * Populates the parameters of this model with all of the parameters from the layers
+     * in the same order as they were serialized.
+     */
     private void updateParameters(){
 
         //Serialize the layers before updating the parameters, if needed
@@ -164,75 +175,113 @@ public class NeuralNetwork extends Model{
     }
 
     /**
-     * Calculates the scalar loss on a neural network with one input and one output layer.
-     * @param inputVector
-     * @param outputVector
-     * @param loss
-     * @return
+     * Calculates the scalar loss on one sample for a simple neural network.
+     * @param x The input vector
+     * @param yTrue The ground truth output vector
+     * @param loss The loss function to use.
+     * @return The scalar loss.
      */
-    public float calculateScalarLoss(float[] inputVector, float[] outputVector, Loss loss){
-        if(inputLayers.size() != 1 || outputLayers.size() != 1){
-            //TODO: Crash program if wrong loss function is used?
-            return Float.NaN;
+    public float calculateScalarLoss(float[] x, float[] yTrue, Loss loss){
+        if(!this.isSimple()){
+            throw new AssertionError("Simple version of method called on non simple model. Check for method with different 2d inputs.");
         }
 
-        float[] yPred = predict(inputVector);
+        //Check parameters
+        Utility.checkNotNull((Object)x, (Object)yTrue, loss);
+        Utility.checkArrayLengthsEqual(x, yTrue);
+        Utility.checkEqual(x.length, this.inputLayers.get(0).inputVector.length);
+        Utility.checkEqual(yTrue.length, this.outputLayers.get(0).outputVector.length);
 
-        return loss.calculateLossScalar(outputVector, yPred);
+        float[] yPred = this.predict(x);
+
+        float[] lossVector = loss.calculateLossVector(yTrue, yPred);
+
+        return Utility.mean(lossVector);
     }
 
     /**
-     * Calculates the mean scalar for multiple data samples for a single input/output layer neural network.
-     * @param x
-     * @param y
-     * @param loss
-     * @return
+     * Calculates the scalar loss for each input sample
+     * @param x The batch of input vectors.
+     * @param yTrue The batch of ground truth output vectors.
+     * @param loss The loss function to use.
+     * @return An array of scalar losses, each corresponding to a sample.
      */
-    public float calculateMeanScalarLoss(float[][] x, float[][] y, Loss loss){
-
-        float sum = 0;
-        
-        for(int i = 0; i < x.length; i++){
-            sum += calculateScalarLoss(x[i], y[i], loss);
+    public float[] calculateScalarLossBatch(float[][] x, float[][] yTrue, Loss loss){
+        if(!this.isSimple()){
+            throw new AssertionError("Simple version of method called on complex model. Check for method with different 2d inputs.");
         }
 
-        return sum / x.length;
+        //Check parameters
+        Utility.checkNotNull((Object)x, (Object)yTrue, loss);
+        Utility.checkMatrixRectange(x, yTrue);
+        Utility.checkArrayLengthsEqual(x, yTrue);
+        Utility.checkEqual(x[0].length, this.inputLayers.get(0).inputVector.length);
+        Utility.checkEqual(yTrue[0].length, this.outputLayers.get(0).outputVector.length);
+        
+        float[] result = new float[x.length];
+
+        for(int i = 0; i < result.length; i++){
+            result[i] = this.calculateScalarLoss(x[i], yTrue[i], loss);
+        }
+
+        return result;
     }
 
-    public float[] calculateMeanLosses(float[][][] x, float[][][] y, Loss[] losses){
-        float[] r = new float[losses.length];
-
-        for(int i = 0; i < x.length; i++){
-            float[] sampleLoss = calculateLoss(x[i], y[i], losses);
-
-            for(int j = 0; j < r.length; j++){
-                r[j] += sampleLoss[j];
-            }
+    /**
+     * Calculates the scalar loss for each of the output vectors in a complex model.
+     * @param x The input vectors for this sample
+     * @param yTrue The ground truth output vectors for this sample.
+     * @param losses The loss functions, each corresponding with each output vector
+     * @return The losses, each entry corresponding with each output vector
+     */
+    public float[] calculateScalarLoss(float[][] x, float[][] yTrue, Loss[] losses){
+        if(this.isSimple()){
+            throw new AssertionError("Complex version of method called on simple model. Check for method with different 1d inputs.");
         }
 
+        //Check parameters
+        Utility.checkNotNull((Object)x, (Object)yTrue, (Object)losses);
+        Utility.checkEqual(x.length, this.inputLayers.size());
+        Utility.checkEqual(yTrue.length, this.outputLayers.size());
+        Utility.checkEqual(losses.length, this.outputLayers.size());
+
+        float[][] yPred = this.predict(x);
+
+        float[] r = new float[this.outputLayers.size()];
         for(int i = 0; i < r.length; i++){
-            r[i] /= x.length;
+            Utility.checkNotNull(losses[i]);
+            r[i] = losses[i].calculateLossScalar(yTrue[i], yPred[i]);
         }
+
         return r;
     }
 
     /**
-     * Calculates the scalar losses on a neural network with multiple input or multiple output layers on a single data point.
-     * @param x
-     * @param yTrue
-     * @param losses
-     * @return
+     * Calculates the scalar loss on multiple data samples for a complex model.
+     * @param x The input data samples.
+     * @param yTrue The output data samples.
+     * @param losses The loss function, one for each output vector.
+     * @return The scalar losses, for each sample (first index) and each output vector (second index)
      */
-    public float[] calculateLoss(float[][] x, float[][] yTrue, Loss[] losses){
-        float[] scalarLosses = new float[yTrue.length];
-
-        float[][] yPreds = predict(x);
-
-        for(int i = 0; i < scalarLosses.length; i++){
-            scalarLosses[i] = losses[i].calculateLossScalar(yTrue[i], yPreds[i]);
+    public float[][] calculateScalarLossBatch(float[][][] x, float[][][] yTrue, Loss[] losses){
+        if(this.isSimple()){
+            throw new AssertionError("Complex version of method called on simple model. Check for method with 2d inputs.");
         }
 
-        return scalarLosses;
+        //Check parameters
+        Utility.checkNotNull((Object)x, (Object)yTrue, (Object)losses);
+        Utility.checkEqual(x.length, yTrue.length);
+        Utility.checkEqual(losses.length, this.outputLayers.size());
+
+
+        float[][] r = new float[x.length][];
+
+        for(int i = 0; i < x.length; i++){
+            //Method call to single sample loss should catch any issues with the inputs
+            r[i] = this.calculateScalarLoss(x[i], yTrue[i], losses);
+        }
+
+        return r;
     }
 
 
@@ -335,7 +384,7 @@ public class NeuralNetwork extends Model{
 
         for(int i = 0; i < outputLayers.size(); i++){
             float[] error = losses[i].calculateLossVectorGradient(outputVectors[i], yPreds[i]);
-            outputLayers.get(i).setdLdY(error);
+            Utility.copyArrayContents(error, outputLayers.get(i).getdLdY());
             outputLayers.get(i).backwardPass();
             completed.add(outputLayers.get(i));
         }
@@ -377,24 +426,6 @@ public class NeuralNetwork extends Model{
     }
 
 
-    public void resetRecurrentStates(){
-
-        for(int i = 0; i < allLayers.size(); i++){
-
-            //Reset layer if LSTM
-            if(true){
-
-            }
-
-            //Reset layer if recurrent
-            if(true){
-
-            }
-        }
-    }
-
-
-
     public void fit(float[][][] x, float[][][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss[] losses){
         
         for(int e = 0; e < epochs; e++){
@@ -414,10 +445,6 @@ public class NeuralNetwork extends Model{
                     float[][] trainY = y[indicies.get(mb).get(i)];
 
                     ArrayList<float[][]> rawGradient = calculateGradient(trainX, trainY, losses);
-
-                    //System.out.println(Utility.arraysToString(rawGradient));
-                    //System.exit(0);
-
 
                     //add gradient to minibatch pool
                     Utility.addList(minibatchGradient, rawGradient, 1.0f / indicies.get(mb).size());
@@ -535,6 +562,15 @@ public class NeuralNetwork extends Model{
         sb.append("END ALL LAYER INFO");
 
         return sb.toString();
+    }
+
+    /**
+     * Determines whether or not the neural network is simple (exactly 1 input and output layer)
+     * or complex (other combinations of input and output layers)
+     * @return True if the model is simple.
+     */
+    public boolean isSimple(){
+        return this.inputLayers.size() == 1 && this.outputLayers.size() == 1;
     }
 
     public void saveModel(String filePath){
