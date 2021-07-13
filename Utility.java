@@ -698,15 +698,23 @@ public class Utility{
     }
 
 
+    /**
+     * Checks the input matricies to see if the dimensions are equal (rows and columns).
+     * Throws an exception if dimensions do not match Useful on elementwise operations.
+     * @param matrix The matricies to check for same dimensions.
+     */
     public static void checkMatrixDimensionsEqual(float[][]... matrix){
         if(matrix == null || matrix.length == 0){
             return;
         }
 
+        Utility.checkNotNull((Object)matrix[0]);
         int rows = LinearAlgebra.getNumRows(matrix[0]);
         int cols = LinearAlgebra.getNumColumns(matrix[0]);
 
         for(int i = 1; i < matrix.length; i++){
+            Utility.checkNotNull((Object)matrix[i]);
+
             int r = LinearAlgebra.getNumRows(matrix[i]);
             int c = LinearAlgebra.getNumColumns(matrix[i]);
 
