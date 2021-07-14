@@ -285,30 +285,63 @@ public class NeuralNetwork extends Model{
     }
 
 
-
-    
     /**
      * Predict function for Neural Networks that have only one input vector and one output vector
      * @param x The input vector.
      * @return The output vector. If this model has more than one input vector or more than one output vector, then null is returned.
      */
     public float[] predict(float[] x){
-        //Check to see if model input arrays are compatible
-        if(inputLayers.size() != 1 || outputLayers.size() != 1){
-            return null;
+        if(!this.isSimple()){
+            throw new AssertionError("Called simple method when the complex version should have been called. Check other predictBatch with 3d input");
         }
+
+        Utility.checkNotNull((Object)x);
+        Utility.checkEqual(x.length, this.outputLayers.get(0).outputVector.length);
 
         float[][] xVectors = new float[1][x.length];
         Utility.copyArrayContents(x, xVectors[0]);
         return predict(xVectors)[0];
     }
 
-
-    public float[][] predict(float[][] x){
-        //Check to see if model inputs match
-        if(this.inputLayers.size() != x.length){
-            
+    /**
+     * Makes predictions on a batch of inputs for simple neural networks.
+     * @param x The input vectors.
+     * @return The predicted output vectors.
+     */
+    public float[][] predictBatch(float[][] x){
+        if(!this.isSimple()){
+            throw new AssertionError("Called simple method when the complex version should have been called. Check other predictBatch with 3d input");
         }
+
+        Utility.checkNotNull((Object)x);
+        Utility.checkMatrixRectangle(x);
+        Utility.checkArrayNotEmpty(x);
+        Utility.checkEqual(x[0].length, this.outputLayers.size());
+
+        float[][] y = new float[x.length][];
+
+        for(int i = 0; i < y.length; i++){
+            //predict() will check if x[i] is valid
+            y[i] = this.predict(x[i]);
+        }
+
+        return y;
+    }
+
+    /**
+     * Makes a prediction on one data sample. Can be used for both simple and complex models.
+     * @param x The input vectors, one for each output layer.
+     * @return The output vectors, one for each output layer.
+     */
+    public float[][] predict(float[][] x){
+        //Check parameter
+        Utility.checkNotNull((Object)x);
+        Utility.checkEqual(x.length, this.inputLayers.size());
+        for(int i = 0; i < x.length; i++){
+            Utility.checkNotNull((Object)x[i]);
+            Utility.checkEqual(x.length, this.inputLayers.get(i).inputVector.length);
+        }
+        
 
         //Create the output vectors
         float[][] y = new float[this.outputLayers.size()][];
@@ -357,6 +390,25 @@ public class NeuralNetwork extends Model{
         //Allocate copies of the output vectors from the output layers
         for(int i = 0; i < outputLayers.size(); i++){
             Utility.copyArrayContents(outputLayers.get(i).getOutputVector(), y[i]);
+        }
+
+        return y;
+    }
+
+    /**
+     * Makes predictions on multiple samples. Designed for complex models but can be used for simple models.
+     * @param x The input samples.
+     * @return The prediction outputs, one for each input sample.
+     */
+    public float[][][] predictBatch(float[][][] x){
+        //Check parameters
+        Utility.checkNotNull((Object)x);
+        
+        float[][][] y = new float[x.length][][];
+
+        for(int i = 0; i < x.length; i++){
+            //predictBatch() should check x[i]
+            y[i] = this.predictBatch(x[i]);
         }
 
         return y;
