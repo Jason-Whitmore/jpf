@@ -479,6 +479,8 @@ public class NeuralNetwork extends Model{
 
 
     public void fit(float[][][] x, float[][][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss[] losses){
+        //Check parameters
+        this.checkFitParams(x, y, epochs, minibatchSize, valueClip, opt, losses);
         
         for(int e = 0; e < epochs; e++){
             //calculate minibatch indicies
@@ -516,6 +518,26 @@ public class NeuralNetwork extends Model{
         }
     }
 
+    private void checkFitParams(float[][][] x, float[][][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss[] losses){
+        Utility.checkNotNull((Object)x, (Object)y, opt, losses);
+
+        if(epochs <= 0){
+            throw new AssertionError("Number of epochs should be > 0");
+        }
+
+        if(minibatchSize <= 0){
+            throw new AssertionError("Minibatch size should be > 0");
+        }
+
+        if(valueClip <= 0 && valueClip != -1){
+            throw new AssertionError("Valueclip should either be > 0 or -1 if no clipping is desired.");
+        }
+
+        for(int i = 0; i < losses.length; i++){
+            Utility.checkNotNull(losses[i]);
+        }
+    }
+
 
     public void fit(float[][][] x, float[][][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, ArrayList<Loss> losses){
         Loss[] lossArray = new Loss[losses.size()];
@@ -526,17 +548,25 @@ public class NeuralNetwork extends Model{
 
 
     /**
-     * Fits a single input, single output vector dataset to this model.
-     * @param x
-     * @param y
-     * @param epochs
-     * @param minibatchSize
-     * @param valueClip
-     * @param opt
-     * @param loss
+     * Fits a single input, single output vector dataset to this model. Used for simple models.
+     * @param x The training input data.
+     * @param y The training output data.
+     * @param epochs The number of epochs or number of passes, to train the model for.
+     * @param minibatchSize The number of samples used per parameter update.
+     * @param valueClip The maximum absolute value a gradient component is limited to being.
+     * @param opt The optimizer used to process the raw gradients.
+     * @param loss The loss function to minimize during training.
      */
     public void fit(float[][] x, float[][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss loss){
-        //Check if model has one input and one output vector, if not, throw an exception?
+        //Do some basic parameter checking.
+        if(!this.isSimple()){
+            throw new AssertionError("Simple version of fit called when the model is complex. Check the fit method with 3d inputs.");
+        }
+
+        Utility.checkNotNull((Object)x, (Object)y, opt, loss);
+        Utility.checkArrayNotEmpty(x);
+        Utility.checkArrayNotEmpty(y);
+
         float[][][] trainX = new float[x.length][1][];
         float[][][] trainY = new float[y.length][1][];
 
@@ -549,7 +579,8 @@ public class NeuralNetwork extends Model{
         Loss[] losses = new Loss[1];
         losses[0] = loss;
 
-        fit(trainX, trainY, epochs, minibatchSize, valueClip, opt, losses);
+        //Much of the parameter checking will be done in this call
+        this.fit(trainX, trainY, epochs, minibatchSize, valueClip, opt, losses);
     }
 
 
