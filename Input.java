@@ -30,7 +30,7 @@ public class Input extends Layer{
     public Input(String layerInfoString){
         super();
 
-        String layerSizeString = layerInfoString.replace("INPUT(", "").replace(")", "");
+        String layerSizeString = layerInfoString.replace("INPUT(", "").replace(")\n", "");
 
         int numUnits = Integer.parseInt(layerSizeString);
 

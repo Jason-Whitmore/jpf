@@ -66,7 +66,7 @@ public class Dense extends Layer {
 
         //Initialize the weight and bias parameter matricies. Randomize the weight matrix entries.
         this.weightMatrix = new float[numUnits][inputLayerOutputSize];
-        Utility.initializeUniform(weightMatrix, -0.1f, 0.1f);
+        Utility.initializeUniform(weightMatrix, -1f, 1f);
 
         this.biasMatrix = new float[numUnits][1];
 
@@ -94,8 +94,15 @@ public class Dense extends Layer {
         //Check param string
         Utility.checkNotNull(layerInfoString);
 
-        String paramString = layerInfoString.substring(layerInfoString.indexOf("[\n"), layerInfoString.indexOf("]\n") + 2);
+        //Isolate the activation function string and initialize
+        this.initializeActivationFunctionFromString(layerInfoString);
+
+        String paramString = layerInfoString.substring(layerInfoString.indexOf(")\n") + 2, layerInfoString.lastIndexOf("\n"));
         this.parameters = Utility.stringToMatrixList(paramString);
+
+        
+        this.weightMatrix = this.parameters.get(0);
+        this.biasMatrix = this.parameters.get(1);
 
         //From the parsed parameters, get the layer size and the input vector size
         int numUnits = this.biasMatrix.length;
@@ -116,8 +123,7 @@ public class Dense extends Layer {
         this.gradient = Utility.cloneArrays(getParameters());
         Utility.clearArrays(this.gradient);
 
-        //Isolate the activation function string and initialize
-        this.initializeActivationFunctionFromString(layerInfoString);
+        
     }
 
     /**
@@ -129,15 +135,15 @@ public class Dense extends Layer {
      */
     private void initializeActivationFunctionFromString(String layerInfoString){
         String headerInfo = layerInfoString.substring(0, layerInfoString.indexOf(")") + 1);
-        headerInfo.replace("(", "");
-        headerInfo.replace(")", "");
+        headerInfo = headerInfo.replace("(", "");
+        headerInfo = headerInfo.replace(")", "");
 
         String[] headerInfoSplit = headerInfo.split(",");
+        headerInfoSplit[1] = headerInfoSplit[1].trim();
         this.activationFunction = ActivationFunction.constructFromString(headerInfoSplit[1]);
     }
 
     public void forwardPass(){
-
         //Bring over the previous layer's output into this layer's input vector
         this.initializeInputVectorCopy();
 
@@ -201,7 +207,7 @@ public class Dense extends Layer {
         sb.append("DENSE(" + layerSize + ", " + activationFunction.toString() + ")\n");
 
         //Provide parameter information
-        sb.append(Utility.arraysToString(getParameters()));
+        sb.append(Utility.arraysToString(this.getParameters()));
 
         return sb.toString();
     }

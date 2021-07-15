@@ -246,7 +246,108 @@ public class Examples{
 
 
     public static void nnquadratic(){
+        System.out.println("In this example, a neural network will be created to fit f(x) = x^2 for x in [-10, 10].");
+        System.out.println("Over the course of training, the training loss will be recorded as well as the neural network output after each epoch");
+        System.out.println("After training, the training loss will be recorded before the model is saved to disk, deallocated, and recreated from disk.");
         
+        //Create dataset of f(x) = x^2 for x in [-10, 10]
+        int n = 1000;
+
+        System.out.println("Creating training dataset of size " + n);
+        float[][] trainX = new float[n][];
+        float[][] trainY = new float[n][];
+
+        for(int i = 0; i < trainX.length; i++){
+            float[] x = new float[1];
+            float[] y = new float[1];
+
+            x[0] = Utility.getRandomUniform(-10f, 10f);
+            y[0] = x[0] * x[0];
+
+            trainX[i] = x;
+            trainY[i] = y;
+        }
+
+        System.out.println("Creating neural network");
+        int hiddenUnits = 16;
+
+        Input in = new Input(1);
+        Dense h1 = new Dense(hiddenUnits, new Tanh(), in);
+        Dense h2 = new Dense(hiddenUnits, new Tanh(), h1);
+        Dense out = new Dense(1, new Linear(), h2);
+
+        NeuralNetwork nn = new NeuralNetwork(in, out);
+
+        //Create the arrays to record function output and loss per epoch
+        int numEpochs = 30;
+        float[] trainingLosses = new float[numEpochs];
+        float[][] functionOutput = new float[numEpochs][100];
+
+        System.out.println("Training started...");
+
+        float delta = 20f / functionOutput[0].length;
+
+        for(int e = 0; e < numEpochs; e++){
+            //Calculate train loss
+            float trainLoss = Utility.mean(nn.calculateScalarLossBatch(trainX, trainY, new MSE()));
+            System.out.println("Train loss before epoch " + e + ": " + trainLoss);
+            trainingLosses[e] = trainLoss;
+
+            //Calculate function output
+            for(int i = 0; i < functionOutput[0].length; i++){
+                float[] x = new float[1];
+                x[0] = (i * delta) - 10f;
+                functionOutput[e][i] = nn.predict(x)[0];
+            }
+
+
+            nn.fit(trainX, trainY, 1, 32, 0.1f, new RMSProp(0.01f, 0.9f, 0.000001f), new MSE());
+        }
+
+        System.out.println("Training complete. Writing results to disk...");
+
+        String[] lossHeader = {"Epoch", "Training loss"};
+        CSVWriter lossWriter = new CSVWriter("nn_quadratic_loss.csv", lossHeader);
+        for(int epoch = 0; epoch < trainingLosses.length; epoch++){
+            String[] row = {"" + epoch, "" + trainingLosses[epoch]};
+            lossWriter.addRow(row);
+        }
+        lossWriter.writeToFile();
+        System.out.println("Training loss function data written to disk. Check for nn_quadratic_loss.csv where Examples.java is.");
+
+        String[] outputHeader = new String[numEpochs + 1];
+        outputHeader[0] = "x";
+        for(int i = 1; i < outputHeader.length; i++){
+            outputHeader[i] = "f(x) before epoch " + (i - 1);
+        }
+        CSVWriter outputWriter = new CSVWriter("nn_quadratic_output.csv", outputHeader);
+        for(int i = 0; i < functionOutput[0].length; i++ ){
+            float x = (i * delta) - 10f;
+            String[] row = new String[outputHeader.length];
+            row[0] = "" + x;
+            for(int epoch = 0; epoch < numEpochs; epoch++){
+                row[epoch + 1] = functionOutput[epoch][i] + "";
+            }
+
+            outputWriter.addRow(row);
+        }
+
+        outputWriter.writeToFile();
+        System.out.println("Function output data written to disk. Check for nn_quadratic_output.csv where Examples.java is.\n");
+        
+
+        System.out.println("Now checking to see if saving and loading the neural network works. Will record train loss, save model, reload it, and check train loss again");
+
+        float lossBefore = Utility.mean(nn.calculateScalarLossBatch(trainX, trainY, new MSE()));
+        String fileName = "nn_quadratic_model";
+        nn.saveModel(fileName);
+        nn = null;
+        nn = new NeuralNetwork(fileName);
+        float lossAfter = Utility.mean(nn.calculateScalarLossBatch(trainX, trainY, new MSE()));
+
+        System.out.println("Test loss before saving model: " + lossBefore);
+        System.out.println("Test loss after saving model: " + lossBefore);
+        System.out.println("Both losses should be very similar or the same.");
     }
 
     public static void main(String[] args){
@@ -278,6 +379,10 @@ public class Examples{
 
             case "polynomialoverfit":
                 polynomialOverfit();
+                break;
+
+            case "nnquadratic":
+                nnquadratic();
                 break;
 
             default:

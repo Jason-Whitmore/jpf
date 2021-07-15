@@ -96,14 +96,19 @@ public class LinearAlgebra{
 
         s = s.trim();
 
-        
-
         String[] sSplit = s.split(" ");
 
         float[] r = new float[sSplit.length];
 
         for(int i = 0; i < r.length; i++){
-            r[i] = Float.parseFloat(sSplit[i]);
+            try{
+                r[i] = Float.parseFloat(sSplit[i]);
+            } catch(NumberFormatException e){
+                System.err.println("Could not parse with Float.parseFloat()");
+                System.err.println(e.getMessage());
+                throw new AssertionError();
+            }
+            
         }
 
         return r;
@@ -264,7 +269,7 @@ public class LinearAlgebra{
         int aRows = LinearAlgebra.getNumRows(a);
         int aCols = LinearAlgebra.getNumColumns(a);
 
-        int bRows = LinearAlgebra.getNumRows(a);
+        int bRows = LinearAlgebra.getNumRows(b);
         int bCols = LinearAlgebra.getNumColumns(b);
 
         int resultRows = LinearAlgebra.getNumRows(result);

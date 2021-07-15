@@ -46,20 +46,22 @@ public class NeuralNetwork extends Model{
         String neuralNetworkInfo = Utility.getTextFileContents(filePath);
 
         //Isolate the layer connection information
-        String layerConnectionInfo = neuralNetworkInfo.substring(0, neuralNetworkInfo.indexOf("END LAYER CONNECTIONS"));
-        layerConnectionInfo = layerConnectionInfo.replace("START LAYER CONNECTIONS", "");
+        String layerConnectionInfo = neuralNetworkInfo.substring(0, neuralNetworkInfo.indexOf("END LAYER CONNECTIONS INFO"));
+        layerConnectionInfo = layerConnectionInfo.replace("START LAYER CONNECTIONS INFO\n", "");
+
 
         //Isolate the layer information
 
         String layerInfo = neuralNetworkInfo.substring(neuralNetworkInfo.indexOf("START ALL LAYER INFO"));
 
         //Remove the header and footer
-        layerInfo.replace("START ALL LAYER INFO\n", "");
-        layerInfo.replace("END ALL LAYER INFO\n", "");
+        layerInfo = layerInfo.replace("START ALL LAYER INFO\n", "");
+        layerInfo = layerInfo.replace("END ALL LAYER INFO", "");
 
         //Split the strings based on layer
         String[] layerStrings = layerInfo.split("LAYER START\n");
 
+        this.allLayers = new ArrayList<Layer>();
         //Construct the layers
         for(int i = 0; i < layerStrings.length; i++){
             //Remove the footer string
@@ -71,7 +73,7 @@ public class NeuralNetwork extends Model{
 
 
         //Parse the layer info into an adjacency list representation.
-        ArrayList<ArrayList<Integer>> adjList = connectionInfoToAdjList(layerConnectionInfo);
+        ArrayList<ArrayList<Integer>> adjList = this.connectionInfoToAdjList(layerConnectionInfo);
 
         for(int i = 0; i < adjList.size(); i++){
             Layer from = this.allLayers.get(i);
@@ -105,9 +107,13 @@ public class NeuralNetwork extends Model{
 
             ArrayList<Integer> row = new ArrayList<Integer>();
 
-            for(int j = 0; j < numStrings.length; j++){
-                row.add(Integer.parseInt(numStrings[j]));
+            //Only add to row if there is anything to add to the row
+            if(toIndicies.length() > 0){
+                for(int j = 0; j < numStrings.length; j++){
+                    row.add(Integer.parseInt(numStrings[j]));
+                }
             }
+            
 
             adjList.add(startIndex, row);
         }
@@ -509,6 +515,8 @@ public class NeuralNetwork extends Model{
                     Utility.clip(minibatchGradient, -valueClip, valueClip);
                 }
 
+                //System.out.println(Utility.arraysToString(minibatchGradient));
+
                 minibatchGradient = opt.processGradient(minibatchGradient);
 
                 //minibatch processed. Add to Network's parameters
@@ -543,7 +551,7 @@ public class NeuralNetwork extends Model{
         Loss[] lossArray = new Loss[losses.size()];
         lossArray = losses.toArray(lossArray);
 
-        fit(x, y, epochs, minibatchSize, valueClip, opt, lossArray);
+        this.fit(x, y, epochs, minibatchSize, valueClip, opt, lossArray);
     }
 
 

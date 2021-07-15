@@ -770,7 +770,7 @@ public class Utility{
                 throw new AssertionError("Rows of matrix in list do not match.");
             }
 
-            for(int j = 0; j < listA.get(i).length; i++){
+            for(int j = 0; j < listA.get(i).length; j++){
                 Utility.checkNotNull((Object)(listA.get(i)[j]));
                 Utility.checkNotNull((Object)(listB.get(i)[j]));
 

@@ -100,11 +100,9 @@ public abstract class Layer {
      * Populates the dLdY vector with the sum of dLdX vector from this layer's output layers
      */
     protected void initializedLdY(){
-        Utility.clearArray(this.dLdY);
-
-        for(int i = 0; i < getOutputLayers().size(); i++){
+        for(int i = 0; i < this.getOutputLayers().size(); i++){
             for(int j = 0; j < dLdY.length; j++){
-                dLdY[j] += getOutputLayers().get(i).getdLdX()[j];
+                this.dLdY[j] += getOutputLayers().get(i).getdLdX()[j];
             }
         }
     }
@@ -197,6 +195,7 @@ public abstract class Layer {
      */
     public static Layer createLayerFromString(String layerInfoString){
         Utility.checkNotNull(layerInfoString);
+        System.out.println(layerInfoString);
 
         if(layerInfoString.contains("INPUT")){
             return new Input(layerInfoString);
