@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Stack;
@@ -45,13 +46,7 @@ public class NeuralNetwork extends Model{
         super();
         String neuralNetworkInfo = Utility.getTextFileContents(filePath);
 
-        //Isolate the layer connection information
-        String layerConnectionInfo = neuralNetworkInfo.substring(0, neuralNetworkInfo.indexOf("END LAYER CONNECTIONS INFO"));
-        layerConnectionInfo = layerConnectionInfo.replace("START LAYER CONNECTIONS INFO\n", "");
-
-
         //Isolate the layer information
-
         String layerInfo = neuralNetworkInfo.substring(neuralNetworkInfo.indexOf("START ALL LAYER INFO"));
 
         //Remove the header and footer
@@ -62,15 +57,24 @@ public class NeuralNetwork extends Model{
         String[] layerStrings = layerInfo.split("LAYER START\n");
 
         this.allLayers = new ArrayList<Layer>();
-        //Construct the layers
+        //Construct the layers. Start at index 1 since index 0 is an empty string.
         for(int i = 0; i < layerStrings.length; i++){
             //Remove the footer string
-            layerStrings[i] = layerStrings[i].replace("LAYER END\n", "");
+            layerStrings[i] = layerStrings[i].replace("\nLAYER END\n", "");
 
-            Layer l = Layer.createLayerFromString(layerStrings[i]);
-            this.allLayers.add(l);
+            //Due to the way split works, there may be empty strings in layerStrings array, which should not be read from.
+            if(!layerStrings[i].equals("")){
+                Layer l = Layer.createLayerFromString(layerStrings[i]);
+                if(l == null){
+                    throw new AssertionError("Layer creation from string failed on index " + i);
+                }
+                this.allLayers.add(l);
+            }
         }
 
+        //Isolate the layer connection information
+        String layerConnectionInfo = neuralNetworkInfo.substring(0, neuralNetworkInfo.indexOf("END LAYER CONNECTIONS INFO"));
+        layerConnectionInfo = layerConnectionInfo.replace("START LAYER CONNECTIONS INFO\n", "");
 
         //Parse the layer info into an adjacency list representation.
         ArrayList<ArrayList<Integer>> adjList = this.connectionInfoToAdjList(layerConnectionInfo);
@@ -79,15 +83,29 @@ public class NeuralNetwork extends Model{
             Layer from = this.allLayers.get(i);
 
             for(int j = 0; j < adjList.get(i).size(); j++){
-                Layer to = this.allLayers.get(j);
+                int index = adjList.get(i).get(j);
+                Layer to = this.allLayers.get(index);
 
                 from.getOutputLayers().add(to);
             }
         }
 
-        //Connect all the layers input and output layers
+        //Connect all the layers input and output layers, also, create the input and output layers lists
+        this.inputLayers = new ArrayList<Input>();
+        this.outputLayers = new ArrayList<Layer>();
+
         for(int i = 0; i < this.allLayers.size(); i++){
             this.allLayers.get(i).connectInputAndOutputLayers();
+
+            //Check if the layer is an input layer
+            if(this.allLayers.get(i).getInputLayers().size() == 0 && this.allLayers.get(i) instanceof Input){
+                this.inputLayers.add((Input)(this.allLayers.get(i)));
+            }
+
+            //Check if the layer is an output layer
+            if(this.allLayers.get(i).getOutputLayers().size() == 0){
+                this.outputLayers.add(this.allLayers.get(i));
+            }
         }
 
     }

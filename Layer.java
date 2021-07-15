@@ -195,7 +195,6 @@ public abstract class Layer {
      */
     public static Layer createLayerFromString(String layerInfoString){
         Utility.checkNotNull(layerInfoString);
-        System.out.println(layerInfoString);
 
         if(layerInfoString.contains("INPUT")){
             return new Input(layerInfoString);

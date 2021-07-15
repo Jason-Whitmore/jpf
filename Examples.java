@@ -279,7 +279,7 @@ public class Examples{
         NeuralNetwork nn = new NeuralNetwork(in, out);
 
         //Create the arrays to record function output and loss per epoch
-        int numEpochs = 30;
+        int numEpochs = 20;
         float[] trainingLosses = new float[numEpochs];
         float[][] functionOutput = new float[numEpochs][100];
 
@@ -346,7 +346,7 @@ public class Examples{
         float lossAfter = Utility.mean(nn.calculateScalarLossBatch(trainX, trainY, new MSE()));
 
         System.out.println("Test loss before saving model: " + lossBefore);
-        System.out.println("Test loss after saving model: " + lossBefore);
+        System.out.println("Test loss after saving model: " + lossAfter);
         System.out.println("Both losses should be very similar or the same.");
     }
 

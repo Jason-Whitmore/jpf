@@ -156,5 +156,65 @@ Degree: 13, test/train loss ratio: 12.862402
 
 ## NeuralNetwork
 
-## quadraticexample
+## nnquadratic
 
+The nnquadratic example demonstrates basic neural network construction, training, evaluation, as well as saving a model to disk and loading back into memory.
+A standard 2 hidden layer neural network is created with an input vector and output vector of size 1.
+A simple training dataset of f(x) = x^2 for x in (-10, 10) is created to train the neural network on. Every epoch the training loss will be evaluated and 
+displayed to the user. Additionally, the model will make predictions on x in (-10, 10) every epoch and the outputs will be recorded.
+At the end of training, both the training loss data and the output data will be written to disk under the names nn_quadratic_output.csv, and nn_quadratic_loss.csv.
+
+The model saving/loading functionality will be tested, and the model will be saved to disk before being removed from memory. Then, a new model will be created from
+the disk file. The training loss before and after loading the model from disk will determine if the model saving and loading process was sucessful.
+
+Program output:
+
+```
+In this example, a neural network will be created to fit f(x) = x^2 for x in [-10, 10].
+Over the course of training, the training loss will be recorded as well as the neural network output after each epoch
+After training, the training loss will be recorded before the model is saved to disk, deallocated, and recreated from disk.
+Creating training dataset of size 1000
+Creating neural network
+Training started...
+Train loss before epoch 0: 2175.506
+Train loss before epoch 1: 1740.6473
+Train loss before epoch 2: 1205.8613
+Train loss before epoch 3: 920.9347
+Train loss before epoch 4: 676.57086
+Train loss before epoch 5: 489.8206
+Train loss before epoch 6: 346.61267
+Train loss before epoch 7: 240.06915
+Train loss before epoch 8: 165.00542
+Train loss before epoch 9: 116.3945
+Train loss before epoch 10: 85.83927
+Train loss before epoch 11: 56.20883
+Train loss before epoch 12: 37.92646
+Train loss before epoch 13: 45.397247
+Train loss before epoch 14: 21.943964
+Train loss before epoch 15: 19.660944
+Train loss before epoch 16: 20.7551
+Train loss before epoch 17: 17.870653
+Train loss before epoch 18: 18.101418
+Train loss before epoch 19: 29.60965
+Training complete. Writing results to disk...
+Training loss function data written to disk. Check for nn_quadratic_loss.csv where Examples.java is.
+Function output data written to disk. Check for nn_quadratic_output.csv where Examples.java is.
+```
+
+Using external software that can produce plots, the following graphs can be made:
+
+nn_quadratic_loss.csv:
+
+
+![nn_quadratic_loss](images/nn_quadratic_loss.png)
+
+The loss curve here is what is expected when training a neural network with a sufficient number of parameters. Loss starts out high
+and decreases slowly as the training process continues.
+
+
+nn_quadratic_output.csv:
+
+![nn_quadratic_output](images/nn_quadratic_output.png)
+
+The neural network outputs at different epochs visually display the training process. Before training, at epoch 0, the outputs display a function that is not
+at all a representation of f(x) = x^2. However, as training progresses, the outputs start to resemble the target function that generated the training data.
