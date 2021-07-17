@@ -2,7 +2,8 @@ public class Examples{
 
     private static final String OPTION_STRING = "Arg options:\n" + 
                                                 "LinearModel: simplelinear, complexlinear\n" + 
-                                                "PolynomialModel: polynomialsin, polynomialoverfit";
+                                                "PolynomialModel: polynomialsin, polynomialoverfit" + 
+                                                "NeuralNetwork: nnquadratic";
 
     
     private static void simpleLinear(){
@@ -350,6 +351,154 @@ public class Examples{
         System.out.println("Both losses should be very similar or the same.");
     }
 
+    public static void nnoverfit(){
+        System.out.println("In this example, a demonstration of overfitting will be conducted using a neural network fitting to f(x)=x^2");
+        System.out.println("Both a test and training dataset will be created with outputs from f(x) = x^2 for x in (-10, 10)");
+        System.out.println("The standard 2 hidden neural network will be created with varying numbers of units in the hidden layers.");
+        System.out.println("After a neural network is trained, the loss will be collected for both the training and testing datasets.");
+        System.out.println("At the end of the example, the results will be saved to nn_overfit_results.csv so that they can be graphed.\n");
+
+        System.out.println("Creating the datasets...");
+        int n = 100;
+
+        float[][] trainX = new float[n][];
+        float[][] trainY = new float[n][];
+
+        float[][] testX = new float[n][];
+        float[][] testY = new float[n][];
+
+        for(int i = 0; i < trainX.length; i++){
+            float[] x = new float[1];
+            x[0] = Utility.getRandomUniform(-10f, 10f);
+
+            float[] y = new float[1];
+            y[0] = x[0] * x[0];
+
+            trainX[i] = x;
+            trainY[i] = y;
+
+            x = new float[1];
+            y = new float[1];
+            x[0] = Utility.getRandomUniform(-10f, 10f);
+            y[0] = x[0] * x[0];
+
+            testX[i] = x;
+            testY[i] = y;
+        }
+
+        System.out.println("Creating and training the neural networks...");
+
+        String[] header = {"Number of parameters", "Training loss", "Testing loss"};
+        CSVWriter results = new CSVWriter("nn_overfit_results.csv", header);
+
+        for(int h = 10; h <= 80; h += 10){
+            //Create the neural network
+
+            //Perform multiple runs to average out results
+            int numRuns = 5;
+
+            float trainLoss = 0;
+            float testLoss = 0;
+            int numParameters = 0;
+            for(int run = 0; run < numRuns; run++){
+                Input in = new Input(1);
+                Dense hidden1 = new Dense(h, new Tanh(), in);
+                Dense hidden2 = new Dense(h, new Tanh(), hidden1);
+                Dense out = new Dense(1, new Linear(), hidden2);
+
+                NeuralNetwork nn = new NeuralNetwork(in, out);
+
+                nn.fit(trainX, trainY, 1000, 8, 10f, new RMSProp(), new MSE());
+
+                trainLoss += Utility.mean(nn.calculateScalarLossBatch(trainX, trainY, new MSE()));
+                testLoss += Utility.mean(nn.calculateScalarLossBatch(testX, testY, new MSE()));
+                numParameters = nn.getParameterCount();
+            }
+
+            trainLoss /= numRuns;
+            testLoss /= numRuns;
+            
+            System.out.println("Num parameters: " + numParameters);
+            System.out.println("Training loss: " + trainLoss);
+            System.out.println("Testing loss: " + testLoss);
+            System.out.println();
+
+            String[] newRow = {"" + numParameters, "" + trainLoss, "" + testLoss};
+
+            results.addRow(newRow);
+        }
+
+        results.writeToFile();
+
+    }
+
+
+    public static void nnBinaryClassification(){
+        System.out.println("In this example a demonstration of a binary classification task will be performed.");
+        System.out.println("A neural network will be constructed with an input vector of size two and an output vector of size 1 with a sigmoid activation function");
+        System.out.println("The training input data will be (x1,x2) coordinates with x1, x2 in range (0,1). Each (x1,x2) pair will be considered to be a member of 2 classes.");
+        System.out.println("(x1,x2) coordinates that lie inside of a circle that has a center at (0.5,0.5) and a radius of 0.5 will belong to class 0.");
+        System.out.println("All other (x1,x2) coordinates will belong to class 1.\n");
+
+        System.out.println("Creating the dataset...");
+        int n = 1000;
+
+        float[][] trainX = new float[n][];
+        float[][] trainY = new float[n][];
+
+        for(int i = 0; i < trainX.length; i++){
+            float[] x = new float[2];
+            float[] y = new float[1];
+
+            x[0] = Utility.getRandomUniform(0, 1f);
+            x[1] = Utility.getRandomUniform(0, 1f);
+
+            float distance = (float)Math.sqrt(Math.pow(x[0] - 0.5, 2) + Math.pow(x[0] - 0.5, 2));
+            
+            if(distance < 0.5){
+                y[0] = 0;
+            } else {
+                y[0] = 1f;
+            }
+
+            trainX[i] = x;
+            trainY[i] = y;
+        }
+
+        System.out.println("Creating the neural network classifier...");
+
+        int hiddenSize = 8;
+
+        Input in = new Input(2);
+        Dense h1 = new Dense(hiddenSize, new LeakyReLU(0.1f), in);
+        Dense h2 = new Dense(hiddenSize, new LeakyReLU(0.1f), h1);
+        Dense out = new Dense(1, new Sigmoid(), h2);
+
+        NeuralNetwork nn = new NeuralNetwork(in, out);
+
+        System.out.println("Fitting the neural network.");
+        nn.fit(trainX, trainY, 100, 32, 0.1f, new RMSProp(), new CrossEntropy());
+
+        System.out.println("Evaluating the neural network.");
+        float trainLoss = Utility.mean(nn.calculateScalarLossBatch(trainX, trainY, new CrossEntropy()));
+
+        float correctPredictions = 0;
+        for(int i = 0; i < trainX.length; i++){
+            float yPred = nn.predict(trainX[i])[0];
+
+            if(trainY[i][0] == 0 && yPred < 0.5f){
+                correctPredictions += 1;
+            } else if(trainY[i][0] == 1 && yPred > 0.5f){
+                correctPredictions += 1;
+            }
+        }
+
+        float accuracy = correctPredictions / trainX.length;
+
+        System.out.println("Training loss: " + trainLoss);
+        System.out.println("Accuracy (correct predictions / number of samples): " + accuracy);
+    }
+
     public static void main(String[] args){
 
         if(args.length != 1){
@@ -383,6 +532,10 @@ public class Examples{
 
             case "nnquadratic":
                 nnquadratic();
+                break;
+
+            case "nnoverfit":
+                nnoverfit();
                 break;
 
             default:
