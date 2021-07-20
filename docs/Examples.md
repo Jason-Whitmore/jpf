@@ -223,3 +223,34 @@ at all a representation of f(x) = x^2. However, as training progresses, the outp
 ## nnoverfit
 
 ## nnbinaryclassification
+
+The nnbinaryclassification example demonstrates the use of neural networks for binary classification tasks which separate inputs into two distinct classes.
+In this example, the input data will be points on a 2d plane forming the tuple (x1, x2), where x1, x2 are in the range (0,1). Inputs that are within a circle
+whose center is at (0.5, 0.5) and has a radius 0.5 are part of class 0, and all else are part of class 1. The goal of the neural network classifier is to 
+find the "decision boundary" that separates these data points into the correct classes. In this example, the decision boundary is a circle.
+
+The neural network classifier is a standard 2 hidden layer neural network. The Dense output layer uses the sigmoid activation function, which outputs numbers in the range (0, 1) which makes it ideal for binary classification tasks. This neural network is trained on generated data with a binary cross entropy loss, which uses binary values as
+the ground truths.
+
+After training, the training loss is displayed as well as an accuracy metric, which rounds predicted values to either 0 or 1.
+
+
+Program output:
+
+```
+
+In this example a demonstration of a binary classification task will be performed.
+A neural network will be constructed with an input vector of size two and an output vector of size 1 with a sigmoid activation function
+The training input data will be (x1,x2) coordinates with x1, x2 in range (0,1). Each (x1,x2) pair will be considered to be a member of 2 classes.
+(x1,x2) coordinates that lie inside of a circle that has a center at (0.5,0.5) and a radius of 0.5 will belong to class 0.
+All other (x1,x2) coordinates will belong to class 1.
+
+Creating the dataset...
+Creating the neural network classifier...
+Fitting the neural network.
+Evaluating the neural network.
+Training loss: 0.27662688
+Accuracy (correct predictions / number of samples): 0.92
+
+
+```
