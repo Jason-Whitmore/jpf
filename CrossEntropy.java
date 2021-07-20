@@ -25,9 +25,20 @@ public class CrossEntropy implements Loss{
         }
     }
 
-    //TODO: complete this
+    /**
+     * The cross entropy loss function derivative for a single component
+     * @param yTrue The label or ground truth. Should be either 1 or 0.
+     * @param yPredicted The predicted output from a model, should be in range (0,1)
+     * @return The derivative of the loss function.
+     */
     private float CELossPrime(float yTrue, float yPredicted){
-        return 0;
+        float epsilon = 0.00001f;
+
+        if(yTrue == 1){
+            return -1f / (yPredicted + epsilon);
+        } else {
+            return 1f / (1 - yPredicted);
+        }
     }
 
 

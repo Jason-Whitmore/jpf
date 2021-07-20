@@ -2,8 +2,8 @@ public class Examples{
 
     private static final String OPTION_STRING = "Arg options:\n" + 
                                                 "LinearModel: simplelinear, complexlinear\n" + 
-                                                "PolynomialModel: polynomialsin, polynomialoverfit" + 
-                                                "NeuralNetwork: nnquadratic";
+                                                "PolynomialModel: polynomialsin, polynomialoverfit\n" + 
+                                                "NeuralNetwork: nnquadratic, nnoverfit, nnbinaryclassification";
 
     
     private static void simpleLinear(){
@@ -246,7 +246,7 @@ public class Examples{
     }
 
 
-    public static void nnquadratic(){
+    public static void nnQuadratic(){
         System.out.println("In this example, a neural network will be created to fit f(x) = x^2 for x in [-10, 10].");
         System.out.println("Over the course of training, the training loss will be recorded as well as the neural network output after each epoch");
         System.out.println("After training, the training loss will be recorded before the model is saved to disk, deallocated, and recreated from disk.");
@@ -351,7 +351,7 @@ public class Examples{
         System.out.println("Both losses should be very similar or the same.");
     }
 
-    public static void nnoverfit(){
+    public static void nnOverfit(){
         System.out.println("In this example, a demonstration of overfitting will be conducted using a neural network fitting to f(x)=x^2");
         System.out.println("Both a test and training dataset will be created with outputs from f(x) = x^2 for x in (-10, 10)");
         System.out.println("The standard 2 hidden neural network will be created with varying numbers of units in the hidden layers.");
@@ -359,7 +359,7 @@ public class Examples{
         System.out.println("At the end of the example, the results will be saved to nn_overfit_results.csv so that they can be graphed.\n");
 
         System.out.println("Creating the datasets...");
-        int n = 100;
+        int n = 30;
 
         float[][] trainX = new float[n][];
         float[][] trainY = new float[n][];
@@ -391,11 +391,11 @@ public class Examples{
         String[] header = {"Number of parameters", "Training loss", "Testing loss"};
         CSVWriter results = new CSVWriter("nn_overfit_results.csv", header);
 
-        for(int h = 10; h <= 80; h += 10){
+        for(int h = 20; h <= 120; h += 20){
             //Create the neural network
 
             //Perform multiple runs to average out results
-            int numRuns = 5;
+            int numRuns = 10;
 
             float trainLoss = 0;
             float testLoss = 0;
@@ -408,7 +408,7 @@ public class Examples{
 
                 NeuralNetwork nn = new NeuralNetwork(in, out);
 
-                nn.fit(trainX, trainY, 1000, 8, 10f, new RMSProp(), new MSE());
+                nn.fit(trainX, trainY, 10000, 8, 10f, new SGD(), new MSE());
 
                 trainLoss += Utility.mean(nn.calculateScalarLossBatch(trainX, trainY, new MSE()));
                 testLoss += Utility.mean(nn.calculateScalarLossBatch(testX, testY, new MSE()));
@@ -477,7 +477,7 @@ public class Examples{
         NeuralNetwork nn = new NeuralNetwork(in, out);
 
         System.out.println("Fitting the neural network.");
-        nn.fit(trainX, trainY, 100, 32, 0.1f, new RMSProp(), new CrossEntropy());
+        nn.fit(trainX, trainY, 500, 32, 0.1f, new RMSProp(), new CrossEntropy());
 
         System.out.println("Evaluating the neural network.");
         float trainLoss = Utility.mean(nn.calculateScalarLossBatch(trainX, trainY, new CrossEntropy()));
@@ -531,11 +531,15 @@ public class Examples{
                 break;
 
             case "nnquadratic":
-                nnquadratic();
+                nnQuadratic();
                 break;
 
             case "nnoverfit":
-                nnoverfit();
+                nnOverfit();
+                break;
+
+            case "nnbinaryclassification":
+                nnBinaryClassification();
                 break;
 
             default:

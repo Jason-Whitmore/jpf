@@ -212,7 +212,6 @@ public class NeuralNetwork extends Model{
 
         //Check parameters
         Utility.checkNotNull((Object)x, (Object)yTrue, loss);
-        Utility.checkArrayLengthsEqual(x, yTrue);
         Utility.checkEqual(x.length, this.inputLayers.get(0).inputVector.length);
         Utility.checkEqual(yTrue.length, this.outputLayers.get(0).outputVector.length);
 
@@ -320,7 +319,7 @@ public class NeuralNetwork extends Model{
         }
 
         Utility.checkNotNull((Object)x);
-        Utility.checkEqual(x.length, this.outputLayers.get(0).outputVector.length);
+        Utility.checkEqual(x.length, this.inputLayers.get(0).inputVector.length);
 
         float[][] xVectors = new float[1][x.length];
         Utility.copyArrayContents(x, xVectors[0]);
@@ -354,7 +353,7 @@ public class NeuralNetwork extends Model{
 
     /**
      * Makes a prediction on one data sample. Can be used for both simple and complex models.
-     * @param x The input vectors, one for each output layer.
+     * @param x The input vectors, one for each input layer.
      * @return The output vectors, one for each output layer.
      */
     public float[][] predict(float[][] x){
@@ -363,7 +362,7 @@ public class NeuralNetwork extends Model{
         Utility.checkEqual(x.length, this.inputLayers.size());
         for(int i = 0; i < x.length; i++){
             Utility.checkNotNull((Object)x[i]);
-            Utility.checkEqual(x.length, this.inputLayers.get(i).inputVector.length);
+            Utility.checkEqual(x[i].length, this.inputLayers.get(i).inputVector.length);
         }
         
 
@@ -522,7 +521,7 @@ public class NeuralNetwork extends Model{
                     float[][] trainX = x[indicies.get(mb).get(i)];
                     float[][] trainY = y[indicies.get(mb).get(i)];
 
-                    ArrayList<float[][]> rawGradient = calculateGradient(trainX, trainY, losses);
+                    ArrayList<float[][]> rawGradient = this.calculateGradient(trainX, trainY, losses);
 
                     //add gradient to minibatch pool
                     Utility.addList(minibatchGradient, rawGradient, 1.0f / indicies.get(mb).size());

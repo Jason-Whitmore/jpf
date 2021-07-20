@@ -218,3 +218,8 @@ nn_quadratic_output.csv:
 
 The neural network outputs at different epochs visually display the training process. Before training, at epoch 0, the outputs display a function that is not
 at all a representation of f(x) = x^2. However, as training progresses, the outputs start to resemble the target function that generated the training data.
+
+
+## nnoverfit
+
+## nnbinaryclassification
