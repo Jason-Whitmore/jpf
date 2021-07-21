@@ -238,7 +238,6 @@ After training, the training loss is displayed as well as an accuracy metric, wh
 Program output:
 
 ```
-
 In this example a demonstration of a binary classification task will be performed.
 A neural network will be constructed with an input vector of size two and an output vector of size 1 with a sigmoid activation function
 The training input data will be (x1,x2) coordinates with x1, x2 in range (0,1). Each (x1,x2) pair will be considered to be a member of 2 classes.
@@ -251,6 +250,56 @@ Fitting the neural network.
 Evaluating the neural network.
 Training loss: 0.27662688
 Accuracy (correct predictions / number of samples): 0.92
+```
+
+## nnresnet
+
+The nnresnet example demonstrates the building, fitting, saving, and loading of more complex neural network structures. In this example, two nearly identical
+neural networks are created with 4 Dense hidden layers with Tanh activation functions. The Resnet version, however, uses an Add layer, which combines output from
+multiple layers by using vector addition. With very deep neural networks, the vanishing gradient problem becomes apparent during the backward pass process.
+This is because if the input to the Tanh activation function is too high, the derivative of the function at that input approaches zero. With more layers, this
+effect is compounded and learning will slow. With an Add layer, however, connections are formed with layers near both the input and output sides of the network.
+Since the loss with respect to model weights is quite strong at the Add layer, the connected layers have two sources of loss signals (from both the Add layer and the
+"next" layer), which helps speed up learning.
+
+The normal 4 layer neural network looks like:
+
+![Normal 4 layer neural network](images/resnet_normal.png)
+
+The 4 layer ResNet version looks like:
+
+![Normal 4 layer neural network](images/resnet.png)
 
 
+In order to demonstrate the advantages of the ResNet architecture, both neural networks will be trained on data from the f(x1, x2) = (x1)^2 - (x2)^2 function.
+After every epoch of training, the training loss for each model will be recorded and graphed. The data will be placed in "resnet_results.csv".
+
+When graphed, the results show a clear trend:
+
+![Graph of Resnet vs Normal training loss](images/resnet_graph.png)
+
+
+It appears that the ResNet neural network trains faster compared to the normal architecture. It is worth noting that the ResNet model achieved faster training results
+while containing no additional parameters compared to the normal architecture. This is because the Add layer itself does not have any weight matrix or bias vector
+since it only adds up the input vectors using vector addition.
+
+
+Program output:
+
+```
+In this example, two very deep neural networks will be created with a small number of units in the hidden layers.
+Both neural networks will use the Tanh activation functions for the hidden layers. One of the neural networks will be
+implemented as a ResNet, which contains "skip connections" to a layer closer to the output layer.
+This is done via an Add layer, which contains no parameters and simply adds the output vectors from other layers together.
+Both neural networks will be trained on a dataset from the function f(x1,x2) = (x1)^2 - (x2)^2.
+Training loss will be measured at every epoch and compared on a graph.
+After training, the ResNet neural network will be saved to disk and loaded to test functionality.
+
+Creating the dataset...
+Creating the neural networks...
+Training both neural networks...
+Epoch loss data saved to disk. Will now save and load the resnet to test functionality.
+Loss before saving: 4.0896945
+Loss after loading: 4.0896945
+Both losses should be very close or equal to each other.
 ```

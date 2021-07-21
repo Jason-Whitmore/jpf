@@ -79,8 +79,11 @@ public class Add extends Layer{
         for(int j = 0; j < inputLayers.size(); j++){
             for(int i = 0; i < numUnits; i++){
                 this.inputVector[i] += inputLayers.get(j).getOutputVector()[i];
-                this.outputVector[i] += this.inputVector[i];
             }
+        }
+
+        for(int i = 0; i < this.outputVector.length; i++){
+            this.outputVector[i] = this.inputVector[i];
         }
     }
 

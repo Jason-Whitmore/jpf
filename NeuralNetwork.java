@@ -98,7 +98,7 @@ public class NeuralNetwork extends Model{
             this.allLayers.get(i).connectInputAndOutputLayers();
 
             //Check if the layer is an input layer
-            if(this.allLayers.get(i).getInputLayers().size() == 0 && this.allLayers.get(i) instanceof Input){
+            if(this.allLayers.get(i) instanceof Input){
                 this.inputLayers.add((Input)(this.allLayers.get(i)));
             }
 

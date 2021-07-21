@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Examples{
 
     private static final String OPTION_STRING = "Arg options:\n" + 
@@ -499,6 +501,102 @@ public class Examples{
         System.out.println("Accuracy (correct predictions / number of samples): " + accuracy);
     }
 
+
+    public static void nnResNet(){
+        System.out.println("In this example, two very deep neural networks will be created with a small number of units in the hidden layers.");
+        System.out.println("Both neural networks will use the Tanh activation functions for the hidden layers. One of the neural networks will be");
+        System.out.println("implemented as a ResNet, which contains \"skip connections\" to a layer closer to the output layer.");
+        System.out.println("This is done via an Add layer, which contains no parameters and simply adds the output vectors from other layers together.");
+        System.out.println("Both neural networks will be trained on a dataset from the function f(x1,x2) = (x1)^2 - (x2)^2.");
+        System.out.println("Training loss will be measured at every epoch and compared on a graph.");
+        System.out.println("After training, the ResNet neural network will be saved to disk and loaded to test functionality.\n");
+
+        System.out.println("Creating the dataset...");
+        int n = 1000;
+        float[][] trainX = new float[n][];
+        float[][] trainY = new float[n][];
+
+        for(int i = 0; i < n; i++){
+            float[] x = new float[2];
+            x[0] = Utility.getRandomUniform(-5f, 5f);
+            x[1] = Utility.getRandomUniform(-5f, 5f);
+
+            float[] y = new float[1];
+            y[0] = (x[0] * x[0]) - (x[1] * x[1]);
+
+            trainX[i] = x;
+            trainY[i] = y;
+        }
+
+        System.out.println("Creating the neural networks...");
+        int hiddenSize = 8;
+
+        Input normalIn = new Input(2);
+        Dense normalh1 = new Dense(hiddenSize, new Tanh(), normalIn);
+        Dense normalh2 = new Dense(hiddenSize, new Tanh(), normalh1);
+        Dense normalh3 = new Dense(hiddenSize, new Tanh(), normalh2);
+        Dense normalh4 = new Dense(hiddenSize, new Tanh(), normalh3);
+        Dense normalOut = new Dense(1, new Linear(), normalh4);
+
+        NeuralNetwork normal = new NeuralNetwork(normalIn, normalOut);
+
+        //Creating the resnet
+        Input resnetIn = new Input(2);
+        Dense resneth1 = new Dense(hiddenSize, new Tanh(), resnetIn);
+        Dense resneth2 = new Dense(hiddenSize, new Tanh(), resneth1);
+        Dense resneth3 = new Dense(hiddenSize, new Tanh(), resneth2);
+        Dense resneth4 = new Dense(hiddenSize, new Tanh(), resneth3);
+        ArrayList<Layer> layerList = new ArrayList<Layer>();
+
+        layerList.add(resneth1);
+        layerList.add(resneth2);
+        layerList.add(resneth3);
+        layerList.add(resneth4);
+        Add addLayer = new Add(layerList);
+
+        Dense resnetOut = new Dense(1, new Linear(), addLayer); 
+
+        NeuralNetwork resnet = new NeuralNetwork(resnetIn, resnetOut);
+
+        //Create the writer object
+        String[] headers = {"Epoch", "Normal training loss", "Resnet training loss"};
+        CSVWriter writer = new CSVWriter("resnet_results.csv", headers);
+
+        System.out.println("Training both neural networks...");
+
+        int epochs = 200;
+        for(int e = 0; e < epochs; e++){
+            normal.fit(trainX, trainY, 1, 32, 10, new SGD(0.0001f), new MSE());
+            resnet.fit(trainX, trainY, 1, 32, 10, new SGD(0.0001f), new MSE());
+
+            float normalLoss = Utility.mean(normal.calculateScalarLossBatch(trainX, trainY, new MSE()));
+            float resnetLoss = Utility.mean(resnet.calculateScalarLossBatch(trainX, trainY, new MSE()));
+
+            String[] row = {"" + e, "" + normalLoss, "" + resnetLoss};
+            writer.addRow(row);
+        }
+
+        writer.writeToFile();
+
+        System.out.println("Epoch loss data saved to disk. Will now save and load the resnet to test functionality.");
+
+        float beforeSave = Utility.mean(resnet.calculateScalarLossBatch(trainX, trainY, new MSE()));
+
+        resnet.saveModel("resnet_model");
+
+        resnet = null;
+
+        resnet = new NeuralNetwork("resnet_model");
+
+        float afterLoad = Utility.mean(resnet.calculateScalarLossBatch(trainX, trainY, new MSE()));
+
+        System.out.println("Loss before saving: " + beforeSave);
+        System.out.println("Loss after loading: " + afterLoad);
+
+        System.out.println("Both losses should be very close or equal to each other.");
+
+    }
+
     public static void main(String[] args){
 
         if(args.length != 1){
@@ -540,6 +638,10 @@ public class Examples{
 
             case "nnbinaryclassification":
                 nnBinaryClassification();
+                break;
+            
+            case "nnresnet":
+                nnResNet();
                 break;
 
             default:
