@@ -264,7 +264,7 @@ public class LinearAlgebra{
      */
     private static void matrixMultiplyParamCheck(float[][] a, float[][] b, float[][] result){
         Utility.checkNotNull((Object)a, (Object)b, (Object)result);
-        Utility.checkMatrixRectange(a, b, result);
+        Utility.checkMatrixRectangle(a, b, result);
 
         int aRows = LinearAlgebra.getNumRows(a);
         int aCols = LinearAlgebra.getNumColumns(a);
@@ -292,7 +292,7 @@ public class LinearAlgebra{
     public static float[][] matrixMultiply(float[][] a, float[][] b){
         //Check parameters
         Utility.checkNotNull((Object)a, (Object)b);
-        Utility.checkMatrixRectange(a, b);
+        Utility.checkMatrixRectangle(a, b);
 
         int aCols = LinearAlgebra.getNumColumns(a);
         int bRows = LinearAlgebra.getNumRows(b);
@@ -315,7 +315,7 @@ public class LinearAlgebra{
     public static void matrixAdd(float[][] a, float[][] b, float[][] result){
         //Check parameters
         Utility.checkNotNull((Object)a, (Object)b, (Object)result);
-        Utility.checkMatrixRectange(a, b, result);
+        Utility.checkMatrixRectangle(a, b, result);
         Utility.checkMatrixDimensionsEqual(a, b, result);
 
         for(int r = 0; r < LinearAlgebra.getNumRows(a); r++){
@@ -335,7 +335,7 @@ public class LinearAlgebra{
     public static float[][] matrixAdd(float[][] a, float[][] b){
         //Check parameters
         Utility.checkNotNull((Object)a, (Object)b);
-        Utility.checkMatrixRectange(a, b);
+        Utility.checkMatrixRectangle(a, b);
         Utility.checkMatrixDimensionsEqual(a, b);
 
         float[][] r = new float[getNumRows(a)][getNumColumns(a)];
@@ -356,7 +356,7 @@ public class LinearAlgebra{
     public static void elementwiseMultiply(float[][] a, float[][] b, float[][] result){
         //Check parameters
         Utility.checkNotNull((Object)a, (Object)b, (Object) result);
-        Utility.checkMatrixRectange(a, b, result);
+        Utility.checkMatrixRectangle(a, b, result);
         Utility.checkMatrixDimensionsEqual(a, b, result);
 
         for(int r = 0; r < a.length; r++){
@@ -377,7 +377,7 @@ public class LinearAlgebra{
     public static float[][] elementwiseMultiply(float[][] a, float[][] b){
         //Check parameters
         Utility.checkNotNull((Object)a, (Object)b);
-        Utility.checkMatrixRectange(a, b);
+        Utility.checkMatrixRectangle(a, b);
         Utility.checkMatrixDimensionsEqual(a, b);
 
         float[][] r = new float[LinearAlgebra.getNumRows(a)][LinearAlgebra.getNumColumns(a)];

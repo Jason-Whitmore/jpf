@@ -227,7 +227,9 @@ at all a representation of f(x) = x^2. However, as training progresses, the outp
 The nnbinaryclassification example demonstrates the use of neural networks for binary classification tasks which separate inputs into two distinct classes.
 In this example, the input data will be points on a 2d plane forming the tuple (x1, x2), where x1, x2 are in the range (0,1). Inputs that are within a circle
 whose center is at (0.5, 0.5) and has a radius 0.5 are part of class 0, and all else are part of class 1. The goal of the neural network classifier is to 
-find the "decision boundary" that separates these data points into the correct classes. In this example, the decision boundary is a circle.
+find the "decision boundary" that separates these data points into the correct classes. In this example, the decision boundary is a circle:
+
+![Binary classification decision boundary](images/binary_classification.png)
 
 The neural network classifier is a standard 2 hidden layer neural network. The Dense output layer uses the sigmoid activation function, which outputs numbers in the range (0, 1) which makes it ideal for binary classification tasks. This neural network is trained on generated data with a binary cross entropy loss, which uses binary values as
 the ground truths.
@@ -302,4 +304,44 @@ Epoch loss data saved to disk. Will now save and load the resnet to test functio
 Loss before saving: 4.0896945
 Loss after loading: 4.0896945
 Both losses should be very close or equal to each other.
+```
+
+## nnmulticlass
+
+The nnmulticlass example, like the nnbinaryclassification example, aims to classify the input data into separate classes. However, this example separates
+the input data into 4 distinct classes, rather than just 2. This is accompolished via using a SoftmaxLayer as the output layer, which outputs a discrete
+probability distribution.
+
+Like the binary classification example, input data will be (x1, x2) coordinates where x1, x2 are in the range (0, 1). The 4 classes correspond to the regions
+created when a square is divided by drawing lines to and from opposite corners:
+
+![Multiclass classification decision boundaries](images/multiclass_classification.png)
+
+The classifier is a standard 2 hidden layer neural network but uses a final Dense layer of size 4 followed by a SoftmaxLayer to turn the output into a
+discrete probability distribution. The training outputs are one-hot encoded, meaning that the index of the output component being equal to 1 is the class
+the input belongs to. For example, training output vector [0,0,1,0] means that the associated input vector belongs to class 3.
+
+Once the classifier is trained, both the training loss and accuracy (number of correct classifications / total number of samples) will be displayed. The predicted
+class is just the index of the output vector which is the highest.
+
+The classifier will also be saved and loaded from disk to test functionality.
+
+Program output:
+
+```
+In this example, a neural network will be constructed and trained to classify data points into 4 separate classes.
+Unlike the binary classification task, a softmax output layer will be used to predict the class the input belongs to.
+The input data will be (x1,x2) coordinates where x1, x2 are in (0,1). The classes where these points belong to are defined
+as the 4 regions created when 2 lines connect opposite corners of a unit square. Class 0 is the top region,
+class 1 is the right region, class 2 is the bottom region, class 3 is the left region.
+Like in the other examples, the neural network will also be saved to disk and loaded to test functionality.
+Creating the dataset...
+Creating neural network classifier...
+Fitting the neural network classifier...
+Training loss: 0.056657966
+Accuracy: 0.982
+
+Loss before saving model: 0.056657966
+Loss after loading model from disk: 0.056657966
+Both losses should be equal.
 ```

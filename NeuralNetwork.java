@@ -236,7 +236,7 @@ public class NeuralNetwork extends Model{
 
         //Check parameters
         Utility.checkNotNull((Object)x, (Object)yTrue, loss);
-        Utility.checkMatrixRectange(x, yTrue);
+        Utility.checkMatrixRectangle(x, yTrue);
         Utility.checkArrayLengthsEqual(x, yTrue);
         Utility.checkEqual(x[0].length, this.inputLayers.get(0).inputVector.length);
         Utility.checkEqual(yTrue[0].length, this.outputLayers.get(0).outputVector.length);

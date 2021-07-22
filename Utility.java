@@ -705,7 +705,7 @@ public class Utility{
      * Throws an assertion error if any of the matrix parameters are not a rectangle (all arrays must be the same size)
      * @param matrix The matrix parameters to check for
      */
-    public static void checkMatrixRectange(float[][]... matrix){
+    public static void checkMatrixRectangle(float[][]... matrix){
         if(matrix == null || matrix.length == 0){
             return;
         }
