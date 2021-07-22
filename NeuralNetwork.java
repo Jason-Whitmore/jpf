@@ -37,7 +37,7 @@ public class NeuralNetwork extends Model{
         this.outputLayers = new ArrayList<Layer>(1);
         this.outputLayers.add(outputLayer);
 
-        this.allLayers = serializeLayers();
+        this.allLayers = this.serializeLayers();
         this.updateParameters();
     }
 
@@ -51,7 +51,7 @@ public class NeuralNetwork extends Model{
 
         //Remove the header and footer
         layerInfo = layerInfo.replace("START ALL LAYER INFO\n", "");
-        layerInfo = layerInfo.replace("END ALL LAYER INFO", "");
+        layerInfo = layerInfo.replace("\nEND ALL LAYER INFO", "");
 
         //Split the strings based on layer
         String[] layerStrings = layerInfo.split("LAYER START\n");
@@ -660,9 +660,9 @@ public class NeuralNetwork extends Model{
 
         sb.append("START ALL LAYER INFO\n");
 
-        for(int i = 0; i < allLayers.size(); i++){
+        for(int i = 0; i < this.allLayers.size(); i++){
             sb.append("LAYER START\n");
-            sb.append(allLayers.get(i).toString());
+            sb.append(this.allLayers.get(i).toString());
             sb.append("\n");
             sb.append("LAYER END\n");
         }

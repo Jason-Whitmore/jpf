@@ -1,11 +1,12 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Examples{
 
     private static final String OPTION_STRING = "Arg options:\n" + 
                                                 "LinearModel: simplelinear, complexlinear\n" + 
                                                 "PolynomialModel: polynomialsin, polynomialoverfit\n" + 
-                                                "NeuralNetwork: nnquadratic, nnoverfit, nnbinaryclassification";
+                                                "NeuralNetwork: nnquadratic, nnoverfit, nnbinaryclassification, nnresnet";
 
     
     private static void simpleLinear(){
@@ -597,6 +598,97 @@ public class Examples{
 
     }
 
+
+    public static void nnMultiClass(){
+        System.out.println("In this example, a neural network will be constructed and trained to classify data points into 4 separate classes.");
+        System.out.println("Unlike the binary classification task, a softmax output layer will be used to predict the class the input belongs to.");
+        System.out.println("The input data will be (x1,x2) coordinates where x1, x2 are in (0,1). The classes where these points belong to are defined");
+        System.out.println("as the 4 regions created when 2 lines connect opposite corners of a unit square. Class 0 is the top region,");
+        System.out.println("class 1 is the right region, class 2 is the bottom region, class 3 is the left region.");
+        System.out.println("Like in the other examples, the neural network will also be saved to disk and loaded to test functionality.");
+
+        System.out.println("Creating the dataset...");
+        int n = 1000;
+        float[][] trainX = new float[n][];
+        float[][] trainY = new float[n][];
+
+        for(int i = 0; i < trainX.length; i++){
+            float[] x = new float[2];
+            x[0] = Utility.getRandomUniform(0f, 1f);
+            x[1] = Utility.getRandomUniform(0f, 1f);
+
+            float[] y = new float[4];
+
+            //Determine which class it belongs to be checking if it's above or below the two lines y = x and y = 1 - x
+            boolean aboveX = x[1] > x[0];
+            boolean aboveOther = x[1] > 1 - x[0];
+
+            int label = 0;
+            if(aboveX && aboveOther){
+                label = 0;
+            } else if(!aboveX && aboveOther){
+                label = 1;
+            } else if(!aboveX && !aboveOther){
+                label = 2;
+            } else {
+                label = 3;
+            }
+
+            y[label] = 1f;
+
+            trainX[i] = x;
+            trainY[i] = y;
+        }
+
+        System.out.println("Creating neural network classifier...");
+        int numHiddenUnits = 8;
+
+        Input in = new Input(2);
+        Dense hidden1 = new Dense(numHiddenUnits, new Tanh(), in);
+        Dense hidden2 = new Dense(numHiddenUnits, new Tanh(), hidden1);
+        Dense outDense = new Dense(4, new Linear(), hidden2);
+        SoftmaxLayer out = new SoftmaxLayer(outDense);
+
+        NeuralNetwork classifier = new NeuralNetwork(in, out);
+
+        System.out.println("Fitting the neural network classifier...");
+
+
+        classifier.fit(trainX, trainY, 200, 128, 0.1f, new RMSProp(0.001f, 0.9f, 0.00001f), new CrossEntropy());
+        
+
+        float trainLoss = Utility.mean(classifier.calculateScalarLossBatch(trainX, trainY, new CrossEntropy()));
+
+        //Calculate the accuracy
+        int numCorrect = 0;
+        for(int i = 0; i < trainX.length; i++){
+            
+            float[] output = classifier.predict(trainX[i]);
+            int predClass = Utility.argMax(output);
+            int trueClass = Utility.argMax(trainY[i]);
+
+            if(predClass == trueClass){
+                numCorrect++;
+            }
+        }
+
+        System.out.println("Training loss: " + trainLoss);
+        System.out.println("Accuracy: " + (((float)numCorrect) / trainX.length) + "\n");
+
+        //Save the model to disk and load it
+        String filename = "nn_multiclass_model";
+        classifier.saveModel(filename);
+        classifier = null;
+        classifier = new NeuralNetwork(filename);
+
+        float loadLoss = Utility.mean(classifier.calculateScalarLossBatch(trainX, trainY, new CrossEntropy()));
+
+        System.out.println("Loss before saving model: " + trainLoss);
+        System.out.println("Loss after loading model from disk: " + loadLoss);
+        System.out.println("Both losses should be equal.");
+
+    }
+
     public static void main(String[] args){
 
         if(args.length != 1){
@@ -642,6 +734,10 @@ public class Examples{
             
             case "nnresnet":
                 nnResNet();
+                break;
+
+            case "nnmulticlass":
+                nnMultiClass();
                 break;
 
             default:

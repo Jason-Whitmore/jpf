@@ -649,6 +649,24 @@ public class Utility{
             destination[i] = source[i];
         }
     }
+
+    /**
+     * Finds the argument (index) that contains the largest value in the array.
+     * @param array The array to search for the largest value in.
+     * @return The index of the element with the largest value in the array.
+     */
+    public static int argMax(float[] array){
+        Utility.checkNotNull(array);
+        int maxIndex = 0;
+
+        for(int i = 1; i < array.length; i++){
+            if(array[i] > array[maxIndex]){
+                maxIndex = i;
+            }
+        }
+
+        return maxIndex;
+    }
     
     /**
      * Throws an AssertionError when the any of the objects are null, else does nothing.
@@ -666,6 +684,7 @@ public class Utility{
             }
         }
     }
+
 
     /**
      * Throws an assertion error if the 2d array is ragged (some arrays are of different sizes), else does nothing.

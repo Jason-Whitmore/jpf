@@ -4,6 +4,8 @@
  */
 public class SoftmaxLayer extends Layer{
 
+    private float epsilon;
+
     /**
      * Basic constructor for the SoftmaxLayer, which output a discrete probability distribution.
      * @param inputLayer The layer whose output vector is the input vector for this layer.
@@ -14,6 +16,10 @@ public class SoftmaxLayer extends Layer{
         Utility.checkNotNull(inputLayer);
 
         int numUnits = inputLayer.outputVector.length;
+        this.inputLayers.add(inputLayer);
+
+        //Connect input layer to this layer
+        this.connectInputAndOutputLayers();
 
         this.inputVector = new float[numUnits];
         this.outputVector = new float[numUnits];
@@ -21,6 +27,7 @@ public class SoftmaxLayer extends Layer{
         this.dLdX = new float[numUnits];
         this.dLdY = new float[numUnits];
 
+        this.epsilon = 0.0001f;
     }
 
     /**
@@ -36,7 +43,7 @@ public class SoftmaxLayer extends Layer{
         int numUnits = Integer.parseInt(numUnitsString);
 
         if(numUnits <= 0){
-            throw new AssertionError("numUnits should be >= 0");
+            throw new AssertionError("numUnits should be > 0");
         }
 
         this.inputVector = new float[numUnits];
@@ -44,16 +51,22 @@ public class SoftmaxLayer extends Layer{
 
         this.dLdX = new float[numUnits];
         this.dLdY = new float[numUnits];
+
+        this.epsilon = 0.0001f;
     }
 
 
     public void forwardPass(){
+        //Bring over the previous layer's output into this layer's input vector
+        this.initializeInputVectorCopy();
 
         float expSum = 0;
 
         for(int i = 0; i < this.inputVector.length; i++){
             expSum += (float)Math.exp((double)this.inputVector[i]);
         }
+
+        expSum += this.epsilon;
 
         for(int i = 0; i < this.inputVector.length; i++){
             this.outputVector[i] = ((float)Math.exp((float) this.inputVector[i])) / expSum;
@@ -62,7 +75,7 @@ public class SoftmaxLayer extends Layer{
 
     public void backwardPass(){
         //Determine error vector from next layers
-        initializedLdY();
+        this.initializedLdY();
 
         //Determine sum of exponents before doing the backprop step
         float constant = 0;
@@ -78,9 +91,10 @@ public class SoftmaxLayer extends Layer{
             double exponential = Math.exp((double)this.inputVector[i]);
 
             //gradient from the calculus quotient rule
-            double gradient = (((exponential + constant) * exponential) - (exponential * exponential)) / (float)Math.pow((double)exponential, 2.0);
+            double dYdX = (constant * exponential) / (float)Math.pow((double)(constant + exponential), 2.0);
 
-            this.dLdX[i] = (float)gradient;
+            this.dLdX[i] = ((float)dYdX) * this.dLdY[i];
+            //System.out.println(this.dLdX[i]);
 
             //Add the current exponential to the constant
             constant += (float)Math.exp((double) this.inputVector[i]);
@@ -91,6 +105,6 @@ public class SoftmaxLayer extends Layer{
 
     public String toString(){
         int numUnits = this.outputVector.length;
-        return "Softmax(" + numUnits + ")";
+        return "SOFTMAX(" + numUnits + ")";
     }
 }

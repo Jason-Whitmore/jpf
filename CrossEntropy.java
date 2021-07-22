@@ -5,10 +5,27 @@
 public class CrossEntropy implements Loss{
 
     /**
+     * Very small value > 0 that prevents log(0) from being calculated
+     */
+    private float epsilon;
+
+    /**
      * Constructor that simply initializes the loss function object.
      */
     public CrossEntropy(){
+        this.epsilon = 0.0001f;
+    }
 
+    /**
+     * Constructor that creates the loss object with a specified epsilon.
+     * @param epsilon User defined epsilon. Should be > 0. Prevents loss from exploding.
+     */
+    public CrossEntropy(float epsilon){
+        if(epsilon <= 0){
+            throw new AssertionError("epsilon argument must be > 0.");
+        }
+
+        this.epsilon = epsilon;
     }
 
     /**
@@ -19,9 +36,9 @@ public class CrossEntropy implements Loss{
      */
     private float CELoss(float yTrue, float yPredicted){
         if(yTrue == 1){
-            return (float)(-Math.log((yPredicted)));
+            return (float)(-Math.log((yPredicted + this.epsilon)));
         } else {
-            return (float)(-Math.log((1f - yPredicted)));
+            return (float)(-Math.log((1f - yPredicted + this.epsilon)));
         }
     }
 
@@ -32,12 +49,11 @@ public class CrossEntropy implements Loss{
      * @return The derivative of the loss function.
      */
     private float CELossPrime(float yTrue, float yPredicted){
-        float epsilon = 0.00001f;
 
         if(yTrue == 1){
-            return -1f / (yPredicted + epsilon);
+            return -1f / (yPredicted + this.epsilon);
         } else {
-            return 1f / (1 - yPredicted);
+            return 1f / (1 - yPredicted + this.epsilon);
         }
     }
 
