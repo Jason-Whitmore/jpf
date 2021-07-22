@@ -31,4 +31,8 @@ public class Sigmoid extends ActivationFunction{
         
         return f(x) * (1 - f(x));
     }
+
+    public String toString(){
+        return "SIGMOID";
+    }
 }

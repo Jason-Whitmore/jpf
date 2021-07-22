@@ -152,7 +152,25 @@ public class NeuralNetwork extends Model{
 
         ArrayList<Layer> r = new ArrayList<Layer>();
 
-        stack.push(inputLayers.get(0));
+        //First, add the input layers in order
+        for(int i = 0; i < this.inputLayers.size(); i++){
+            r.add(this.inputLayers.get(i));
+            visited.add(this.inputLayers.get(i));
+
+            for(int j = 0; j < this.inputLayers.get(i).getOutputLayers().size(); j++){
+                stack.push(this.inputLayers.get(i).getOutputLayers().get(j));
+            }
+        }
+
+        //Add the output layers in order
+        for(int i = 0; i < this.outputLayers.size(); i++){
+            r.add(this.outputLayers.get(i));
+            visited.add(this.outputLayers.get(i));
+
+            for(int j = 0; j < this.outputLayers.get(i).getInputLayers().size(); j++){
+                stack.push(this.outputLayers.get(i).getInputLayers().get(j));
+            }
+        }
 
         while(!stack.empty()){
 
@@ -283,7 +301,7 @@ public class NeuralNetwork extends Model{
      * Calculates the scalar loss on multiple data samples for a complex model.
      * @param x The input data samples.
      * @param yTrue The output data samples.
-     * @param losses The loss function, one for each output vector.
+     * @param losses The loss functions, one for each output vector.
      * @return The scalar losses, for each sample (first index) and each output vector (second index)
      */
     public float[][] calculateScalarLossBatch(float[][][] x, float[][][] yTrue, Loss[] losses){
@@ -305,6 +323,23 @@ public class NeuralNetwork extends Model{
         }
 
         return r;
+    }
+
+    /**
+     * Calculates the scalar loss on multiple data samples for a complex model.
+     * @param x The input data samples.
+     * @param yTrue The output data samples.
+     * @param losses The loss functions, one for each output vector.
+     * @return The scalar losses, for each sample (first index) and each output vector (second index)
+     */
+    public float[][] calculateScalarLossBatch(float[][][] x, float[][][] yTrue, ArrayList<Loss> losses){
+        //Check only the loss parameters, since the other parameters will be checked in the next function call.
+
+        Utility.checkNotNull(losses);
+        Loss[] lossArray = new Loss[losses.size()];
+        lossArray = losses.toArray(lossArray);
+
+        return this.calculateScalarLossBatch(x, yTrue, lossArray);
     }
 
 

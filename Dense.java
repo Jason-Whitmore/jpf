@@ -134,11 +134,10 @@ public class Dense extends Layer {
      * for specific syntax.
      */
     private void initializeActivationFunctionFromString(String layerInfoString){
-        String headerInfo = layerInfoString.substring(0, layerInfoString.indexOf(")") + 1);
-        headerInfo = headerInfo.replace("(", "");
-        headerInfo = headerInfo.replace(")", "");
+        String headerInfo = layerInfoString.substring(0, layerInfoString.indexOf("\n"));
 
         String[] headerInfoSplit = headerInfo.split(",");
+        headerInfoSplit[1] = headerInfoSplit[1].substring(0, headerInfoSplit[1].lastIndexOf(")"));
         headerInfoSplit[1] = headerInfoSplit[1].trim();
         this.activationFunction = ActivationFunction.constructFromString(headerInfoSplit[1]);
     }

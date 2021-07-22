@@ -691,7 +691,99 @@ public class Examples{
 
 
     public static void nnComplex(){
+        System.out.println("In this example, an overly complex neural network will be constructed to demonstrate the versatility of the computation graph model");
+        System.out.println("which is used to implement neural networks in this library. A neural network will be constructed using 3 separate Input layers and ");
+        System.out.println("3 output layers, 2 of which will be Dense and 1 a SoftmaxLayer. The neural network will be trained on dummy data and different loss");
+        System.out.println("functions for each layer. The saving and loading from disk functionality will also be tested.");
 
+        System.out.println("Creating the neural network...");
+
+        Input in1 = new Input(3);
+        Input in2 = new Input(4);
+        Input in3 = new Input(5);
+
+        Dense h1 = new Dense(10, new LeakyReLU(0.1f), in1);
+        Dense h2 = new Dense(10, new LeakyReLU(0.1f), in2);
+        Dense h3 = new Dense(10, new LeakyReLU(0.1f), in3);
+
+        ArrayList<Layer> layerList = new ArrayList<Layer>();
+
+        layerList.add(h1);
+        layerList.add(h2);
+        layerList.add(h3);
+
+        Add addLayer = new Add(layerList);
+
+        Dense h4 = new Dense(12, new Tanh(), addLayer);
+        Dense h5 = new Dense(10, new LeakyReLU(0.1f), h4);
+        Dense h6 = new Dense(10, new LeakyReLU(0.1f), h5);
+        Dense outDense1 = new Dense(5, new Sigmoid(), h6);
+        SoftmaxLayer outSoftmax = new SoftmaxLayer(h6);
+        
+        Dense h7 = new Dense(10, new LeakyReLU(0.1f), h4);
+        Dense h8 = new Dense(10, new LeakyReLU(0.1f), h7);
+        Dense outDense2 = new Dense(5, new Sigmoid(), h8);
+
+        ArrayList<Input> inputLayers = new ArrayList<Input>();
+        inputLayers.add(in1);
+        inputLayers.add(in2);
+        inputLayers.add(in3);
+
+        ArrayList<Layer> outputLayers = new ArrayList<Layer>();
+        outputLayers.add(outDense1);
+        outputLayers.add(outDense2);
+        outputLayers.add(outSoftmax);
+
+        NeuralNetwork nn = new NeuralNetwork(inputLayers, outputLayers);
+
+        System.out.println("Creating the dummy training data.");
+
+        int n = 1000;
+        float[][][] trainX = new float[n][][];
+        float[][][] trainY = new float[n][][];
+
+        for(int i = 0; i < trainX.length; i++){
+            float[][] x = new float[3][];
+            float[][] y = new float[3][];
+
+            x[0] = Utility.getRandomUniform(0f, 1f, 3);
+            x[1] = Utility.getRandomUniform(0f, 1f, 4);
+            x[2] = Utility.getRandomUniform(0f, 1f, 5);
+
+            y[0] = Utility.getRandomUniform(0f, 5f, 5);
+            y[1] = Utility.getRandomUniform(0f, 10f, 5);
+            y[2] = new float[10];
+            y[2][(int)Utility.getRandomUniform(0, 10)] = 1;
+
+            trainX[i] = x;
+            trainY[i] = y;
+        }
+
+        System.out.println("Fitting the neural network...");
+
+        //Create separate losses for each output layer
+        ArrayList<Loss> losses = new ArrayList<Loss>();
+        losses.add(new MSE());
+        losses.add(new MSE());
+        losses.add(new CrossEntropy());
+
+        nn.fit(trainX, trainY, 100, 32, 0.1f, new RMSProp(), losses);
+
+        float trainLoss = Utility.mean(nn.calculateScalarLossBatch(trainX, trainY, losses));
+
+        System.out.println("Neural network fitting complete.\nTraining loss before saving: " + trainLoss);
+        String path = "nn_complex_model";
+
+        nn.saveModel(path);
+
+        nn = null;
+
+        nn = new NeuralNetwork(path);
+
+        float loadLoss = Utility.mean(nn.calculateScalarLossBatch(trainX, trainY, losses));
+
+        System.out.println("Training loss after loading: " + loadLoss);
+        System.out.println("The before saving and after loading losses should be very similar or equal.");
     }
 
     public static void main(String[] args){
@@ -743,6 +835,10 @@ public class Examples{
 
             case "nnmulticlass":
                 nnMultiClass();
+                break;
+
+            case "nncomplex":
+                nnComplex();
                 break;
 
             default:

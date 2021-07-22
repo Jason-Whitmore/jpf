@@ -147,6 +147,24 @@ public class Utility{
         return sum(a) / a.length;
     }
 
+    /**
+     * Computes the mean value of the provided data.
+     * @param a The input data to find the mean value of.
+     * @return The mean value.
+     */
+    public static float mean(float[][] a){
+        Utility.checkNotNull((Object)a);
+
+        float sum = 0;
+        int entryCount = 0;
+        for(int i = 0; i < a.length; i++){
+            sum += mean(a[i]);
+            entryCount += a.length;
+        }
+
+        return sum / entryCount;
+    }
+
 
     /**
      * Sets all the elements of the array to zero.
@@ -448,7 +466,7 @@ public class Utility{
     /**
      * Gets a random sample from a uniform distribution in [lowerBound, upperBound)
      * @param lowerBound The smallest value that can be returned.
-     * @param upperBound The exclsuive upper boundary for values that can be returned.
+     * @param upperBound The exlusive upper boundary for values that can be returned.
      * @return The random sample.
      */
     public static float getRandomUniform(float lowerBound, float upperBound){
@@ -459,6 +477,31 @@ public class Utility{
         float delta = upperBound - lowerBound;
 
         return lowerBound + delta * ((float)Math.random());
+    }
+
+    /**
+     * Creates an array from a uniform distribution in [lowerBound, upperBound)
+     * @param lowerBound The smallest value that an entry can be.
+     * @param upperBound The largest value that an entry can be.
+     * @param arrayLength The length of the random array. Should be >= 1
+     * @return The randomized array.
+     */
+    public static float[] getRandomUniform(float lowerBound, float upperBound, int arrayLength){
+        if(upperBound < lowerBound){
+            throw new AssertionError("upperBound is lower than lowerBound");
+        }
+
+        if(arrayLength <= 0){
+            throw new AssertionError("arrayLength needs to be >= 1");
+        }
+
+        float[] r = new float[arrayLength];
+
+        for(int i = 0; i < r.length; i++){
+            r[i] = Utility.getRandomUniform(lowerBound, upperBound);
+        }
+
+        return r;
     }
 
 
