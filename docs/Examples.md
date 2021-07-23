@@ -409,5 +409,16 @@ be saved to disk and loaded back into memory to check if that functionality work
 Program output:
 
 ```
-
+In this example, an overly complex neural network will be constructed to demonstrate the versatility of the computation graph model
+which is used to implement neural networks in this library. A neural network will be constructed using 3 separate Input layers and 
+3 output layers, 2 of which will be Dense and 1 a SoftmaxLayer. The neural network will be trained on dummy data and different loss
+functions for each layer. The saving and loading from disk functionality will also be tested.
+Creating the neural network...
+Creating the dummy training data.
+Loss before fitting: 0.0023861455
+Fitting the neural network...
+Neural network fitting complete.
+Training loss before saving: 0.0014624867
+Training loss after loading: 0.0014624867
+The before saving and after loading losses should be very similar or equal.
 ```
