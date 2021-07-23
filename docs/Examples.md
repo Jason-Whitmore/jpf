@@ -345,3 +345,23 @@ Loss before saving model: 0.056657966
 Loss after loading model from disk: 0.056657966
 Both losses should be equal.
 ```
+
+
+## nncomplex
+
+In this example, an overly complex neural network will be constructed in order to demonstrate the computation graph model implementation of neural networks.
+This complex neural network will feature multiple input and output layers. Between the input and output layers will be a complex network of layers connect to
+each other which forms the core of the neural network:
+
+![Complex neural network diagram](images/nn_complex.png)
+
+This structure also demonstrates the usage of Add layers, which can accept outputs from multiple input layers and outputs a single vector.
+
+The neural network will then be trained on a dummy data set to check that learning does occur (albeit overfitting). The neural network will then
+be saved to disk and loaded back into memory to check if that functionality works.
+
+Program output:
+
+```
+
+```

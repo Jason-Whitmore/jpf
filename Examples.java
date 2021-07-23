@@ -1,12 +1,11 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Examples{
 
     private static final String OPTION_STRING = "Arg options:\n" + 
                                                 "LinearModel: simplelinear, complexlinear\n" + 
                                                 "PolynomialModel: polynomialsin, polynomialoverfit\n" + 
-                                                "NeuralNetwork: nnquadratic, nnoverfit, nnbinaryclassification, nnresnet";
+                                                "NeuralNetwork: nnquadratic, nnoverfit, nnbinaryclassification, nnresnet, nnmulticlass, nncomplex";
 
     
     private static void simpleLinear(){
@@ -731,8 +730,9 @@ public class Examples{
 
         ArrayList<Layer> outputLayers = new ArrayList<Layer>();
         outputLayers.add(outDense1);
-        outputLayers.add(outDense2);
         outputLayers.add(outSoftmax);
+        outputLayers.add(outDense2);
+
 
         NeuralNetwork nn = new NeuralNetwork(inputLayers, outputLayers);
 
@@ -751,15 +751,17 @@ public class Examples{
             x[2] = Utility.getRandomUniform(0f, 1f, 5);
 
             y[0] = Utility.getRandomUniform(0f, 5f, 5);
-            y[1] = Utility.getRandomUniform(0f, 10f, 5);
-            y[2] = new float[10];
-            y[2][(int)Utility.getRandomUniform(0, 10)] = 1;
+            
+            y[1] = new float[10];
+            y[1][(int)Utility.getRandomUniform(0, 10)] = 1f;
+
+            y[2] = Utility.getRandomUniform(0f, 10f, 5);
+
 
             trainX[i] = x;
             trainY[i] = y;
         }
 
-        System.out.println("Fitting the neural network...");
 
         //Create separate losses for each output layer
         ArrayList<Loss> losses = new ArrayList<Loss>();
@@ -767,6 +769,10 @@ public class Examples{
         losses.add(new MSE());
         losses.add(new CrossEntropy());
 
+        float preFitLoss = Utility.mean(nn.calculateScalarLossBatch(trainX, trainY, losses));
+        System.out.println("Loss before fitting: " + preFitLoss);
+
+        System.out.println("Fitting the neural network...");
         nn.fit(trainX, trainY, 100, 32, 0.1f, new RMSProp(), losses);
 
         float trainLoss = Utility.mean(nn.calculateScalarLossBatch(trainX, trainY, losses));
