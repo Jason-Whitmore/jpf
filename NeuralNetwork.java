@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Stack;
@@ -46,32 +45,55 @@ public class NeuralNetwork extends Model{
         super();
         String neuralNetworkInfo = Utility.getTextFileContents(filePath);
 
-        //Isolate the layer information
-        String layerInfo = neuralNetworkInfo.substring(neuralNetworkInfo.indexOf("START ALL LAYER INFO"));
+        this.allLayers = this.layersFromString(neuralNetworkInfo);
 
-        //Remove the header and footer
-        layerInfo = layerInfo.replace("START ALL LAYER INFO\n", "");
-        layerInfo = layerInfo.replace("\nEND ALL LAYER INFO", "");
+        this.connectLayers(neuralNetworkInfo);
 
-        //Split the strings based on layer
-        String[] layerStrings = layerInfo.split("LAYER START\n");
+        //Connect all the layers input and output layers, also, create the input and output layers lists
+        this.inputLayers = this.createInputLayerList();
+        this.outputLayers = this.createOutputLayerList();
+    }
 
-        this.allLayers = new ArrayList<Layer>();
-        //Construct the layers. Start at index 1 since index 0 is an empty string.
-        for(int i = 0; i < layerStrings.length; i++){
-            //Remove the footer string
-            layerStrings[i] = layerStrings[i].replace("\nLAYER END\n", "");
+    /**
+     * Creates the output layer list based on layers inside of the allLayers field.
+     * @return The populated list of output layers.
+     */
+    private ArrayList<Layer> createOutputLayerList(){
+        ArrayList<Layer> outputs = new ArrayList<Layer>();
 
-            //Due to the way split works, there may be empty strings in layerStrings array, which should not be read from.
-            if(!layerStrings[i].equals("")){
-                Layer l = Layer.createLayerFromString(layerStrings[i]);
-                if(l == null){
-                    throw new AssertionError("Layer creation from string failed on index " + i);
-                }
-                this.allLayers.add(l);
+        for(int i = 0; i < this.allLayers.size(); i++){
+            //Check if the layer is an output layer (layers with no outgoing layers)
+            if(this.allLayers.get(i).getOutputLayers().size() == 0){
+                outputs.add(this.allLayers.get(i));
             }
         }
 
+        return outputs;
+    }
+
+    /**
+     * Creates the input layer list based on the layers inside of the allLayers field.
+     * @return The populated list of input layers.
+     */
+    private ArrayList<Input> createInputLayerList(){
+        ArrayList<Input> inputs = new ArrayList<Input>();
+
+        for(int i = 0; i < this.allLayers.size(); i++){
+            //Check to see if the layer is an input layer
+            if(this.allLayers.get(i) instanceof Input){
+                inputs.add((Input)(this.allLayers.get(i)));
+            }
+        }
+
+        return inputs;
+    }
+
+    /**
+     * Reads the adjacency list information stored inside a neural network info string and connects
+     * the layers together. The allLayers field should be already created and populated.
+     * @param neuralNetworkInfo The string read from the file created from the saveModel() method.
+     */
+    private void connectLayers(String neuralNetworkInfo){
         //Isolate the layer connection information
         String layerConnectionInfo = neuralNetworkInfo.substring(0, neuralNetworkInfo.indexOf("END LAYER CONNECTIONS INFO"));
         layerConnectionInfo = layerConnectionInfo.replace("START LAYER CONNECTIONS INFO\n", "");
@@ -90,24 +112,46 @@ public class NeuralNetwork extends Model{
             }
         }
 
-        //Connect all the layers input and output layers, also, create the input and output layers lists
-        this.inputLayers = new ArrayList<Input>();
-        this.outputLayers = new ArrayList<Layer>();
-
+        //Connect the "backwards" connections (connect from output to input layers)
         for(int i = 0; i < this.allLayers.size(); i++){
             this.allLayers.get(i).connectInputAndOutputLayers();
+        }
+    }
 
-            //Check if the layer is an input layer
-            if(this.allLayers.get(i) instanceof Input){
-                this.inputLayers.add((Input)(this.allLayers.get(i)));
-            }
+    /**
+     * Initializes the layers of the neural network from a string. Throws an Assertion error on failure to create a layer.
+     * @param neuralNetworkInfo The string that is output from the contents written to disk from the saveModel() method
+     * @return An ArrayList of initialized layers.
+     */
+    private ArrayList<Layer> layersFromString(String neuralNetworkInfo){
+        //Isolate the layer information
+        String layerInfo = neuralNetworkInfo.substring(neuralNetworkInfo.indexOf("START ALL LAYER INFO"));
 
-            //Check if the layer is an output layer
-            if(this.allLayers.get(i).getOutputLayers().size() == 0){
-                this.outputLayers.add(this.allLayers.get(i));
+        //Remove the header and footer
+        layerInfo = layerInfo.replace("START ALL LAYER INFO\n", "");
+        layerInfo = layerInfo.replace("\nEND ALL LAYER INFO", "");
+
+        //Split the strings based on layer
+        String[] layerStrings = layerInfo.split("LAYER START\n");
+
+        ArrayList<Layer> layers = new ArrayList<Layer>();
+        //Construct the layers. Start at index 1 since index 0 is an empty string.
+        for(int i = 0; i < layerStrings.length; i++){
+            //Remove the footer string
+            layerStrings[i] = layerStrings[i].replace("\nLAYER END\n", "");
+
+            //Due to the way split works, there may be empty strings in layerStrings array, which should not be read from.
+            if(!layerStrings[i].equals("")){
+                Layer l = Layer.createLayerFromString(layerStrings[i]);
+                if(l == null){
+                    throw new AssertionError("Layer creation from string failed on index " + i);
+                }
+                
+                layers.add(l);
             }
         }
 
+        return layers;
     }
 
     private ArrayList<ArrayList<Integer>> connectionInfoToAdjList(String layerConnectionInfo){
