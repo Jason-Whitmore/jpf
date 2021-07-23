@@ -390,17 +390,16 @@ public class Examples{
 
         System.out.println("Creating and training the neural networks...");
 
-        String[] header = {"Number of parameters", "Training loss", "Testing loss"};
+        String[] header = {"Number of parameters", "Test / train loss ratio"};
         CSVWriter results = new CSVWriter("nn_overfit_results.csv", header);
 
-        for(int h = 20; h <= 120; h += 20){
+        for(int h = 5; h <= 30; h += 5){
             //Create the neural network
 
             //Perform multiple runs to average out results
             int numRuns = 10;
 
-            float trainLoss = 0;
-            float testLoss = 0;
+            float ratio = 0;
             int numParameters = 0;
             for(int run = 0; run < numRuns; run++){
                 Input in = new Input(1);
@@ -410,22 +409,23 @@ public class Examples{
 
                 NeuralNetwork nn = new NeuralNetwork(in, out);
 
-                nn.fit(trainX, trainY, 10000, 8, 10f, new SGD(), new MSE());
+                nn.fit(trainX, trainY, 2000, 8, 0.01f, new RMSProp(0.001f, 0.9f, 0.0001f), new MSE());
 
-                trainLoss += Utility.mean(nn.calculateScalarLossBatch(trainX, trainY, new MSE()));
-                testLoss += Utility.mean(nn.calculateScalarLossBatch(testX, testY, new MSE()));
+                float trainLoss = Utility.mean(nn.calculateScalarLossBatch(trainX, trainY, new MSE()));
+                float testLoss = Utility.mean(nn.calculateScalarLossBatch(testX, testY, new MSE()));
+
+                ratio += testLoss / trainLoss;
+
                 numParameters = nn.getParameterCount();
             }
 
-            trainLoss /= numRuns;
-            testLoss /= numRuns;
+            ratio /= numRuns;
             
             System.out.println("Num parameters: " + numParameters);
-            System.out.println("Training loss: " + trainLoss);
-            System.out.println("Testing loss: " + testLoss);
+            System.out.println("Test loss / train loss ratio: " + ratio);
             System.out.println();
 
-            String[] newRow = {"" + numParameters, "" + trainLoss, "" + testLoss};
+            String[] newRow = {"" + numParameters, "" + ratio};
 
             results.addRow(newRow);
         }

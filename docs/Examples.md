@@ -67,8 +67,6 @@ Loading model from disk...
 Model loaded. Check loss. Loss from model should mostly match to loaded model:
 Loss from trained model: 7.126446E-11
 Loss from loaded model: 7.126446E-11
-
-
 ```
 
 
@@ -115,6 +113,8 @@ This polynomial can be plotted alongside sin(x):
 
 
 ![sin(x) approximation](images/sin_approximation.png)
+
+(Graph made via Desmos)
 
 where the red line is sin(x) and the blue line is the learned polynomial.
 
@@ -167,6 +167,26 @@ At the end of training, both the training loss data and the output data will be 
 The model saving/loading functionality will be tested, and the model will be saved to disk before being removed from memory. Then, a new model will be created from
 the disk file. The training loss before and after loading the model from disk will determine if the model saving and loading process was sucessful.
 
+
+
+Using external software that can produce plots, the following graphs can be made:
+
+nn_quadratic_loss.csv:
+
+
+![nn_quadratic_loss](images/nn_quadratic_loss.png)
+
+The loss curve here is what is expected when training a neural network with a sufficient number of parameters. Loss starts out high
+and decreases slowly as the training process continues.
+
+
+nn_quadratic_output.csv:
+
+![nn_quadratic_output](images/nn_quadratic_output.png)
+
+The neural network outputs at different epochs visually display the training process. Before training, at epoch 0, the outputs display a function that is not
+at all a representation of f(x) = x^2. However, as training progresses, the outputs start to resemble the target function that generated the training data.
+
 Program output:
 
 ```
@@ -201,26 +221,50 @@ Training loss function data written to disk. Check for nn_quadratic_loss.csv whe
 Function output data written to disk. Check for nn_quadratic_output.csv where Examples.java is.
 ```
 
-Using external software that can produce plots, the following graphs can be made:
-
-nn_quadratic_loss.csv:
-
-
-![nn_quadratic_loss](images/nn_quadratic_loss.png)
-
-The loss curve here is what is expected when training a neural network with a sufficient number of parameters. Loss starts out high
-and decreases slowly as the training process continues.
-
-
-nn_quadratic_output.csv:
-
-![nn_quadratic_output](images/nn_quadratic_output.png)
-
-The neural network outputs at different epochs visually display the training process. Before training, at epoch 0, the outputs display a function that is not
-at all a representation of f(x) = x^2. However, as training progresses, the outputs start to resemble the target function that generated the training data.
-
-
 ## nnoverfit
+
+Similar to the polynomialoverfit example, several neural networks will be trained with varying numbers of model parameters on a training dataset of fixed size from
+the function f(x)=x^2. A testing dataset will also be created using the same function.
+After training, both a test loss and a training loss will be calculated. The datapoint (number of model parameters, test loss / train loss ratio) will be 
+displayed to the user and written as a row to "nn_overfit_results.csv" located in the same folder as Examples.java
+
+As the number of parameters goes up, we should expect to see the ratio of test loss / train loss increase as the neural network overfits, or "memorizes" the
+training dataset rather than generalizing from it. Overfitted models tend to have very loss training loss (memorizing the training dataset) and very high test
+loss (from lack of generalization).
+
+nn_overfit_results.csv:
+
+![nn_overfit_results](images/nn_overfit.png)
+
+Program output:
+
+```
+In this example, a demonstration of overfitting will be conducted using a neural network fitting to f(x)=x^2
+Both a test and training dataset will be created with outputs from f(x) = x^2 for x in (-10, 10)
+The standard 2 hidden neural network will be created with varying numbers of units in the hidden layers.
+After a neural network is trained, the loss will be collected for both the training and testing datasets.
+At the end of the example, the results will be saved to nn_overfit_results.csv so that they can be graphed.
+
+Creating the datasets...
+Creating and training the neural networks...
+Num parameters: 46
+Test loss / train loss ratio: 1.2635438
+
+Num parameters: 141
+Test loss / train loss ratio: 2.6470084
+
+Num parameters: 286
+Test loss / train loss ratio: 3.3848176
+
+Num parameters: 481
+Test loss / train loss ratio: 3.3822563
+
+Num parameters: 726
+Test loss / train loss ratio: 3.8637547
+
+Num parameters: 1021
+Test loss / train loss ratio: 4.4191437
+```
 
 ## nnbinaryclassification
 
@@ -276,7 +320,9 @@ The 4 layer ResNet version looks like:
 In order to demonstrate the advantages of the ResNet architecture, both neural networks will be trained on data from the f(x1, x2) = (x1)^2 - (x2)^2 function.
 After every epoch of training, the training loss for each model will be recorded and graphed. The data will be placed in "resnet_results.csv".
 
-When graphed, the results show a clear trend:
+When graphed, the results show a clear trend.
+
+resnet_results.csv:
 
 ![Graph of Resnet vs Normal training loss](images/resnet_graph.png)
 
