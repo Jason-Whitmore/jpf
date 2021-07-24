@@ -9,12 +9,24 @@ import java.util.Stack;
  */
 public class NeuralNetwork extends Model{
 
+    /**
+     * The list of input layers which will recieve the input vectors during computations.
+     * These have an in-degree of 0.
+     */
     private ArrayList<Input> inputLayers;
 
+    /**
+     * The list of output layers which output the predictions.
+     * These have an out-degree of 0.
+     */
     private ArrayList<Layer> outputLayers;
 
+    /**
+     * The list of all layers in the neural network, ordering done via algorithm in serializeLayers().
+     */
     private ArrayList<Layer> allLayers;
 
+    
     public NeuralNetwork(ArrayList<Input> inputLayers, ArrayList<Layer> outputLayers){
         super();
 
@@ -52,6 +64,16 @@ public class NeuralNetwork extends Model{
         //Connect all the layers input and output layers, also, create the input and output layers lists
         this.inputLayers = this.createInputLayerList();
         this.outputLayers = this.createOutputLayerList();
+    }
+
+    /**
+     * Detects if the neural network has a cycle in it (possible to form a path that visits a layer twice).
+     * Cycles cannot work in this implementation.
+     * @return True if there is a cycle in the neural network, else false.
+     */
+    private boolean hasCycle(){
+        //TODO: Complete this method.
+        return false;
     }
 
     /**
