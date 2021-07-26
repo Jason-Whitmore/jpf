@@ -26,7 +26,12 @@ public class NeuralNetwork extends Model{
      */
     private ArrayList<Layer> allLayers;
 
-    
+    /**
+     * Constructor for creating Neural Networks using lists of input and output vectors.
+     * This is the most common way of constructing complex (multi input and output) neural networks.
+     * @param inputLayers The input layers to the neural network.
+     * @param outputLayers The output layers to the neural network.
+     */
     public NeuralNetwork(ArrayList<Input> inputLayers, ArrayList<Layer> outputLayers){
         super();
 
@@ -35,6 +40,10 @@ public class NeuralNetwork extends Model{
 
         allLayers = this.serializeLayers();
         this.updateParameters();
+
+        if(this.hasCycle()){
+            throw new AssertionError("Neural network contains a cycle, which is forbidden.");
+        }
     }
 
 
@@ -50,6 +59,10 @@ public class NeuralNetwork extends Model{
 
         this.allLayers = this.serializeLayers();
         this.updateParameters();
+
+        if(this.hasCycle()){
+            throw new AssertionError("Neural network contains a cycle, which is forbidden.");
+        }
     }
 
 
@@ -64,6 +77,10 @@ public class NeuralNetwork extends Model{
         //Connect all the layers input and output layers, also, create the input and output layers lists
         this.inputLayers = this.createInputLayerList();
         this.outputLayers = this.createOutputLayerList();
+
+        if(this.hasCycle()){
+            throw new AssertionError("Neural network contains a cycle, which is forbidden.");
+        }
     }
 
     /**
@@ -72,8 +89,50 @@ public class NeuralNetwork extends Model{
      * @return True if there is a cycle in the neural network, else false.
      */
     private boolean hasCycle(){
-        //TODO: Complete this method.
+        
+        for(int i = 0; i < this.allLayers.size(); i++){
+
+            if(this.hasCycle(this.allLayers.get(i))){
+                return true;
+            }
+
+        }
+
+
         return false;
+    }
+
+    /**
+     * Detects if there is a path (cycle) that starts at source and eventually returns to the source
+     * @param source The source layer to detect a cycle from.
+     * @return True if there is a cycle that starts and ends at source, else false
+     */
+    private boolean hasCycle(Layer source){
+
+        HashSet<Layer> discovered = new HashSet<Layer>();
+
+        Stack<Layer> stack = new Stack<Layer>();
+        stack.push(source);
+
+        while(!stack.empty()){
+            Layer l = stack.pop();
+
+            if(!discovered.contains(l)){
+                discovered.add(l);
+
+                for(int i = 0; i < l.getOutputLayers().size(); i++){
+                    //Check adjacent for source
+                    if(l.getOutputLayers().get(i) == source){
+                        return true;
+                    }
+
+                    stack.push(l.getOutputLayers().get(i));
+                }
+            }
+        }
+
+        return false;
+
     }
 
     /**
