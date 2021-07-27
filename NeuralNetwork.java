@@ -35,6 +35,20 @@ public class NeuralNetwork extends Model{
     public NeuralNetwork(ArrayList<Input> inputLayers, ArrayList<Layer> outputLayers){
         super();
 
+        //Check parameters
+        Utility.checkNotNull(inputLayers);
+        Utility.checkNotNull(outputLayers);
+        
+        for(int i = 0; i < inputLayers.size(); i++){
+            Utility.checkNotNull(inputLayers.get(i));
+        }
+
+        for(int i = 0; i < outputLayers.size(); i++){
+            Utility.checkNotNull(outputLayers.get(i));
+        }
+
+
+
         this.inputLayers = inputLayers;
         this.outputLayers = outputLayers;
 
@@ -47,9 +61,18 @@ public class NeuralNetwork extends Model{
     }
 
 
-
+    /**
+     * Constructor for a simple (one input layer, one output layer) neural network.
+     * @param inputLayer The input layer where the input vector will be fed to.
+     * @param outputLayer The output layer, which will produce the neural network's output vector.
+     */
     public NeuralNetwork(Input inputLayer, Layer outputLayer){
         super();
+
+        //Check params
+        Utility.checkNotNull(inputLayer);
+        Utility.checkNotNull(outputLayer);
+
         
         this.inputLayers = new ArrayList<Input>(1);
         this.inputLayers.add(inputLayer);
@@ -65,9 +88,18 @@ public class NeuralNetwork extends Model{
         }
     }
 
-
+    /**
+     * Constructs a neural network from a file that was created using the saveModel() method.
+     * Useful when loading a pretrained neural network rather than training a fresh neural network.
+     * @param filePath The filepath of the file created by saveModel()
+     */
     public NeuralNetwork(String filePath){
         super();
+
+        //Check param
+        Utility.checkNotNull(filePath);
+
+
         String neuralNetworkInfo = Utility.getTextFileContents(filePath);
 
         this.allLayers = this.layersFromString(neuralNetworkInfo);
@@ -97,7 +129,6 @@ public class NeuralNetwork extends Model{
             }
 
         }
-
 
         return false;
     }
@@ -459,8 +490,8 @@ public class NeuralNetwork extends Model{
      */
     public float[][] calculateScalarLossBatch(float[][][] x, float[][][] yTrue, ArrayList<Loss> losses){
         //Check only the loss parameters, since the other parameters will be checked in the next function call.
-
         Utility.checkNotNull(losses);
+
         Loss[] lossArray = new Loss[losses.size()];
         lossArray = losses.toArray(lossArray);
 
@@ -597,8 +628,17 @@ public class NeuralNetwork extends Model{
         return y;
     }
 
-
+    /**
+     * Calculates the gradient of the loss functions wrt a complex model's parameters
+     * @param inputVectors The input vectors, one vector per input layer.
+     * @param outputVectors The output vectors, one vector per output layer.
+     * @param losses The loss functions, one per output layer.
+     * @return The gradient list, which matches the same shape as the parameters list.
+     */
     private ArrayList<float[][]> calculateGradient(float[][] inputVectors, float[][] outputVectors, Loss[] losses){
+        //Check params
+        this.checkCalculateGradientParams(inputVectors, outputVectors, losses);
+
         //Clear the dLdX and dLdY vectors from all layers
         for(int i = 0; i < allLayers.size(); i++){
             if(allLayers.get(i).getdLdX() != null){
@@ -660,7 +700,39 @@ public class NeuralNetwork extends Model{
         return grad;
     }
 
+    /**
+     * Checks the parameters for the calculateGradient method.
+     * @param inputVectors The input vectors to check compatibility.
+     * @param outputVectors The output vectors to check compatibility.
+     * @param losses The loss functions to check compatibility.
+     */
+    private void checkCalculateGradientParams(float[][] inputVectors, float[][] outputVectors, Loss[] losses){
+        Utility.checkNotNull(inputVectors, outputVectors, losses);
+        Utility.checkEqual(inputVectors.length, this.inputLayers.size());
+        Utility.checkEqual(outputVectors.length, this.outputLayers.size());
+        Utility.checkEqual(outputVectors.length, losses.length);
 
+        for(int i = 0; i < inputVectors.length; i++){
+            Utility.checkNotNull(inputVectors[i]);
+            Utility.checkEqual(inputVectors[i].length, this.inputLayers.get(i).outputVector.length);
+        }
+
+        for(int i = 0; i < outputVectors.length; i++){
+            Utility.checkNotNull(outputVectors[i]);
+            Utility.checkEqual(outputVectors[i].length, this.outputLayers.get(i).outputVector.length);
+        }
+    }
+
+    /**
+     * Fits the neural network to the training data and under the specified parameters.
+     * @param x The training inputs. Should be consistent with number of input layers and lengths of input vectors.
+     * @param y The training output. Should be consistent with number of output layers and the lengths of output vectors.
+     * @param epochs The number of epochs, or full passes over the dataset, to complete. Should be >= 0.
+     * @param minibatchSize The number of training data samples used in a single parameter update. Larger number increases stability. Should be >= 1.
+     * @param valueClip The maximum absoulte value a component of the gradient can be. This helps prevent unstable updates. Values below 0 turn off clipping.
+     * @param opt The optimizer to use, which processes the raw gradients in hopes of increasing the rate of learning.
+     * @param losses The loss functions to use. Each loss function corresponds to an output layer.
+     */
     public void fit(float[][][] x, float[][][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss[] losses){
         //Check parameters
         this.checkFitParams(x, y, epochs, minibatchSize, valueClip, opt, losses);
@@ -703,6 +775,16 @@ public class NeuralNetwork extends Model{
         }
     }
 
+    /**
+     * Checks the fit parameters for consistency and validity.
+     * @param x The training input data.
+     * @param y The training output data.
+     * @param epochs The number of epochs to train for.
+     * @param minibatchSize The number of data samples used in a single parameter update.
+     * @param valueClip The maximum absolute value that a gradient component can be.
+     * @param opt The training optimizer.
+     * @param losses The loss functions.
+     */
     private void checkFitParams(float[][][] x, float[][][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, Loss[] losses){
         Utility.checkNotNull((Object)x, (Object)y, opt, losses);
 
@@ -723,7 +805,16 @@ public class NeuralNetwork extends Model{
         }
     }
 
-
+    /**
+     * Fits the neural network to the training data and under the specified parameters. Wrapper function.
+     * @param x The training inputs. Should be consistent with number of input layers and lengths of input vectors.
+     * @param y The training output. Should be consistent with number of output layers and the lengths of output vectors.
+     * @param epochs The number of epochs, or full passes over the dataset, to complete. Should be >= 0.
+     * @param minibatchSize The number of training data samples used in a single parameter update. Larger number increases stability. Should be >= 1.
+     * @param valueClip The maximum absoulte value a component of the gradient can be. This helps prevent unstable updates. Values below 0 turn off clipping.
+     * @param opt The optimizer to use, which processes the raw gradients in hopes of increasing the rate of learning.
+     * @param losses The loss functions to use. Each loss function corresponds to an output layer.
+     */
     public void fit(float[][][] x, float[][][] y, int epochs, int minibatchSize, float valueClip, Optimizer opt, ArrayList<Loss> losses){
         Loss[] lossArray = new Loss[losses.size()];
         lossArray = losses.toArray(lossArray);
@@ -768,19 +859,28 @@ public class NeuralNetwork extends Model{
         this.fit(trainX, trainY, epochs, minibatchSize, valueClip, opt, losses);
     }
 
-
+    /**
+     * Creates a map that contains (layer, index) where index is the location of the layer in the allLayers list.
+     * Useful when generating the adjacency list.
+     * @return The map containing (layer, index) pairs.
+     */
     private HashMap<Layer, Integer> getLayerIndexMap(){
         HashMap<Layer, Integer> map = new HashMap<>();
 
-        for(int i = 0; i < allLayers.size(); i++){
-            map.put(allLayers.get(i), i);
+        for(int i = 0; i < this.allLayers.size(); i++){
+            map.put(this.allLayers.get(i), i);
         }
 
         return map;
     }
 
+    /**
+     * Creates the connection info string that is used when saving the model to disk.
+     * Format of each row: fromIndex -> toIndex, toIndex, ...
+     * @return The string containing the connection/adjacency information
+     */
     private String connectionInfoToString(){
-        HashMap<Layer, Integer> indexMap = getLayerIndexMap();
+        HashMap<Layer, Integer> indexMap = this.getLayerIndexMap();
 
         //Determine the connection information and write to string
         //From-to format for connections: fromIndex -> toIndex, toIndex, ...
@@ -814,7 +914,10 @@ public class NeuralNetwork extends Model{
         return connectionSB.toString();
     }
 
-
+    /**
+     * Converts all of the layers in the neural network into a String representation that can be saved.
+     * @return The string representation of the layers.
+     */
     private String layerInfoToString(){
         StringBuilder sb = new StringBuilder();
 
@@ -841,7 +944,13 @@ public class NeuralNetwork extends Model{
         return this.inputLayers.size() == 1 && this.outputLayers.size() == 1;
     }
 
+    /**
+     * Saves the neural network to disk where it can be reloaded at a later time fully constructed.
+     * @param filePath The filepath to save the neural network to.
+     */
     public void saveModel(String filePath){
+        //Check param
+        Utility.checkNotNull(filePath);
 
         String connectionInfo = connectionInfoToString();
         String layerInfo = layerInfoToString();
