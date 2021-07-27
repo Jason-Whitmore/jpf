@@ -910,4 +910,49 @@ public class Utility{
             }
         }
     }
+
+    /**
+     * Checks to see if the input arrays contain the same data. Can be used for tests
+     * @param a The first array
+     * @param b The second array
+     * @return Ture if arrays are equal, else false.
+     */
+    public static boolean equal(float[] a, float[] b){
+        Utility.checkNotNull((Object)a, (Object)b);
+
+        if(a.length != b.length){
+            return false;
+        }
+
+        for(int i = 0; i < a.length; i++){
+            if(a[i] != b[i]){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+    /**
+     * Checks to see if the input arrays contain the same data. Can be used for tests.
+     * @param a The first array
+     * @param b The second array
+     * @return True if arrays are equal, else false.
+     */
+    public static boolean equal(float[][] a, float[][] b){
+        Utility.checkNotNull((Object)a, (Object)b);
+
+        if(a.length != b.length){
+            return false;
+        }
+
+        for(int i = 0; i < a.length; i++){
+            if(!Utility.equal(a[i], b[i])){
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
