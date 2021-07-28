@@ -5,7 +5,7 @@ import java.util.ArrayList;
  */
 public class LinearAlgebra{
 
-    //Matrix initialization methods
+    //Initialization methods
 
     /**
      * Initializes a matrix with values from a random uniform distribution
@@ -29,6 +29,46 @@ public class LinearAlgebra{
         }
 
         return ret;
+    }
+
+    /**
+     * Initializes a float array/vector with the specified constant.
+     * @param length The length of the float array. Should be >= 1
+     * @param value The constant to populate the array with
+     * @return The populated array.
+     */
+    public static float[] initializeConstant(int length, float value){
+        //Check params
+        Utility.checkGreaterThanZero(length);
+
+        float[] r = new float[length];
+
+        for(int i = 0; i < r.length; i++){
+            r[i] = value;
+        }
+
+        return r;
+    }
+
+
+    /**
+     * Initializes a 2d array/matrix with the specified constant
+     * @param numRows The number of rows in the matrix. Should be >= 1
+     * @param numCols The number of cols in the matrix. Should be >= 1
+     * @param value The value to populate the 2d array with.
+     * @return The populated 2d array.
+     */
+    public static float[][] initializeConstant(int numRows, int numCols, float value){
+        //Check params
+        Utility.checkGreaterThanZero(numRows, numCols);
+
+        float[][] r = new float[numRows][];
+
+        for(int i = 0; i < r.length; i++){
+            r[i] = LinearAlgebra.initializeConstant(numCols, value);
+        }
+
+        return r;
     }
 
     /**

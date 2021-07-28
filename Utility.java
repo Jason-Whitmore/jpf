@@ -158,8 +158,8 @@ public class Utility{
         float sum = 0;
         int entryCount = 0;
         for(int i = 0; i < a.length; i++){
-            sum += mean(a[i]);
-            entryCount += a.length;
+            sum += Utility.sum(a[i]);
+            entryCount += a[i].length;
         }
 
         return sum / entryCount;
@@ -289,7 +289,7 @@ public class Utility{
         Utility.checkListDimensionsEqual(list, newList);
 
         for(int i = 0; i < list.size(); i++){
-            addArray(list.get(i), newList.get(i), scalar);
+            Utility.addArray(list.get(i), newList.get(i), scalar);
         }
     }
 
