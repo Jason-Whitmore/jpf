@@ -71,53 +71,48 @@ public class LinearAlgebra{
         return r;
     }
 
-    /**
-     * Determines if the input arraylist of arraylists is ragged, where atleast
-     * one of the arraylists is a different size than the others.
-     * @param <T> Can be of any type.
-     * @param data The ArrayList of ArrayLists to determine if ragged
-     * @return True if the array is ragged, else false 
-     */
-    public static <T> boolean isRagged(ArrayList<ArrayList<T>> data){
-        if(data == null || data.size() == 0){
-            return false;
-        }
-
-        int initialSize = data.get(0).size();
-
-        for(int r = 0; r < data.size(); r++){
-            if(initialSize != data.get(r).size()){
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     /**
-     * Initializes a non ragged matrix from the input data
-     * @param data The matrix data as an arraylist of arraylists. Should be non ragged
+     * Initializes a matrix from the input data
+     * @param data The matrix data as an arraylist of arraylists.
      * @return The allocated and initialized matrix.
      */
     public static float[][] initializeFromArrayList(ArrayList<ArrayList<Float>> data){
         Utility.checkNotNull(data);
 
-        if(LinearAlgebra.isRagged(data)){
-            throw new AssertionError("data list is ragged.");
-        }
 
         int numRows = data.size();
-        int numCols = data.get(0).size();
 
-        float[][] ret = new float[numRows][numCols];
+        float[][] ret = new float[numRows][];
 
         for(int r = 0; r < numRows; r++){
-            for(int c = 0; c < numCols; c++){
+
+            ret[r] = new float[data.get(r).size()];
+
+            for(int c = 0; c < data.get(r).size(); c++){
                 ret[r][c] = data.get(r).get(c);
             }
         }
 
         return ret;
+    }
+
+    /**
+     * Initializes a square identity matrix which is all zero entrys except for entries
+     * containing 1 along the diagonal
+     * @param size The size of the matrix.
+     * @return An identity matrix of the given size
+     */
+    public static float[][] initializeIdentityMatrix(int size){
+        Utility.checkGreaterThanZero(size);
+
+        float[][] result = new float[size][size];
+
+        for(int i = 0; i < size; i++){
+            result[i][i] = 1f;
+        }
+
+        return result;
     }
 
 
