@@ -409,56 +409,105 @@ public class Utility{
 
 
     /**
-     * Allocates and initializes an array from the string.
-     * This function serves as a shortcut for the same function in the LinearAlgebra class.
+     * Allocates and initializes an array from the string
      * 
-     * Example for syntax: [0,1,2,3]
+     * Example for syntax: [0.0 1.0 2.0 3.0]
      * @param s The string to create the array from.
      * @return The allocated and initialized array.
      */
     public static float[] stringToArray(String s){
         Utility.checkNotNull(s);
-        return LinearAlgebra.stringToArray(s);
+
+        s = s.replace("[", "");
+        s = s.replace("]", "");
+
+        s = s.trim();
+
+        String[] sSplit = s.split(" ");
+
+        float[] r = new float[sSplit.length];
+
+        for(int i = 0; i < r.length; i++){
+            try{
+                r[i] = Float.parseFloat(sSplit[i]);
+            } catch(NumberFormatException e){
+                System.err.println("Could not parse with Float.parseFloat()");
+                System.err.println(e.getMessage());
+                throw new AssertionError();
+            }
+            
+        }
+
+        return r;
     }
 
 
     /**
      * Initializes a matrix from a string.
-     * This function serves as a shortcut for the same function in the LinearAlgebra class.
      * 
      * Example format:
-     * [[1,0,0]
-     *  [0,1,0]
-     *  [0,0,1]]
+     * [[1.0 0.0 0.0]
+     *  [0.0 1.0 0.0]
+     *  [0.0 0.0 1.0]]
      * @param s The string containing the data for a matrix.
      * @return The newly allocated matrix from string data.
      */
     public static float[][] stringToMatrix(String s){
         Utility.checkNotNull(s);
-        return LinearAlgebra.stringToMatrix(s);
+
+        s = s.trim();
+
+        String[] sSplit = s.split("\n");
+
+        sSplit[0] = sSplit[0].replace("[[", "[");
+        sSplit[sSplit.length - 1] = sSplit[sSplit.length - 1].replace("]]", "]");
+
+        float[][] r = new float[sSplit.length][];
+
+        for(int i = 0; i < r.length; i++){
+            r[i] = stringToArray(sSplit[i]);
+        }
+
+
+        return r;
     }
 
 
     /**
      * Converts string representation of multiple matricies into an arraylist of initialized matricies.
-     * This function serves as a shortcut for the same function in the LinearAlgebra class.
      * 
      * Example format:
      * 
      * [
-     * [[1,2,3]
-     * [4,5,6]
-     * [7,8,9]],
-     * [[1,2,3]
-     * [4,5,6]
-     * [7,8,9]]
+     * [[1 2 3]
+     * [4 5 6]
+     * [7 8 9]],
+     * [[1 2 3]
+     * [4 5 6]
+     * [7 8 9]]
      * ]
      * @param s The string to parse into an arraylist of matricies.
      * @return The initialized arraylist of matricies
      */
     public static ArrayList<float[][]> stringToMatrixList(String s){
         Utility.checkNotNull(s);
-        return LinearAlgebra.stringToMatrixList(s);
+
+        //remove the opening and closing brackets
+        s = s.substring(1);
+        s = s.substring(0, s.length() - 2);
+
+        s = s.trim();
+
+
+        String[] sSplit = s.split(",");
+
+        ArrayList<float[][]> r = new ArrayList<float[][]>(sSplit.length);
+
+        for(int i = 0; i < sSplit.length; i++){
+            r.add(stringToMatrix(sSplit[i]));
+        }
+
+        return r;
     }
 
 
