@@ -197,6 +197,113 @@ public class UtilityTests{
     }
 
 
+    private static void scaleListTest(){
+        float[][] a = LinearAlgebra.initializeConstant(3, 3, 2);
+        float[][] b = LinearAlgebra.initializeConstant(4, 4, 3);
+        ArrayList<float[][]> list = new ArrayList<float[][]>();
+        list.add(a);
+        list.add(b);
+
+        float scalar = 2f;
+
+        Utility.scaleList(list, scalar);
+
+        assert Utility.equal(list.get(0), LinearAlgebra.initializeConstant(3, 3, 4));
+        assert Utility.equal(list.get(1), LinearAlgebra.initializeConstant(4, 4, 6));
+    }
+
+    private static void arrayToStringTest1(){
+        float[] a = new float[0];
+
+        String result = Utility.arrayToString(a);
+
+        assert result.equals("[]");
+    }
+
+    private static void arrayToStringTest2(){
+        float[] input = {1, 2, 3};
+
+        String result = Utility.arrayToString(input);
+        String expected = "[1.0 2.0 3.0]";
+
+        assert result.equals(expected);
+    }
+
+    private static void arrayToStringTest3(){
+        float[][] input = LinearAlgebra.initializeConstant(3, 3, 2);
+
+        String result = Utility.arrayToString(input);
+        String expected = "[[2.0 2.0 2.0]\n[2.0 2.0 2.0]\n[2.0 2.0 2.0]]";
+
+        assert result.equals(expected);
+    }
+
+
+    private static void arrayToStringToArrayTest1(){
+        //Tests both arrayToString and stringToArray
+        float[] a = new float[5];
+        Utility.initializeUniform(a, -1f, 1f);
+
+        String aString = Utility.arrayToString(a);
+
+        float[] b = Utility.stringToArray(aString);
+
+        assert Utility.equal(a, b);
+
+    }
+
+    private static void arrayToStringToArrayTest2(){
+        //Tests both arrayToString and stringToArray (matrix variant)
+        float[][] a = new float[5][5];
+        Utility.initializeUniform(a, -1f, 1f);
+
+        String aString = Utility.arrayToString(a);
+
+        float[][] b = Utility.stringToMatrix(aString);
+
+        assert Utility.equal(a, b);
+    }
+
+
+    private static void arraylistToStringToArraylistTest(){
+        //Tests saving arraylists of matricies to string, then from string back to list
+        int n = 3;
+        ArrayList<float[][]> list = new ArrayList<float[][]>();
+        for(int i = 0; i < n; i++){
+            float[][] a = new float[3][3];
+            Utility.initializeUniform(a, -1f, 1f);
+            list.add(a);
+        }
+
+        //List created. Convert to string
+
+        String listString = Utility.arraysToString(list);
+
+        ArrayList<float[][]> listResult = Utility.stringToMatrixList(listString);
+
+        for(int i = 0; i < list.size(); i++){
+            assert Utility.equal(list.get(i), listResult.get(i));
+        }
+    }
+
+
+    private static void copyArrayContentsTest(){
+        float[] dest = new float[5];
+        float[] src = LinearAlgebra.initializeConstant(5, 1);
+
+        Utility.copyArrayContents(src, dest);
+
+        assert Utility.equal(dest, src);
+    }
+
+
+    private static void argMaxTest(){
+        float[] input = {0f, 3f, 1f, -1f};
+
+        int result = Utility.argMax(input);
+
+        assert result == 1;
+    }
 
 
 
@@ -224,8 +331,23 @@ public class UtilityTests{
         UtilityTests.cloneArraysTest();
 
         UtilityTests.addArrayTest();
-        
+
         UtilityTests.addListTest();
+
+        UtilityTests.scaleListTest();
+
+        UtilityTests.arrayToStringTest1();
+        UtilityTests.arrayToStringTest2();
+        UtilityTests.arrayToStringTest3();
+
+        UtilityTests.arrayToStringToArrayTest1();
+        UtilityTests.arrayToStringToArrayTest2();
+
+        UtilityTests.arraylistToStringToArraylistTest();
+
+        UtilityTests.copyArrayContentsTest();
+
+        UtilityTests.argMaxTest();
     }
 
     public static void main(String[] args){
