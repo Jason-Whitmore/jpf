@@ -1,9 +1,266 @@
 import java.util.ArrayList;
 
-/**
- * This class contains the code used to perform tests on static functions in the Utility class.
- */
-public class UtilityTests{
+
+public class Tests{
+    public static void initializeConstantTest1(){
+        float[] output = LinearAlgebra.initializeConstant(3, 1);
+        float[] expected = {1f, 1f, 1f};
+
+        assert Utility.equal(output, expected);
+    }
+
+
+    public static void initializeConstantTest2(){
+        float[][] output = LinearAlgebra.initializeConstant(2, 2, 1);
+
+        float[][] expected = new float[2][];
+        expected[0] = LinearAlgebra.initializeConstant(2, 1);
+        expected[1] = LinearAlgebra.initializeConstant(2, 1);
+
+        assert Utility.equal(expected, output);
+    }
+
+    public static void initializeFromArrayListTest(){
+        ArrayList<ArrayList<Float>> input = new ArrayList<>();
+
+        input.add(new ArrayList<Float>());
+        input.add(new ArrayList<Float>());
+
+        input.get(0).add(1f);
+        input.get(0).add(2f);
+        input.get(1).add(3f);
+        input.get(1).add(4f);
+        input.get(1).add(5f);
+
+        float[][] output = LinearAlgebra.initializeFromArrayList(input);
+        
+        float[][] expected = new float[2][];
+        float[] row1 = {1, 2};
+        float[] row2 = {3, 4, 5};
+
+        expected[0] = row1;
+        expected[1] = row2;
+
+        assert Utility.equal(output, expected);
+    }
+
+    public static void initializeIdentityMatrixTest(){
+        int input = 3;
+        float[][] expected = LinearAlgebra.initializeConstant(input, input, 0);
+        for(int i = 0; i < input; i++){
+            expected[i][i] = 1;
+        }
+
+        float[][] output = LinearAlgebra.initializeIdentityMatrix(input);
+
+        assert Utility.equal(expected, output);
+    }
+
+
+    public static void getNumColumnsTest(){
+        float[][] input = new float[2][3];
+
+        int expected = input[0].length;
+
+        int result = LinearAlgebra.getNumColumns(input);
+
+        assert expected == result;
+    }
+
+    public static void getNumRowsTest(){
+        float[][] input = new float[2][3];
+
+        int expected = input.length;
+
+        int result = LinearAlgebra.getNumRows(input);
+
+        assert expected == result;
+    }
+
+    public static void transposeTest1(){
+        float[][] input = new float[1][3];
+        input[0][0] = 0;
+        input[0][1] = 1;
+        input[0][2] = 2;
+
+        float[][] output = new float[3][1];
+
+        LinearAlgebra.transpose(input, output);
+
+        assert output[0][0] == 0;
+        assert output[1][0] == 1;
+        assert output[2][0] == 2;
+    }
+
+    public static void transposeTest2(){
+        float[][] input = new float[2][3];
+        input[0][0] = 0;
+        input[0][1] = 1;
+        input[0][2] = 2;
+
+        input[1][0] = 3;
+        input[1][1] = 4;
+        input[1][2] = 5;
+
+        float[][] expected = new float[3][2];
+        expected[0][0] = 0;
+        expected[1][0] = 1;
+        expected[2][0] = 2;
+
+        expected[0][1] = 3;
+        expected[1][1] = 4;
+        expected[2][1] = 5;
+
+        float[][] result = LinearAlgebra.transpose(input);
+
+        assert Utility.equal(result, expected);
+    }
+
+
+    public static void matrixMultiplyTest1(){
+        //Test by multiplying IB = B
+
+        float[][] a = LinearAlgebra.initializeIdentityMatrix(3);
+        float[][] b = LinearAlgebra.initializeConstant(3, 3, 1);
+
+        float[][] result = new float[3][3];
+
+        LinearAlgebra.matrixMultiply(a, b, result);
+
+        assert Utility.equal(b, result);
+    }
+
+
+    public static void matrixMultiplyTest2(){
+        float[][] a = LinearAlgebra.initializeConstant(2, 2, 3);
+        float[][] b = LinearAlgebra.initializeConstant(2, 1, 2);
+
+        float[][] expected = LinearAlgebra.initializeConstant(2, 1, 12);
+
+        float[][] output = LinearAlgebra.matrixMultiply(a, b);
+
+        assert Utility.equal(expected, output);
+    }
+
+    public static void matrixAddTest1(){
+        float[][] a = LinearAlgebra.initializeConstant(3, 3, 1);
+        float[][] b = LinearAlgebra.initializeConstant(3, 3, 4);
+
+        float[][] output = new float[3][3];
+
+        LinearAlgebra.matrixAdd(a, b, output);
+
+        float[][] expected = LinearAlgebra.initializeConstant(3, 3, 5);
+
+        assert Utility.equal(expected, output);
+    }
+
+    public static void matrixAddTest2(){
+        float[][] a = LinearAlgebra.initializeConstant(2, 3, -1);
+        float[][] b = LinearAlgebra.initializeConstant(2, 3, 4);
+
+        float[][] output = LinearAlgebra.matrixAdd(a, b);
+        float[][] expected = LinearAlgebra.initializeConstant(2, 3, 3);
+
+        assert Utility.equal(output, expected);
+    }
+
+    public static void elementwiseMultiplyMatrixTest1(){
+        float[][] a = LinearAlgebra.initializeConstant(2, 3, -2);
+        float[][] b = LinearAlgebra.initializeConstant(2, 3, 4);
+        float[][] output = new float[2][3];
+
+        LinearAlgebra.elementwiseMultiply(a, b, output);
+        float[][] expected = LinearAlgebra.initializeConstant(2, 3, -8);
+
+        assert Utility.equal(output, expected);
+    }
+
+    public static void elementwiseMultiplyMatrixTest2(){
+        float[][] a = LinearAlgebra.initializeConstant(2, 3, 2);
+        float[][] b = LinearAlgebra.initializeConstant(2, 3, 3);
+
+        float[][] expected = LinearAlgebra.initializeConstant(2, 3, 6);
+
+        float[][] output = LinearAlgebra.elementwiseMultiply(a, b);
+
+        assert Utility.equal(expected, output);
+    }
+
+    public static void elementwiseMultiplyArrayTest1(){
+        float[] a = LinearAlgebra.initializeConstant(10, 2);
+        float[] b = LinearAlgebra.initializeConstant(10, -5);
+
+        float[] result = new float[10];
+
+        LinearAlgebra.elementwiseMultiply(a, b, result);
+
+        float[] expected = LinearAlgebra.initializeConstant(10, -10);
+
+        assert Utility.equal(result, expected);
+    }
+
+    public static void elementwiseMultiplyArrayTest2(){
+        float[] a = LinearAlgebra.initializeConstant(10, 3);
+        float[] b = LinearAlgebra.initializeConstant(10, 5);
+
+        float[] result = LinearAlgebra.elementwiseMultiply(a, b);
+
+        float[] expected = LinearAlgebra.initializeConstant(10, 15);
+
+        assert Utility.equal(result, expected);
+    }
+
+
+    public static void arrayToMatrixTest(){
+        float[] input = {1, 2, 3};
+
+        float[][] output = LinearAlgebra.arrayToMatrix(input);
+
+        for(int i = 0; i < input.length; i++){
+            assert input[i] == output[i][0];
+        }
+    }
+
+    public static void matrixToArrayTest(){
+        float[][] input = LinearAlgebra.initializeConstant(3, 1, 2);
+
+        float[] output = LinearAlgebra.matrixToArray(input);
+        float[] expected = LinearAlgebra.initializeConstant(3, 2);
+
+        assert Utility.equal(expected, output);
+    }
+
+    public static void runLinearAlgebraTests(){
+
+        Tests.initializeConstantTest1();
+        Tests.initializeConstantTest2();
+
+        Tests.initializeFromArrayListTest();
+        Tests.initializeIdentityMatrixTest();
+
+        Tests.getNumColumnsTest();
+        Tests.getNumRowsTest();
+
+        Tests.transposeTest1();
+        Tests.transposeTest2();
+
+        Tests.matrixMultiplyTest1();
+        Tests.matrixMultiplyTest2();
+
+        Tests.matrixAddTest1();
+        Tests.matrixAddTest2();
+
+        Tests.elementwiseMultiplyMatrixTest1();
+        Tests.elementwiseMultiplyMatrixTest2();
+
+        Tests.elementwiseMultiplyArrayTest1();
+        Tests.elementwiseMultiplyArrayTest2();
+
+        Tests.arrayToMatrixTest();
+
+        Tests.matrixToArrayTest(); 
+    }
 
 
     private static void clipTest1(){
@@ -306,51 +563,51 @@ public class UtilityTests{
     }
 
 
+    public static void runUtilityTests(){
+        Tests.clipTest1();
+        Tests.clipTest2();
+        Tests.clipTest3();
 
+        Tests.sumTest1();
+        Tests.sumTest2();
 
-    public static void runTests(){
-        UtilityTests.clipTest1();
-        UtilityTests.clipTest2();
-        UtilityTests.clipTest3();
+        Tests.meanTest1();
+        Tests.meanTest2();
+        Tests.meanTest3();
 
-        UtilityTests.sumTest1();
-        UtilityTests.sumTest2();
+        Tests.clearArrayTest1();
+        Tests.clearArrayTest2();
 
-        UtilityTests.meanTest1();
-        UtilityTests.meanTest2();
-        UtilityTests.meanTest3();
+        Tests.clearArraysTest();
 
-        UtilityTests.clearArrayTest1();
-        UtilityTests.clearArrayTest2();
+        Tests.scaleArrayTest1();
+        Tests.scaleArrayTest2();
 
-        UtilityTests.clearArraysTest();
+        Tests.cloneArraysTest();
 
-        UtilityTests.scaleArrayTest1();
-        UtilityTests.scaleArrayTest2();
+        Tests.addArrayTest();
 
-        UtilityTests.cloneArraysTest();
+        Tests.addListTest();
 
-        UtilityTests.addArrayTest();
+        Tests.scaleListTest();
 
-        UtilityTests.addListTest();
+        Tests.arrayToStringTest1();
+        Tests.arrayToStringTest2();
+        Tests.arrayToStringTest3();
 
-        UtilityTests.scaleListTest();
+        Tests.arrayToStringToArrayTest1();
+        Tests.arrayToStringToArrayTest2();
 
-        UtilityTests.arrayToStringTest1();
-        UtilityTests.arrayToStringTest2();
-        UtilityTests.arrayToStringTest3();
+        Tests.arraylistToStringToArraylistTest();
 
-        UtilityTests.arrayToStringToArrayTest1();
-        UtilityTests.arrayToStringToArrayTest2();
+        Tests.copyArrayContentsTest();
 
-        UtilityTests.arraylistToStringToArraylistTest();
-
-        UtilityTests.copyArrayContentsTest();
-
-        UtilityTests.argMaxTest();
+        Tests.argMaxTest();
     }
 
+
     public static void main(String[] args){
-        UtilityTests.runTests();
+        Tests.runLinearAlgebraTests();
+        Tests.runUtilityTests();
     }
 }

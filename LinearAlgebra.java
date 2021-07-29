@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+
 /**
  * Class that contains static functions for linear algebra and matrix operations
  */
@@ -115,7 +116,6 @@ public class LinearAlgebra{
         return result;
     }
 
-
     
     /**
      * Simple wrapper function for getting the number of columns in a matrix.
@@ -124,6 +124,7 @@ public class LinearAlgebra{
      */
     public static int getNumColumns(float[][] matrix){
         Utility.checkNotNull((Object)matrix);
+        Utility.checkNotNull((Object)matrix[0]);
 
         return matrix[0].length;
     }
@@ -164,7 +165,7 @@ public class LinearAlgebra{
     public static float[][] transpose(float[][] a){
         float[][] t = new float[LinearAlgebra.getNumColumns(a)][LinearAlgebra.getNumRows(a)];
 
-        transpose(a, t);
+        LinearAlgebra.transpose(a, t);
         return t;
     }
 
@@ -294,7 +295,7 @@ public class LinearAlgebra{
         Utility.checkMatrixDimensionsEqual(a, b, result);
 
         for(int r = 0; r < a.length; r++){
-            for(int c = 0; c < a.length; c++){
+            for(int c = 0; c < a[r].length; c++){
                 result[r][c] = a[r][c] * b[r][c];
             }
         }
@@ -379,7 +380,7 @@ public class LinearAlgebra{
 
 
     /**
-     * Converts the first column of a matrix into an array
+     * Converts the only column of a matrix into an array
      * @param matrix The matrix to convert.
      * @return The newly allocated array conversion.
      */
