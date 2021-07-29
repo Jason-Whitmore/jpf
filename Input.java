@@ -60,4 +60,5 @@ public class Input extends Layer{
         //Only need to provide the length of the input vector.
         return "INPUT(" + inputVector.length + ")";
     }
+
 }

@@ -77,7 +77,7 @@ public class Add extends Layer{
         this.clearForwardPassArrays();
 
         for(int j = 0; j < inputLayers.size(); j++){
-            for(int i = 0; i < numUnits; i++){
+            for(int i = 0; i < this.numUnits; i++){
                 this.inputVector[i] += inputLayers.get(j).getOutputVector()[i];
             }
         }

@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
-
+/**
+ * This class defines and runs various unit tests for the LinearAlgebra and Utility classes.
+ */
 public class Tests{
     public static void initializeConstantTest1(){
         float[] output = LinearAlgebra.initializeConstant(3, 1);
@@ -607,7 +609,11 @@ public class Tests{
 
 
     public static void main(String[] args){
+        System.out.println("Starting tests for the LinearAlgebra and Utility classes.");
+
         Tests.runLinearAlgebraTests();
         Tests.runUtilityTests();
+
+        System.out.println("Tests successful.");
     }
 }
