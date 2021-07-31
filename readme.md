@@ -19,7 +19,7 @@ The following classes and interfaces make up the core of this package's function
 - [PolynomialModel](docs/PolynomialModel.md)
 - [NeuralNetwork]()
     - [Layer]() (abstract class)
-        - ActivationFunction (interface)
+        - [ActivationFunction](docs/ActivationFunctions.md) (abstract class)
 - [Loss](docs/Loss.md)
 - [Optimizer](docs/Optimizer.md) (interface)
 

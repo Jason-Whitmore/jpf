@@ -1,7 +1,7 @@
 
 
 /**
- * Defines the ActivationFunction class for use in neural networks
+ * Defines the ActivationFunction abstract class for use in neural networks
  */
 public abstract class ActivationFunction{
 

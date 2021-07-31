@@ -2,19 +2,40 @@
 
 Activation functions are a simple mapping from real numbers to real numbers that are used in Dense Neural Network layers. Most of these activation functions are non-linear in nature, which allow the neural network to approximate non-linear functions.
 
-These functions are implemented using the ActivationFunction interface.
+These functions are implemented by the ActivationFunction abstract class which provides a template to implement functionality. An abstract class is used
+instead of an interface because the vector/array input and output methods are already implemented. Methods that need to be implemented in derived classes,
+namely the f() and fPrime() methods, are written as abstract methods.
 
-## ActivationFunction interface
+## The ActivationFunction abstract class
 
-The ActivationFunction interface, found in ActivationFunction.java, provides the basic template for derived classes to implement functionality. An interface is used here, rather than an abstract class, since there is no internal state that needs to be managed in most of the derived classes. There are two methods in the interface that must be implemented: f(float x) and fPrime(float x).
+The following 2 methods are abstract and must be implemented when extending the class:
 
-### f(float x)
+### float f(float x)
 
 The f(float x) method is simply the activation function applied to a single input variable. Most of the time, this function should be non-linear, so that the neural network can find non-linear relationships in training data. Also, in order to avoid the "exploding gradient problem",the slope of this function should not be large as x approaches negative and positive infinity.
 
-### fPrime(float x)
+### float fPrime(float x)
 
 The fPrime(float x) method is simply the derivative of the f(float x) function. It's important to implement this correctly so that the backpropagation step used in fitting the neural network works correctly.
+
+
+The following methods are already implemented, but can be implemented in derived classes if desired:
+
+### void f(float[] x, float[] dest)
+
+This method simply calls the single variable f() method on each component in the x array and places the result in the corresponding index in the dest array.
+
+### float[] f(float[] x)
+
+Similar to the above method, this method calls the single variable f() method on each component in the x array and returns the result
+
+### void fPrime(float[] x, float[] dest)
+
+This method simply calls the single variable fPrime() method on each component in the x array and places the result in the corresponding index in the dest array.
+
+### float[] fPrime(float[] x)
+
+Similar to the above method, this method calls the single variable fPrime() method on each component in the x array and returns the result
 
 
 ## Derived classes
