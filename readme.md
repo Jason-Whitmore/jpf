@@ -20,7 +20,7 @@ The following classes and interfaces make up the core of this package's function
 - [NeuralNetwork]()
     - [Layer]() (abstract class)
         - [ActivationFunction](docs/ActivationFunctions.md) (abstract class)
-- [Loss](docs/Loss.md)
+- [Loss](docs/Loss.md) (interface)
 - [Optimizer](docs/Optimizer.md) (interface)
 
 ## Tests
