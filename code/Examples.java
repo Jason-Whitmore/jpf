@@ -206,7 +206,7 @@ public class Examples{
         System.out.println("In this example, polynomial models will be fit on randomly generated data.");
         System.out.println("As higher degree polynomial models are trained, test loss should be much higher than training loss as a result of overfitting.");
         System.out.println("Test and train loss can be expressed as the ratio (test/train loss).");
-        System.out.println("A test/train ratio should be close to 1 with lower degree models, and should increase as overfitting becomes apparent.\n");
+        System.out.println("A test/train loss ratio should be close to 1 with lower degree models, and should increase as overfitting becomes apparent.\n");
 
         System.out.println("Generating data...");
         int trainingDataSize = 10;
@@ -312,8 +312,7 @@ public class Examples{
         String[] lossHeader = {"Epoch", "Training loss"};
         CSVWriter lossWriter = new CSVWriter("nn_quadratic_loss.csv", lossHeader);
         for(int epoch = 0; epoch < trainingLosses.length; epoch++){
-            String[] row = {"" + epoch, "" + trainingLosses[epoch]};
-            lossWriter.addRow(row);
+            lossWriter.addRow("" + epoch, "" + trainingLosses[epoch]);
         }
         lossWriter.writeToFile();
         System.out.println("Training loss function data written to disk. Check for nn_quadratic_loss.csv where Examples.java is.");
@@ -425,9 +424,7 @@ public class Examples{
             System.out.println("Test loss / train loss ratio: " + ratio);
             System.out.println();
 
-            String[] newRow = {"" + numParameters, "" + ratio};
-
-            results.addRow(newRow);
+            results.addRow("" + numParameters, "" + ratio);
         }
 
         results.writeToFile();
@@ -572,8 +569,7 @@ public class Examples{
             float normalLoss = Utility.mean(normal.calculateScalarLossBatch(trainX, trainY, new MSE()));
             float resnetLoss = Utility.mean(resnet.calculateScalarLossBatch(trainX, trainY, new MSE()));
 
-            String[] row = {"" + e, "" + normalLoss, "" + resnetLoss};
-            writer.addRow(row);
+            writer.addRow("" + e, "" + normalLoss, "" + resnetLoss);
         }
 
         writer.writeToFile();

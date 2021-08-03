@@ -65,7 +65,7 @@ public class CSVWriter {
      * @param newRow The new row. Should be the same size as the column header array
      * used to create the CSVWriter object.
      */
-    public void addRow(String[] newRow){
+    public void addRow(String... newRow){
         //Check parameter
         Utility.checkNotNull((Object)newRow);
         Utility.checkEqual(this.numCols, newRow.length);
