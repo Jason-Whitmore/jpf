@@ -25,7 +25,7 @@ public class PolynomialModel extends SimpleModel{
      * The bias vector contains the constants added to the output vector.
      * This is like the b in y = mx + b.
      */
-    private float[][] biasVector;
+    private float[][] biasMatrix;
 
     
     /**
@@ -50,9 +50,9 @@ public class PolynomialModel extends SimpleModel{
             this.parameters.add(this.weightMatricies.get(i));
         }
 
-        this.biasVector = new float[this.numOutputs][1];
+        this.biasMatrix = new float[this.numOutputs][1];
 
-        this.parameters.add(this.biasVector);
+        this.parameters.add(this.biasMatrix);
 
         Utility.initializeUniform(getParameters(), -0.01f, 0.01f);
     }
@@ -76,11 +76,11 @@ public class PolynomialModel extends SimpleModel{
             weightMatricies.add(arrays.get(i));
         }
 
-        biasVector = arrays.get(arrays.size() - 1);
+        biasMatrix = arrays.get(arrays.size() - 1);
 
         this.numInputs = arrays.size() - 1;
 
-        this.numOutputs = LinearAlgebra.getNumRows(biasVector);
+        this.numOutputs = LinearAlgebra.getNumRows(biasMatrix);
 
         this.degree = LinearAlgebra.getNumColumns(arrays.get(0));
 
@@ -117,7 +117,7 @@ public class PolynomialModel extends SimpleModel{
 
         //Add bias matrix
         for(int y = 0; y < numOutputs; y++){
-            outputVector[y] += biasVector[y][0];
+            outputVector[y] += biasMatrix[y][0];
         }
 
         return outputVector;
