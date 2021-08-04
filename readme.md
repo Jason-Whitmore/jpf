@@ -8,6 +8,16 @@
 
 ## Design
 
+The JPF library is designed using Java's OOP and abstraction mechanisms. Use of abstract classes and interfaces allows for fast development of classes
+through code reuse and inheritance of data and behavior. These relationships are demonstrated through the Model UML summary diagram:
+
+![Model UML diagram](docs/images/uml_core.png)
+
+This UML diagram is only a small section of the [complete UML summary diagram](docs/images/uml_all.png). More sections of this design are discussed
+in the various pages of documentation.
+
+This design also makes it easier for users to extend classes to create their own components that seamlessly integrate with this library. For example, following the
+documentation for extending classes, a user can create their own layers, loss functions, optimizers, and activation functions.
 
 ## Important Documentation
 
@@ -17,8 +27,8 @@ The following classes and interfaces make up the core of this package's function
 - [SimpleModel](docs/SimpleModel.md) (abstract class)
     - [LinearModel](docs/LinearModel.md)
     - [PolynomialModel](docs/PolynomialModel.md)
-- [NeuralNetwork]()
-    - [Layer]() (abstract class)
+- [NeuralNetwork](docs/NeuralNetwork.md)
+    - [Layer](docs/Layer.md) (abstract class)
         - [ActivationFunction](docs/ActivationFunctions.md) (abstract class)
 - [Loss](docs/Loss.md) (interface)
 - [Optimizer](docs/Optimizer.md) (interface)
