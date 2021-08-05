@@ -5,6 +5,14 @@
 
 ## Motivation
 
+I was motivated to create this project for several reasons.
+
+First, I was intrigued by the mathematics behind supervised machine learning and figured that the best way to learn them would be to understand the 
+multivariate calculus behind it and then implement the math myself.
+
+Second, I wanted to focus on my Java programming skills and decided that this project would provide an excellent opportunity to use Java's object oriented
+design features to build a software package that would contain components that were easily testable, extendable, as well as easy to understand. Since I've had
+ enjoyable experiences with the Tensorflow and Keras machine learning libraries using Python, I wanted to achieve similar results with Java.
 
 ## Design
 
