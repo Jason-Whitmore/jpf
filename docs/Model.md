@@ -16,7 +16,7 @@ method need to be implemented in a concrete derived class.
 
 ## Derived classes
 
-TODO: UML DIAGRAM HERE
+![Model summary UML diagram](images/uml_core.png)
 
 There are two "branches" of classes that are derived from the Model abstract class.
 

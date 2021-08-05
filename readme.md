@@ -24,12 +24,12 @@ documentation for extending classes, a user can create their own layers, loss fu
 The following classes and interfaces make up the core of this package's functionality.
 
 - [Model](docs/Model.md) (abstract class)
-- [SimpleModel](docs/SimpleModel.md) (abstract class)
-    - [LinearModel](docs/LinearModel.md)
-    - [PolynomialModel](docs/PolynomialModel.md)
-- [NeuralNetwork](docs/NeuralNetwork.md)
-    - [Layer](docs/Layer.md) (abstract class)
-        - [ActivationFunction](docs/ActivationFunctions.md) (abstract class)
+    - [SimpleModel](docs/SimpleModel.md) (abstract class)
+        - [LinearModel](docs/LinearModel.md)
+        - [PolynomialModel](docs/PolynomialModel.md)
+    - [NeuralNetwork](docs/NeuralNetwork.md)
+        - [Layer](docs/Layer.md) (abstract class)
+            - [ActivationFunction](docs/ActivationFunctions.md) (abstract class)
 - [Loss](docs/Loss.md) (interface)
 - [Optimizer](docs/Optimizer.md) (interface)
 
