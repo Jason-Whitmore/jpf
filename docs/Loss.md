@@ -19,6 +19,8 @@ Calculates the scalar loss on a yTrue vector and a yPredicted vector. Typically 
 
 ## Derived classes
 
+![Loss UML](images/uml_loss.png)
+
 ### MSE (Mean Squared Error)
 
 L(yTrue, yPredicted) = (yPredicted - yTrue)^2

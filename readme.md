@@ -40,6 +40,8 @@ The following classes and interfaces make up the core of this package's function
             - [ActivationFunction](docs/ActivationFunctions.md) (abstract class)
 - [Loss](docs/Loss.md) (interface)
 - [Optimizer](docs/Optimizer.md) (interface)
+- [Miscellaneous classes](docs/misc.md)
+- [Extending classes](docs/ExtendingClasses.md)
 
 ## Tests
 

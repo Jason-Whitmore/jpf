@@ -19,6 +19,8 @@ be the same size as well as each 2d float matrix having equal dimensions between
 
 ## Implemented classes
 
+![Optimizer UML](images/uml_optimizer.png)
+
 ### SGD
 
 The most basic implementation of the Optimizer interface. The SGD (Stochastic gradient descent) optimizer does not perform any complicated processing, calculation or
