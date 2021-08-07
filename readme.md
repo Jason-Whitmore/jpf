@@ -1,5 +1,6 @@
 # JPF: Java Parameterized Functions
 
+
 ## Overview
 
 
@@ -59,3 +60,37 @@ since they contain very small static helper functions with predictable outputs. 
 Tests.java file. Check the "Running tests" subsection in the "How to run" section to learn how to run these tests.
 
 ## How to run
+
+### Examples
+
+The [examples](docs/Examples.md) documentation describes what each specific example does and display sample output. To run, simply run the following commands in the code directory:
+
+```
+javac Examples.java
+java Examples
+```
+
+Which will print the various command line arguments that can be used to run the examples.
+
+### Tests
+
+To run the unit tests for the Utility.java and LinearAlgebra.java classes, simply run the following commands in the code directory:
+
+```
+javac Tests.java
+java -ea Tests
+```
+
+The "-ea" flag is important since it turns on assertions, which will warn the user if a test case failed.
+
+### In your own project
+
+The simplest way of using JPF in your own project is to create the jar file from the source code and then use it in the compiler's classpath.
+
+Since the list of files to include in the jar is rather large, a makefile exists in the code folder that provides a shortcut. Simply use the make program:
+
+```
+make jar
+```
+
+This produces a jpf.jar file that can be used in other projects. Note that this jar file is not part of any package, so no import statement is needed.
