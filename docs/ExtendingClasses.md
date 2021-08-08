@@ -37,3 +37,14 @@ The calculateLossScalar(float[], float[]) method calculates the scalar value of 
 Implementing the [Optimizer](Optimizer.md) interface involves completing the implementation of only one method.
 
 The processGradient(ArrayList<float[][]>) method will take in an unprocessed gradient calculated from the calculateGradient() method, perform some processing, and then return a new gradient with the exact same dimensions as the input one. The processing performed on the gradients depends on what the user's goal is. For example, the RMSProp optimizer maintains an average learning rate across each parameter.
+
+
+## ActivationFunction
+
+Extending the [ActivationFunction](ActivationFunction.md) abstract class primarily involes implementing the f(float) and fPrime(float) abstract methods.
+
+The f(float) abstract method is the single variate activation function, which should typically be a non-linear function so that the Dense layer can learn non-linear relationships between input and output training data.
+
+The fPrime(float) abstract method is the single variate derivative of the f(float) method. It's important that this method is implemented with the proper calculus so that the fitting process properly learns the relationships between input and output training data.
+
+Although not entirely required, the toString() method should also be implemented so that when a Dense layer is saved to disk, the proper string representation of the activation function is also saved in a readable format. The constructFromString() method in ActivationFunction.java should also be modified to create the new activation function from the string representation.
