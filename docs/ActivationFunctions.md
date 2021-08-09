@@ -40,6 +40,8 @@ Similar to the above method, this method calls the single variable fPrime() meth
 
 ## Derived classes
 
+![Activation function UML diagram](images/uml_activationfunction.png)
+
 ### Sigmoid
 
 The Sigmoid function is a popular non-linear activation function that is used in hidden layers. The primary characteristic is that the output is in the range (0,1). This characteristic also makes it difficult for the function to output a low signal, since the input must approach -infinity for the output of the sigmoid function to equal 0. However, this function is useful in binary classification tasks.

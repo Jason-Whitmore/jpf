@@ -1,8 +1,8 @@
 # JPF: Java Parameterized Functions
 
-
 ## Overview
 
+JPF utilizes the Java object oriented programming paradigm to implement parameterized functions which allow users the ability to create, fit, evaluate, save, and load machine learning models using native Java. 
 
 ## Motivation
 

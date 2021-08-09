@@ -41,7 +41,7 @@ The processGradient(ArrayList<float[][]>) method will take in an unprocessed gra
 
 ## ActivationFunction
 
-Extending the [ActivationFunction](ActivationFunction.md) abstract class primarily involes implementing the f(float) and fPrime(float) abstract methods.
+Extending the [ActivationFunction](ActivationFunctions.md) abstract class primarily involes implementing the f(float) and fPrime(float) abstract methods.
 
 The f(float) abstract method is the single variate activation function, which should typically be a non-linear function so that the Dense layer can learn non-linear relationships between input and output training data.
 

@@ -1,6 +1,6 @@
 # Layer abstract class
 
-The layer abstract class provides the template for all layers that are used in a neural network.
+The Layer abstract class provides the template for all layers that are used in a neural network.
 
 ## Features
 
