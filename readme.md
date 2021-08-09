@@ -30,8 +30,6 @@ documentation for extending classes, a user can create their own layers, loss fu
 
 ## Important Documentation
 
-The following classes and interfaces make up the core of this package's functionality.
-
 - [Model](docs/Model.md) (abstract class)
     - [SimpleModel](docs/SimpleModel.md) (abstract class)
         - [LinearModel](docs/LinearModel.md)
@@ -41,6 +39,7 @@ The following classes and interfaces make up the core of this package's function
             - [ActivationFunction](docs/ActivationFunctions.md) (abstract class)
 - [Loss](docs/Loss.md) (interface)
 - [Optimizer](docs/Optimizer.md) (interface)
+- [Examples] (docs/Examples.md)
 - [Miscellaneous classes](docs/Misc.md)
 - [Extending classes](docs/ExtendingClasses.md)
 

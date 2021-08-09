@@ -9,6 +9,10 @@ The PolynomialModel class can learn more complex non-linear relationships betwee
 
 Mathematically, this can be expressed as:
 
+![Polynomial equation](images/polynomial_equation.png)
+
+where y_j is the *j* th output component, D is the model degree, N is the input vector size, and b_j and theta_i,j,k are the model parameters.
+
 
 ## Implementation
 
@@ -20,7 +24,7 @@ parameters.get(i)[j][k] refers to the coefficient multiplied by the *i* th input
 
 ## Examples
 
-There is one [example](Example.md) in the Examples.java class which demonstrates and tests the features of the class: "polynomialsin".
+There are two [examples](Example.md) in the Examples.java class which demonstrates and tests the features of the class: "polynomialsin" and "polynomialoverfit".
 
 ## Considerations
 
