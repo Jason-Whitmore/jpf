@@ -39,7 +39,7 @@ documentation for extending classes, a user can create their own layers, loss fu
             - [ActivationFunction](docs/ActivationFunctions.md) (abstract class)
 - [Loss](docs/Loss.md) (interface)
 - [Optimizer](docs/Optimizer.md) (interface)
-- [Examples] (docs/Examples.md)
+- [Examples](docs/Examples.md)
 - [Miscellaneous classes](docs/Misc.md)
 - [Extending classes](docs/ExtendingClasses.md)
 
