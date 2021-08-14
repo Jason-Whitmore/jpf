@@ -1,4 +1,4 @@
-
+package jpf;
 
 /**
  * Defines the ActivationFunction abstract class for use in neural networks

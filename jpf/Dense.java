@@ -1,3 +1,4 @@
+package jpf;
 
 /**
  * Class that defines the Dense layer that makes up much of a typical neural network.

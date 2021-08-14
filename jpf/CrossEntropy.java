@@ -1,3 +1,5 @@
+package jpf;
+
 /**
  * Class that defines the CrossEntropy loss function, which is a concrete class derived from the Loss abstract class.
  * This loss is used for classification tasks 

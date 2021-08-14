@@ -1,3 +1,5 @@
+package jpf;
+
 /**
  * Class definition for the LeakyReLU activation function which is derived from the abstract ActivationFunction class.
  */

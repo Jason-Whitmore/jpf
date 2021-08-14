@@ -1,3 +1,4 @@
+package jpf;
 
 /**
  * Class that defines the linear activation function, often used as an

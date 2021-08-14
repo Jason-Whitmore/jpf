@@ -1,3 +1,5 @@
+package jpf;
+
 /**
  * Defines the Sigmoid activation function which is derived from the abstract ActivationFunction class.
  * The Sigmoid function is used when the output of a layer should be in the range (0,1)

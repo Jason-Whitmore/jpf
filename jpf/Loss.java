@@ -1,3 +1,4 @@
+package jpf;
 
 /**
  * Interface that defines the functions used for loss functions.

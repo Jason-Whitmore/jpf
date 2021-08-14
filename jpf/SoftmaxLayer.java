@@ -1,3 +1,5 @@
+package jpf;
+
 /**
  * Class that defines the SoftmaxLayer class which is derived from the Layer abstract class.
  * This layer is used when the output needs to be a discrete probability distribution.

@@ -1,3 +1,4 @@
+package jpf;
 
 /**
  * Definition for the Mean Squared Error loss function which is commonly used on regression tasks.

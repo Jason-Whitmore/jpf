@@ -1,3 +1,5 @@
+package jpf;
+
 /**
  * Defines the Tanh (hyperbolic tangent) activation function which is derived
  * from the abstract ActivationFunction class.
