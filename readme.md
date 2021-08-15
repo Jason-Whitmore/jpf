@@ -4,6 +4,9 @@
 
 JPF utilizes the Java object oriented programming paradigm to implement parameterized functions which allow users the ability to create, fit, evaluate, save, and load machine learning models using native Java. 
 
+
+Project start date: October 3rd, 2020
+
 ## Motivation
 
 I was motivated to create this project for several reasons.
@@ -12,7 +15,7 @@ First, I was intrigued by the mathematics behind supervised machine learning and
 multivariate calculus behind it and then implement the math myself.
 
 Second, I wanted to focus on my Java programming skills and decided that this project would provide an excellent opportunity to use Java's object oriented
-design features to build a software package that would contain components that were easily testable, extendable, as well as easy to understand. Since I've had
+design features to build a software package that would contain components that were easily testable, extendable, and understandable. Since I've had
  enjoyable experiences with the Tensorflow and Keras machine learning libraries using Python, I wanted to achieve similar results with Java.
 
 ## Design
@@ -28,7 +31,7 @@ in the various pages of documentation.
 This design also makes it easier for users to extend classes to create their own components that seamlessly integrate with this library. For example, following the
 documentation for extending classes, a user can create their own layers, loss functions, optimizers, and activation functions.
 
-## Important Documentation
+## Documentation
 
 - [Model](docs/Model.md) (abstract class)
     - [SimpleModel](docs/SimpleModel.md) (abstract class)
@@ -58,7 +61,22 @@ Unit testing is done on both the Utility and LinearAlgebra classes. These classe
 since they contain very small static helper functions with predictable outputs. The unit test cases are located in
 Tests.java file. Check the "Running tests" subsection in the "How to run" section to learn how to run these tests.
 
-## How to run
+## How to use/run
+
+### Creating the jpf.jar file
+
+A jar file containing the JPF package can be created by using the following make command:
+
+```
+make jpf.jar
+```
+
+This will compile all of the package source files and place the resulting class files into a jar file. This jar file can
+then be moved into a separate project directory, where the package can then be imported as "import jpf.*;".
+
+### Creating Java documentation
+
+
 
 ### Examples
 
@@ -81,15 +99,3 @@ java -ea Tests
 ```
 
 The "-ea" flag is important since it turns on assertions, which will warn the user if a test case failed.
-
-### In your own project
-
-The simplest way of using JPF in your own project is to create the jar file from the source code and then use it in the compiler's classpath.
-
-Since the list of files to include in the jar is rather large, a makefile exists in the code folder that provides a shortcut. Simply use the make program:
-
-```
-make jar
-```
-
-This produces a jpf.jar file that can be used in other projects. Note that this jar file is not part of any package, so no import statement is needed.
