@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import jpf.*;
 
 /**
  * This class defines and runs various unit tests for the LinearAlgebra and Utility classes.
