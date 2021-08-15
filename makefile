@@ -5,6 +5,9 @@ jpf.jar:
 tests: jpf.jar
 	javac Tests.java
 	
+javadocs:
+	javadoc -d javadocs jpf/*.java
+	
 examples: jpf.jar
 	javac Examples.java
 
