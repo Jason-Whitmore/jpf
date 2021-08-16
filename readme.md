@@ -65,7 +65,7 @@ Tests.java file. Check the "Running tests" subsection in the "How to run" sectio
 
 ### Creating the jpf.jar file
 
-A jar file containing the JPF package can be created by using the following make command:
+A jar file containing the JPF package can be created by using the following make command in the main directory:
 
 ```
 make jpf.jar
@@ -76,26 +76,37 @@ then be moved into a separate project directory, where the package can then be i
 
 ### Creating Java documentation
 
+Javadocs can be created using the following make command:
 
+```
+make javadocs
+```
+
+This will create a folder called "javadocs" which contains the javadocs as html files. Of particular interest is the index.html file, which is a good starting point to
+explore all of the javadocs.
 
 ### Examples
 
-The [examples](docs/Examples.md) documentation describes what each specific example does and display sample output. To run, simply run the following commands in the code directory:
+The [examples](docs/Examples.md) documentation describes what each specific example does and display sample output. To run, simply run the following commands in the main directory:
 
 ```
-javac Examples.java
+make examples
 java Examples
 ```
 
-Which will print the various command line arguments that can be used to run the examples.
+The "make examples" command will run a script to create the jpf.jar if needed, then compile the Examples.java source code alongside the jpf.jar package code.
+
+The "java Examples" command will run the Examples program and print out the various command line arguments that can be used to run the examples.
 
 ### Tests
 
-To run the unit tests for the Utility.java and LinearAlgebra.java classes, simply run the following commands in the code directory:
+To run the unit tests for the Utility.java and LinearAlgebra.java classes, simply run the following commands in the main directory:
 
 ```
-javac Tests.java
+make tests
 java -ea Tests
 ```
 
-The "-ea" flag is important since it turns on assertions, which will warn the user if a test case failed.
+The "make tests" command will run a script to create the jpf.jar if needed, then compile the Tests.java source code alongside the jpf.jar package code.
+
+The "java -ea Tests" command will run the tests with assert statements enabled, which will warn the user if a test case failed.
