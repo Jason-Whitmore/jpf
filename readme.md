@@ -15,18 +15,18 @@ First, I was intrigued by the mathematics behind supervised machine learning and
 multivariate calculus behind it and then implement the math myself.
 
 Second, I wanted to focus on my Java programming skills and decided that this project would provide an excellent opportunity to use Java's object oriented
-design features to build a software package that would contain components that were easily testable, extendable, and understandable. Since I've had
- enjoyable experiences with the Tensorflow and Keras machine learning libraries using Python, I wanted to achieve similar results with Java.
+design features to build a software package that would contain components that were easily testable, extendable, and understandable. The Tensorflow and Keras
+machine learning libraries that are widely used in Python are important inspirations for this project. These libraries made prototyping neural network and machine learning techniques easy, fast, and intuitive.
 
 ## Design
 
 The JPF library is designed using Java's OOP and abstraction mechanisms. Use of abstract classes and interfaces allows for fast development of classes
-through code reuse and inheritance of data and behavior. These relationships are demonstrated through the Model UML summary diagram:
+through code reuse and inheritance of data and behavior. The complete UML summary design is available [here](docs/images/uml_all.png).
+The Model class hierarchy, which is a subset of the complete package design, demonstrates these class relationships:
 
 ![Model UML diagram](docs/images/uml_core.png)
 
-This UML diagram is only a small section of the [complete UML summary diagram](docs/images/uml_all.png). More sections of this design are discussed
-in the various pages of documentation.
+More sections of this package's design are discussed in the various pages of documentation.
 
 This design also makes it easier for users to extend classes to create their own components that seamlessly integrate with this library. For example, following the
 documentation for extending classes, a user can create their own layers, loss functions, optimizers, and activation functions.
@@ -54,12 +54,12 @@ The black box tests are used to test correctness of the LinearModel, PolynomialM
 These black box tests work by conducting several scenarios involving parameterized functions and seeing if their
 behavior matches what is expected. For example, when fitting a Neural Network to some training data, it is expected
 that the training loss will decrease. These black box tests are implemented as [examples](docs/Examples.md) that have clear goals for
-expected outcomes. Check the "Running examples" subsection in the "How to run" section to learn how to run these examples.
+expected outcomes. Check the "Examples" subsection in the "How to use/run" section to learn how to run these examples.
 
 
 Unit testing is done on both the Utility and LinearAlgebra classes. These classes are well suited for unit testing
 since they contain very small static helper functions with predictable outputs. The unit test cases are located in
-Tests.java file. Check the "Running tests" subsection in the "How to run" section to learn how to run these tests.
+Tests.java file. Check the "Tests" subsection in the "How to use/run" section to learn how to run these tests.
 
 ## How to use/run
 
