@@ -83,7 +83,7 @@ make javadocs
 This will create a directory called "javadocs" in the main directory which contains the Javadocs as html files. Of particular interest is the index.html file, which is a good starting point to
 explore all of the Javadocs.
 
-### Running Examples
+### Running examples
 
 The [examples](docs/Examples.md) documentation describes what each specific example does and the sample output. To run the examples, simply use the following commands in the main directory:
 

@@ -57,7 +57,7 @@ public class Examples{
         System.out.println("Starting complex LinearModel example.");
         System.out.println("Will generate data from a randomized transformation and bias matrix, then train a linear model on it.");
         System.out.println("After training, the learned parameters will then be compared to the original data generation matricies to determine if training worked.");
-        System.out.println("To see if model saving/loading works, the LinearModel will be saved to disk, reloaded, and then compared outputs.");
+        System.out.println("To see if model saving/loading works, the LinearModel will be saved to disk, reloaded, and then the losses will be compared.");
 
         int numInputs = 3;
         int numOutputs = 3;
@@ -114,7 +114,7 @@ public class Examples{
         System.out.println("Loading model from disk...");
         model = new LinearModel(filePath);
 
-        System.out.println("Model loaded. Check loss. Loss from model should mostly match to loaded model:");
+        System.out.println("Model loaded. Check loss. Loss from saved model should mostly match to loaded model:");
         System.out.println("Loss from trained model: " + endLoss);
 
         float loadedModelLoss = model.calculateLoss(trainingInputs, trainingOutputs, new MSE());
@@ -197,8 +197,8 @@ public class Examples{
         //Get the loss on the dataset. Should match old model's loss
         float loadedModelLoss = model.calculateLoss(trainingInputs, trainingOutputs, new MSE());
 
-        System.out.println("Model loaded. Loss on dataset on loaded model should match the previous model's loss:");
-        System.out.println("Old model loss: " + afterLoss);
+        System.out.println("Model loaded. Loss on dataset on loaded model should match the saved model's loss:");
+        System.out.println("Saved model loss: " + afterLoss);
         System.out.println("Loaded model loss: " + loadedModelLoss);
     }
 

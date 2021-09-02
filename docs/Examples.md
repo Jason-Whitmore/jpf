@@ -1,16 +1,16 @@
 # Examples
 
-The Examples.java class provides demonstrations of model usage, including model creation, training, prediction, and saving models to disk.
+The Examples.java class provides demonstrations of model usage, including model creation, training, prediction, and more.
 These examples also serve as black box tests to ensure that the model functionality behaves as expected.
-The class also provides an easy command line interface to run these examples. To use, simply include the example name as the only argument
-when running. For example:
+The class also provides an easy command line interface to run these examples. First, make sure to compile the Examples.java file with the jpf jar file. This is done via a make script command:
 
-`javac Examples.java`
+`make examples`
+
+Then, simply include the example name as the only command line argument. For example, to run the "simplelinear" example, use the following command:
 
 `java Examples simplelinear`
 
-Compiles the Examples class and then runs the "simplelinear" example. For a list of all argument strings, simply provide no argument when
-executing the program.
+For a list of all argument strings, simply provide no argument when executing the program.
 
 In this document, a brief description of each example will be provided alongside the program output
 
@@ -22,7 +22,7 @@ In this document, a brief description of each example will be provided alongside
 ### simplelinear
 
 The simplelinear example demonstrates the creation, training, and evaluation of a simple linear model that aims to learn the function
-f(x) = 2x -1. The training input data is generated from a random uniform distribution in the range (-10, 10). In order to evaluate
+f(x) = 2x - 1. The training input data is generated from a random uniform distribution in the range (-10, 10). In order to evaluate
 how well the training process worked, the model loss from the dataset will be recorded from both before and after training. Since 
 the underlying training data is from a linear function, the post training loss should be extremely small compared to the pre training
 loss.
@@ -48,7 +48,7 @@ The input and output vectors from this linear function are then used as training
 linear function, the trained LinearModel should be nearly identical to the original linear function. Loss from before training should be much greater
 than the loss after training. Additionally, this example demonstrates the ability to save a LinearModel to disk (in this case, as "ComplexLinearModel")
 and load it back into memory. After loading the LinearModel back into memory, the loss will be evaluated again to see if the saving and loading process
-worked correctly. Both the before and after save/loading loss should be the same.
+worked correctly. Both the before saving and after loading loss should be the same.
 
 Program output:
 
@@ -56,7 +56,7 @@ Program output:
 Starting complex LinearModel example.
 Will generate data from a randomized transformation and bias matrix, then train a linear model on it.
 After training, the learned parameters will then be compared to the original data generation matricies to determine if training worked.
-To see if model saving/loading works, the LinearModel will be saved to disk, reloaded, and then compared outputs.
+To see if model saving/loading works, the LinearModel will be saved to disk, reloaded, and then the losses will be compared.
 Generating data...
 Creating LinearModel and training...
 Model trained. End loss should be smaller than start loss:
@@ -64,7 +64,7 @@ Start loss: 42.89671
 End loss: 7.126446E-11
 Saving trained model to disk...
 Loading model from disk...
-Model loaded. Check loss. Loss from model should mostly match to loaded model:
+Model loaded. Check loss. Loss from saved model should mostly match to loaded model:
 Loss from trained model: 7.126446E-11
 Loss from loaded model: 7.126446E-11
 ```
@@ -82,10 +82,10 @@ The primary task of this example is to find a polynomial of degree 2 which most 
 A polynomial approximation of the sin(x) function is desirable since computers can't calculate sin(x) directly and other approximation techniques
 such as tables take up memory and are crude. Polynomial functions work well with computers since they only require basic mathematical operations
 to compute, like addition and multiplication. A polynomial approxmiation of degree 2 would be quite fast since there are fewer additions and
-multiplications to perform to get the approximated output. Of course, a higher degree represents an accuracy-speed tradeoff.
+multiplications to perform to get the approximated output. Of course, a different polynomial degrees represents an accuracy-speed tradeoff.
 
 This example also saves the PolynomialModel to disk and then loads it back into memory to test saving and loading functionality. As with the
-complexlinear example, the losses will be compared before and after training/loading.
+complexlinear example, the losses will be compared before and after training, as well as before saving and after loading the model from disk.
 
 Program output:
 
@@ -101,8 +101,8 @@ Loss after training: 0.0062198346
 Learned polynomial is: f(x) = -0.3570667x^2 + 1.1878308x + -0.017842926
 Now saving the model to file: polynomial_model_saved
 Model saved. Now loading the model from file...
-Model loaded. Loss on dataset on loaded model should match the previous model's loss:
-Old model loss: 0.0062198346
+Model loaded. Loss on dataset on loaded model should match the saved model's loss:
+Saved model loss: 0.0062198346
 Loaded model loss: 0.0062198346
 
 ```
@@ -116,7 +116,7 @@ This polynomial can be plotted alongside sin(x):
 
 (Graph made via Desmos)
 
-where the red line is sin(x) and the blue line is the learned polynomial.
+Where the red line is sin(x) and the blue line is the learned polynomial.
 
 Of course, this approximation isn't perfect and could likely be improved with hyperparameter tuning.
 
