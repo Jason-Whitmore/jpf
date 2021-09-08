@@ -363,14 +363,14 @@ created when a square is divided by drawing lines to and from opposite corners:
 
 ![Multiclass classification decision boundaries](images/multiclass_classification.png)
 
-The classifier is a standard 2 hidden layer neural network but uses a final Dense layer of size 4 followed by a SoftmaxLayer to turn the output into a
+The classifier is a standard 2 hidden layer neural network but then uses a Dense layer of size 4 followed by a SoftmaxLayer to turn the output into a
 discrete probability distribution. The training outputs are one-hot encoded, meaning that the index of the output component being equal to 1 is the class
-the input belongs to. For example, training output vector [0,0,1,0] means that the associated input vector belongs to class 3.
+the input belongs to. For example, training output vector [0,0,1,0] means that the associated input vector belongs to class 2.
 
 Once the classifier is trained, both the training loss and accuracy (number of correct classifications / total number of samples) will be displayed. The predicted
 class is just the index of the output vector which is the highest.
 
-The classifier will also be saved and loaded from disk to test functionality.
+The classifier will also be saved and loaded from disk to test saving/loading functionality.
 
 Program output:
 
@@ -395,15 +395,15 @@ Both losses should be equal.
 
 ### nncomplex
 
-In this example, an overly complex neural network will be constructed in order to demonstrate the computation graph model implementation of neural networks.
-This complex neural network will feature multiple input and output layers. Between the input and output layers will be a complex network of layers connect to
+In this example, an overly complex neural network will be constructed in order to demonstrate the computation graph implementation.
+This complex neural network will feature multiple input and output layers. Between the input and output layers is a complex network of layers connected to
 each other which forms the core of the neural network:
 
 ![Complex neural network diagram](images/nn_complex.png)
 
-This structure also demonstrates the usage of Add layers, which can accept outputs from multiple input layers and outputs a single vector.
+This structure also demonstrates the use of Add layers, which can accept outputs from multiple input layers and outputs a single vector.
 
-The neural network will then be trained on a dummy data set to check that learning does occur (albeit overfitting). The neural network will then
+The neural network will then be trained on a dummy dataset to check that learning does occur (albeit overfitting to the dataset). The neural network will then
 be saved to disk and loaded back into memory to check if that functionality works.
 
 Program output:
