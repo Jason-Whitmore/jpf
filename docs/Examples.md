@@ -156,16 +156,16 @@ Degree: 13, test/train loss ratio: 12.862402
 
 ## NeuralNetwork
 
-## nnquadratic
+### nnquadratic
 
-The nnquadratic example demonstrates basic neural network construction, training, evaluation, as well as saving a model to disk and loading back into memory.
+The nnquadratic example demonstrates basic neural network construction, training, evaluation, as well as saving a model to disk and loading it back into memory.
 A standard 2 hidden layer neural network is created with an input vector and output vector of size 1.
 A simple training dataset of f(x) = x^2 for x in (-10, 10) is created to train the neural network on. Every epoch the training loss will be evaluated and 
 displayed to the user. Additionally, the model will make predictions on x in (-10, 10) every epoch and the outputs will be recorded.
 At the end of training, both the training loss data and the output data will be written to disk under the names nn_quadratic_output.csv, and nn_quadratic_loss.csv.
 
 The model saving/loading functionality will be tested, and the model will be saved to disk before being removed from memory. Then, a new model will be created from
-the disk file. The training loss before and after loading the model from disk will determine if the model saving and loading process was sucessful.
+the disk file. The training loss before saving and after loading the model from disk will determine if the model saving and loading process was sucessful.
 
 
 
@@ -190,9 +190,9 @@ at all a representation of f(x) = x^2. However, as training progresses, the outp
 Program output:
 
 ```
-In this example, a neural network will be created to fit f(x) = x^2 for x in [-10, 10].
+In this example, a neural network will be created to fit f(x) = x^2 for x in (-10, 10).
 Over the course of training, the training loss will be recorded as well as the neural network output after each epoch
-After training, the training loss will be recorded before the model is saved to disk, deallocated, and recreated from disk.
+After training, the training loss will be recorded before the model is saved to disk, and compared to the loss from the model loaded from disk.
 Creating training dataset of size 1000
 Creating neural network
 Training started...
@@ -221,14 +221,14 @@ Training loss function data written to disk. Check for nn_quadratic_loss.csv whe
 Function output data written to disk. Check for nn_quadratic_output.csv where Examples.java is.
 ```
 
-## nnoverfit
+### nnoverfit
 
 Similar to the polynomialoverfit example, several neural networks will be trained with varying numbers of model parameters on a training dataset of fixed size from
 the function f(x)=x^2. A testing dataset will also be created using the same function.
 After training, both a test loss and a training loss will be calculated. The datapoint (number of model parameters, test loss / train loss ratio) will be 
 displayed to the user and written as a row to "nn_overfit_results.csv" located in the same folder as Examples.java
 
-As the number of parameters goes up, we should expect to see the ratio of test loss / train loss increase as the neural network overfits, or "memorizes" the
+As the number of parameters goes up, we should expect to see the test loss / train loss ratio increase as the neural network overfits, or "memorizes" the
 training dataset rather than generalizing from it. Overfitted models tend to have very loss training loss (memorizing the training dataset) and very high test
 loss (from lack of generalization).
 
@@ -239,9 +239,9 @@ nn_overfit_results.csv:
 Program output:
 
 ```
-In this example, a demonstration of overfitting will be conducted using a neural network fitting to f(x)=x^2
-Both a test and training dataset will be created with outputs from f(x) = x^2 for x in (-10, 10)
-The standard 2 hidden neural network will be created with varying numbers of units in the hidden layers.
+In this example, a demonstration of overfitting will be conducted using a neural network fitting to f(x)=x^2.
+Both a test and training dataset will be created with outputs from f(x) = x^2 for x in (-10, 10).
+A standard 2 hidden layer neural network will be created with varying numbers of units in the hidden layers.
 After a neural network is trained, the loss will be collected for both the training and testing datasets.
 At the end of the example, the results will be saved to nn_overfit_results.csv so that they can be graphed.
 
@@ -266,26 +266,26 @@ Num parameters: 1021
 Test loss / train loss ratio: 4.4191437
 ```
 
-## nnbinaryclassification
+### nnbinaryclassification
 
 The nnbinaryclassification example demonstrates the use of neural networks for binary classification tasks which separate inputs into two distinct classes.
-In this example, the input data will be points on a 2d plane forming the tuple (x1, x2), where x1, x2 are in the range (0,1). Inputs that are within a circle
+In this example, the input data will be points on a 2d plane forming the tuple (x1, x2), where x1, x2 are in (0,1). Inputs that are within a circle
 whose center is at (0.5, 0.5) and has a radius 0.5 are part of class 0, and all else are part of class 1. The goal of the neural network classifier is to 
 find the "decision boundary" that separates these data points into the correct classes. In this example, the decision boundary is a circle:
 
 ![Binary classification decision boundary](images/binary_classification.png)
 
-The neural network classifier is a standard 2 hidden layer neural network. The Dense output layer uses the sigmoid activation function, which outputs numbers in the range (0, 1) which makes it ideal for binary classification tasks. This neural network is trained on generated data with a binary cross entropy loss, which uses binary values as
-the ground truths.
+The neural network classifier is a standard 2 hidden layer neural network. The Dense output layer uses the sigmoid activation function, which outputs numbers in the range (0, 1) which makes it ideal for binary classification tasks. This neural network is trained on generated data with a cross entropy loss, which uses binary values as
+the output labels.
 
-After training, the training loss is displayed as well as an accuracy metric, which rounds predicted values to either 0 or 1.
+After training, the training loss is displayed as well as an accuracy metric, which is the proportion of correct predictions after rounding the classifier output.
 
 
 Program output:
 
 ```
 In this example a demonstration of a binary classification task will be performed.
-A neural network will be constructed with an input vector of size two and an output vector of size 1 with a sigmoid activation function
+A neural network will be constructed with an input vector of size 2 and an output vector of size 1 with a sigmoid activation function.
 The training input data will be (x1,x2) coordinates with x1, x2 in range (0,1). Each (x1,x2) pair will be considered to be a member of 2 classes.
 (x1,x2) coordinates that lie inside of a circle that has a center at (0.5,0.5) and a radius of 0.5 will belong to class 0.
 All other (x1,x2) coordinates will belong to class 1.
@@ -298,12 +298,12 @@ Training loss: 0.27662688
 Accuracy (correct predictions / number of samples): 0.92
 ```
 
-## nnresnet
+### nnresnet
 
 The nnresnet example demonstrates the building, fitting, saving, and loading of more complex neural network structures. In this example, two nearly identical
-neural networks are created with 4 Dense hidden layers with Tanh activation functions. The Resnet version, however, uses an Add layer, which combines output from
+neural networks are created using 4 Dense hidden layers with Tanh activation functions. One version (ResNet), however, uses an Add layer, which combines output from
 multiple layers by using vector addition. With very deep neural networks, the vanishing gradient problem becomes apparent during the backward pass process.
-This is because if the input to the Tanh activation function is too high, the derivative of the function at that input approaches zero. With more layers, this
+This is because if the input to the Tanh activation function is too high or too low, the derivative of the function at that input approaches zero. With more layers, this
 effect is compounded and learning will slow. With an Add layer, however, connections are formed with layers near both the input and output sides of the network.
 Since the loss with respect to model weights is quite strong at the Add layer, the connected layers have two sources of loss signals (from both the Add layer and the
 "next" layer), which helps speed up learning.
@@ -340,8 +340,8 @@ Both neural networks will use the Tanh activation functions for the hidden layer
 implemented as a ResNet, which contains "skip connections" to a layer closer to the output layer.
 This is done via an Add layer, which contains no parameters and simply adds the output vectors from other layers together.
 Both neural networks will be trained on a dataset from the function f(x1,x2) = (x1)^2 - (x2)^2.
-Training loss will be measured at every epoch and compared on a graph.
-After training, the ResNet neural network will be saved to disk and loaded to test functionality.
+Training loss will be measured at every epoch and the results will be written to disk.
+After training, the ResNet neural network will be saved to disk and loaded to test saving and loading functionality.
 
 Creating the dataset...
 Creating the neural networks...
@@ -352,7 +352,7 @@ Loss after loading: 4.0896945
 Both losses should be very close or equal to each other.
 ```
 
-## nnmulticlass
+### nnmulticlass
 
 The nnmulticlass example, like the nnbinaryclassification example, aims to classify the input data into separate classes. However, this example separates
 the input data into 4 distinct classes, rather than just 2. This is accompolished via using a SoftmaxLayer as the output layer, which outputs a discrete
@@ -393,7 +393,7 @@ Both losses should be equal.
 ```
 
 
-## nncomplex
+### nncomplex
 
 In this example, an overly complex neural network will be constructed in order to demonstrate the computation graph model implementation of neural networks.
 This complex neural network will feature multiple input and output layers. Between the input and output layers will be a complex network of layers connect to

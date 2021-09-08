@@ -252,7 +252,7 @@ public class Examples{
     public static void nnQuadratic(){
         System.out.println("In this example, a neural network will be created to fit f(x) = x^2 for x in [-10, 10].");
         System.out.println("Over the course of training, the training loss will be recorded as well as the neural network output after each epoch");
-        System.out.println("After training, the training loss will be recorded before the model is saved to disk, deallocated, and recreated from disk.");
+        System.out.println("After training, the training loss will be recorded before the model is saved to disk, and compared to the loss from the model loaded from disk.");
         
         //Create dataset of f(x) = x^2 for x in [-10, 10]
         int n = 1000;
@@ -354,9 +354,9 @@ public class Examples{
     }
 
     public static void nnOverfit(){
-        System.out.println("In this example, a demonstration of overfitting will be conducted using a neural network fitting to f(x)=x^2");
-        System.out.println("Both a test and training dataset will be created with outputs from f(x) = x^2 for x in (-10, 10)");
-        System.out.println("The standard 2 hidden neural network will be created with varying numbers of units in the hidden layers.");
+        System.out.println("In this example, a demonstration of overfitting will be conducted using a neural network fitting to f(x)=x^2.");
+        System.out.println("Both a test and training dataset will be created with outputs from f(x) = x^2 for x in (-10, 10).");
+        System.out.println("A standard 2 hidden layer neural network will be created with varying numbers of units in the hidden layers.");
         System.out.println("After a neural network is trained, the loss will be collected for both the training and testing datasets.");
         System.out.println("At the end of the example, the results will be saved to nn_overfit_results.csv so that they can be graphed.\n");
 
@@ -435,7 +435,7 @@ public class Examples{
 
     public static void nnBinaryClassification(){
         System.out.println("In this example a demonstration of a binary classification task will be performed.");
-        System.out.println("A neural network will be constructed with an input vector of size two and an output vector of size 1 with a sigmoid activation function");
+        System.out.println("A neural network will be constructed with an input vector of size 2 and an output vector of size 1 with a sigmoid activation function.");
         System.out.println("The training input data will be (x1,x2) coordinates with x1, x2 in range (0,1). Each (x1,x2) pair will be considered to be a member of 2 classes.");
         System.out.println("(x1,x2) coordinates that lie inside of a circle that has a center at (0.5,0.5) and a radius of 0.5 will belong to class 0.");
         System.out.println("All other (x1,x2) coordinates will belong to class 1.\n");
@@ -506,8 +506,8 @@ public class Examples{
         System.out.println("implemented as a ResNet, which contains \"skip connections\" to a layer closer to the output layer.");
         System.out.println("This is done via an Add layer, which contains no parameters and simply adds the output vectors from other layers together.");
         System.out.println("Both neural networks will be trained on a dataset from the function f(x1,x2) = (x1)^2 - (x2)^2.");
-        System.out.println("Training loss will be measured at every epoch and compared on a graph.");
-        System.out.println("After training, the ResNet neural network will be saved to disk and loaded to test functionality.\n");
+        System.out.println("Training loss will be measured at every epoch and the results will be written to disk.");
+        System.out.println("After training, the ResNet neural network will be saved to disk and loaded to test saving and loading functionality.\n");
 
         System.out.println("Creating the dataset...");
         int n = 1000;
