@@ -688,7 +688,7 @@ public class Examples{
 
     public static void nnComplex(){
         System.out.println("In this example, an overly complex neural network will be constructed to demonstrate the versatility of the computation graph model");
-        System.out.println("which is used to implement neural networks in this library. A neural network will be constructed using 3 separate Input layers and ");
+        System.out.println("which is used to implement neural networks in this package. A neural network will be constructed using 3 separate Input layers and ");
         System.out.println("3 output layers, 2 of which will be Dense and 1 a SoftmaxLayer. The neural network will be trained on dummy data and different loss");
         System.out.println("functions for each layer. The saving and loading from disk functionality will also be tested.");
 

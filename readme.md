@@ -15,11 +15,11 @@ First, I was intrigued by the mathematics behind supervised machine learning and
 multivariate calculus behind it and then implement the techniques myself.
 
 Second, I wanted to focus on my Java programming skills and decided that this project would provide an excellent opportunity. Specifically, I could use Java's object oriented design features to build a software package containing components that were easily testable, extendable, and understandable. The Tensorflow and Keras
-machine learning libraries that are widely used in Python are important inspirations for this project. These libraries made prototyping neural network and machine learning techniques easy, fast, and intuitive.
+machine learning packages that are widely used in Python are important inspirations for this project. These packages made prototyping neural network and machine learning techniques easy, fast, and intuitive.
 
 ## Design
 
-The JPF library is designed using Java's object oriented design and abstraction mechanisms. Use of abstract classes and interfaces allows for fast development of classes
+The JPF package is designed using Java's object oriented design and abstraction mechanisms. Use of abstract classes and interfaces allows for fast development of classes
 through code reuse and inheritance of data and behaviors. The complete UML summary design is available [here](docs/images/uml_all.png).
 The Model class hierarchy, which is a subset of the complete package design, demonstrates these class relationships:
 
@@ -27,7 +27,7 @@ The Model class hierarchy, which is a subset of the complete package design, dem
 
 More sections of this package's design are discussed in the various pages of documentation.
 
-This design also makes it easier for users to extend classes to create their own components that seamlessly integrate with this library. For example, following the
+This design also makes it easier for users to extend classes to create their own components that seamlessly integrate with this package. For example, following the
 documentation for extending classes, a user can create their own layers, loss functions, optimizers, and activation functions.
 
 ## Documentation

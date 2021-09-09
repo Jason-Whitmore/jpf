@@ -410,7 +410,7 @@ Program output:
 
 ```
 In this example, an overly complex neural network will be constructed to demonstrate the versatility of the computation graph model
-which is used to implement neural networks in this library. A neural network will be constructed using 3 separate Input layers and 
+which is used to implement neural networks in this package. A neural network will be constructed using 3 separate Input layers and 
 3 output layers, 2 of which will be Dense and 1 a SoftmaxLayer. The neural network will be trained on dummy data and different loss
 functions for each layer. The saving and loading from disk functionality will also be tested.
 Creating the neural network...

@@ -62,7 +62,7 @@ The LeakyReLU activation function is also very popular to use in hidden layers. 
 
 ### Linear
 
-The Linear activation function is the simplest activation function included in this library. It simply returns the input value as the output. This function is typically used as a neural network's output layer activation function since it outputs values in (-infinity, infinity). This function is almost never used in hidden layers because it cannot learn non linear relationships in training data.
+The Linear activation function is the simplest activation function included in this package. It simply returns the input value as the output. This function is typically used as a neural network's output layer activation function since it outputs values in (-infinity, infinity). This function is almost never used in hidden layers because it cannot learn non linear relationships in training data.
 
 ![Linear activation function](images/linear.png)
 

@@ -1,16 +1,16 @@
 # Extending classes
 
-The design of this library allows for users to extend the classes and create their own classes which fit seamlessly into the existing functionality. Although 
-many of the classes of extendable, the classes which make the most sense to extend will be discussed here. It is also highly recommended that the source code for the parent class be examined before extending for additional comments.
+The design of this package allows for users to extend the existing classes and create their own which fit seamlessly into the existing functionality. Although 
+many of the classes are extendable, the classes which make the most sense to extend will be discussed here. It is also highly recommended that the source code for the parent class be examined for additional comments before extending.
 
 ## SimpleModel
 
-Extending the [SimpleModel](SimpleModel.md) class only requires a few implementations of abstract methods before the fully functionality can be realized.
-Namely, predict(float[]), calculateGradient(float[], float[], Loss) and saveModel() method. With both of these methods implemented, 
+Extending the [SimpleModel](SimpleModel.md) class only requires a few implementations of abstract methods before the full functionality can be realized.
+Namely, predict(float[]), calculateGradient(float[], float[], Loss) and saveModel(). With all of these methods implemented, 
 the class will be able to make batch predictions, fit to training data, calculate loss, and save the model to disk with no additional method implementation required from the user.
 
 Although not strictly required, creating a constructor that accepts a filepath to the output file from saveModel() will allow the extended class to create
-an instance from a disk saved model.
+an instance from a model saved to disk.
 
 ## Layer
 
@@ -18,9 +18,9 @@ Extending the [Layer](Layer.md) class mostly involves implementing the forwardPa
 
 The forwardPass() method is responsible for populating its own input vector, typically by "pulling" the output vectors from the Layer's input layers. If the Layer is restricted to one input layer, then typically the input vector is just copied from the input layer's output vector. Once this is accompolished, some computation should be done on the input vector (likely using any layer parameters) and the result should be placed in the output vector field.
 
-The backwardPass() method is responsible for populating its own dLdY vector, typically by "pulling" the dLdX vectors from the Layer's output layers. This is done by adding together all of the dLdX vectors using the initializedlDY() method at the start of the backwardPass() implementation. Then, this dLdY vector is used to calculate the gradient of the loss function with respect to the parameters. This process can be fairly calculus heavy and typically involves using the chain rule and the populated input vector. One the gradients are populated inside of the gradient list, the dLdX vector needs to be calculated to before the backwardPass() implementation is complete.
+The backwardPass() method is responsible for populating its own dLdY vector, typically by "pulling" the dLdX vectors from the Layer's output layers. This is done by adding together all of the dLdX vectors using the initializedlDY() method at the start of the backwardPass() implementation. Then, this dLdY vector is used to calculate the gradient of the loss function with respect to the parameters. This process can be fairly calculus heavy and typically involves using the chain rule and the populated input vector. One the gradients are populated inside of the gradient list, the dLdX vector needs to be calculated before the backwardPass() implementation is complete.
 
-Although not needed for prediction and fitting, the toString() method should also be implemented as well as a string constructor so that layers can be constructed from a string representation when the neural network is saved to disk. The static createLayerFromString() method should also be modified to create the new extended class.
+Although not needed for prediction and fitting, the toString() method should also be implemented as well as a string constructor so that layers can be constructed from a string representation when the neural network is saved to disk. The static createLayerFromString() method in Layer.java should also be modified to create the new extended class from a string representation.
 
 ## Loss
 
@@ -41,7 +41,7 @@ The processGradient(ArrayList<float[][]>) method will take in an unprocessed gra
 
 ## ActivationFunction
 
-Extending the [ActivationFunction](ActivationFunctions.md) abstract class primarily involes implementing the f(float) and fPrime(float) abstract methods.
+Extending the [ActivationFunction](ActivationFunctions.md) abstract class primarily involves implementing the f(float) and fPrime(float) abstract methods.
 
 The f(float) abstract method is the single variate activation function, which should typically be a non-linear function so that the Dense layer can learn non-linear relationships between input and output training data.
 
