@@ -55,7 +55,7 @@ Program output:
 ```
 Starting complex LinearModel example.
 Will generate data from a randomized transformation and bias matrix, then train a linear model on it.
-After training, the learned parameters will then be compared to the original data generation matricies to determine if training worked.
+After training, the learned parameters will then be compared to the original data generation matrices to determine if training worked.
 To see if model saving/loading works, the LinearModel will be saved to disk, reloaded, and then the losses will be compared.
 Generating data...
 Creating LinearModel and training...
@@ -81,7 +81,7 @@ The polynomialsin example demonstrates the creation, training, evaluation, savin
 The primary task of this example is to find a polynomial of degree 2 which most closely represents the sin(x) function where x is in (0, 3).
 A polynomial approximation of the sin(x) function is desirable since computers can't calculate sin(x) directly and other approximation techniques
 such as tables take up memory and are crude. Polynomial functions work well with computers since they only require basic mathematical operations
-to compute, like addition and multiplication. A polynomial approxmiation of degree 2 would be quite fast since there are fewer additions and
+to compute, like addition and multiplication. A polynomial approximation of degree 2 would be quite fast since there are fewer additions and
 multiplications to perform to get the approximated output. Of course, a different polynomial degrees represents an accuracy-speed tradeoff.
 
 This example also saves the PolynomialModel to disk and then loads it back into memory to test saving and loading functionality. As with the
@@ -165,7 +165,7 @@ displayed to the user. Additionally, the model will make predictions on x in (-1
 At the end of training, both the training loss data and the output data will be written to disk under the names nn_quadratic_output.csv, and nn_quadratic_loss.csv.
 
 The model saving/loading functionality will be tested, and the model will be saved to disk before being removed from memory. Then, a new model will be created from
-the disk file. The training loss before saving and after loading the model from disk will determine if the model saving and loading process was sucessful.
+the disk file. The training loss before saving and after loading the model from disk will determine if the model saving and loading process was successful.
 
 
 
@@ -229,7 +229,7 @@ After training, both a test loss and a training loss will be calculated. The dat
 displayed to the user and written as a row to "nn_overfit_results.csv" located in the same folder as Examples.java
 
 As the number of parameters goes up, we should expect to see the test loss / train loss ratio increase as the neural network overfits, or "memorizes" the
-training dataset rather than generalizing from it. Overfitted models tend to have very loss training loss (memorizing the training dataset) and very high test
+training dataset rather than generalizing from it. Models which overfit tend to have very loss training loss (memorizing the training dataset) and very high test
 loss (from lack of generalization).
 
 nn_overfit_results.csv:
@@ -355,7 +355,7 @@ Both losses should be very close or equal to each other.
 ### nnmulticlass
 
 The nnmulticlass example, like the nnbinaryclassification example, aims to classify the input data into separate classes. However, this example separates
-the input data into 4 distinct classes, rather than just 2. This is accompolished via using a SoftmaxLayer as the output layer, which outputs a discrete
+the input data into 4 distinct classes, rather than just 2. This is accomplished via using a SoftmaxLayer as the output layer, which outputs a discrete
 probability distribution.
 
 Like the binary classification example, input data will be (x1, x2) coordinates where x1, x2 are in the range (0, 1). The 4 classes correspond to the regions
