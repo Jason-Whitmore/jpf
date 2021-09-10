@@ -5,7 +5,7 @@ on parameters that can be learned through fitting on training data.
 
 ## Features
 
-Since the idea of a parameterized function is very vague, this abstract class only provides fields for the parameters themselves (implemented
+Since the idea of a parameterized function is vague, this abstract class only provides fields for the parameters themselves (implemented
 as an ArrayList of 2d float arrays) and a simple parameter count variable.
 
 The methods provided by the Model abstract class provide the functionality that all parameterized functions have. This includes returning the parameters
