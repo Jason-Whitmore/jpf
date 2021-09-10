@@ -2,7 +2,7 @@
 
 The loss function interface provides the basic template for implementing loss functions that are used to evaluate model performance and fit the model to training data.
 
-## The loss interface
+## The Loss interface
 
 ### float[] calculateLossVector(float[] yTrue, float[] yPredicted)
 
@@ -10,12 +10,12 @@ Calculates the loss for each component of the output vector. Typically, this is 
 
 ### float[] calculateLossVectorGradient(float[] yTrue, float[] yPredicted)
 
-Calculates the gradient of steepest ascent of the loss function for each component of the output vector. In other words, each component is the derivative of the loss function with respect to the output
+Calculates the gradient of steepest ascent of the loss function for each component of the output vector. In other words, each component is the derivative of the loss function with respect to the output vector component.
 
 
 ### float calculateLossScalar(float[] yTrue, float[] yPredicted)
 
-Calculates the scalar loss on a yTrue vector and a yPredicted vector. Typically this is just the mean of all of the loss components.
+Calculates the scalar loss on a yTrue vector and a yPredicted vector. Typically this is just the mean of all of the loss components from calculateLossVector().
 
 ## Derived classes
 
@@ -25,7 +25,7 @@ Calculates the scalar loss on a yTrue vector and a yPredicted vector. Typically 
 
 L(yTrue, yPredicted) = (yPredicted - yTrue)^2
 
-The standard loss function for regression tasks. This function is popular because the loss signal becomes very strong as the difference between yPred and yTrue grows larger. Also, this function is twice differentiable.
+The standard loss function for regression tasks. This function is popular because the loss signal becomes very strong as the difference between yPredicted and yTrue grows larger.
 
 ### CrossEntropy
 
@@ -36,5 +36,5 @@ if yTrue = 1: -log(yPredicted)
 if yTrue = 0: -log(1 - yPredicted)
 
 A loss function that can be used for classification tasks. The primary consideration with this loss function is that the labels, yTrue, must be either 0 or 1.
-Additionally, the predictied outputs, yPred, must be in range (0, 1). Due to these constraints, this loss function is typically used when the output layers are
+Additionally, the predicted outputs, yPredicted, must be in range (0, 1). Due to these constraints, this loss function is typically used when the output layers are
 either SoftmaxLayers or Dense with a sigmoid activation function.
