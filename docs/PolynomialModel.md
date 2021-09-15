@@ -1,6 +1,6 @@
 # PolynomialModel
 
-The PolynomialModel class is a derived class of the [SimpleModel](SimpleModel.md) abstract class that allows for the user to adjust the capacity/parameters of the predictive model by altering the degree of the underlying polynomial functions.
+The PolynomialModel class is a derived class of the [SimpleModel](SimpleModel.md) abstract class that allows for the user to adjust the capacity/parameters of the model by altering the degree of the underlying polynomial functions.
 
 
 ## Features
@@ -11,7 +11,7 @@ Mathematically, this can be expressed as:
 
 ![Polynomial equation](images/polynomial_equation.png)
 
-where y_j is the *j* th output component, D is the model degree, N is the input vector size, and b_j and theta_i,j,k are the model parameters.
+where y_j is the *j* th output component, D is the model degree, N is the input vector size, and b_j, theta_i,j,k are the model parameters.
 
 
 ## Implementation
@@ -24,7 +24,7 @@ parameters.get(i)[j][k] refers to the coefficient multiplied by the *i* th input
 
 ## Examples
 
-There are two [examples](Example.md) in the Examples.java class which demonstrates and tests the features of the class: "polynomialsin" and "polynomialoverfit".
+There are two [examples](Example.md) in the Examples.java class which demonstrate and test the features of the class: polynomialsin and polynomialoverfit.
 
 ## Considerations
 

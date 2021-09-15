@@ -8,7 +8,7 @@ The SimpleModel abstract class was designed to provide features common to single
 
 ![SimpleModel equation](images/simplemodel_equation.png)
 
-The abstract class provides the fields and methods to access and modify the parameters as well as training and prediction.
+The abstract class provides the fields and methods to access and modify the parameters as well as performing training and prediction on data.
 
 In order to create a derived class, a user must implement the abstract methods in addition to a constructor. Namely, the fit() and predict() methods.
 
